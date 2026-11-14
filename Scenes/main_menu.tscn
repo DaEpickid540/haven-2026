@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://chqr2mc4h1qw7" path="res://Scripts/main_menu.gd" id="1_menu"]
 [ext_resource type="Texture2D" uid="uid://wl5kturnpj1y" path="res://Assets/Players/Dwarf/dwarf x1.png" id="2_dwarf"]
+[ext_resource type="PackedScene" path="res://Scenes/settings_modal.tscn" id="3_settings"]
 
 [sub_resource type="AtlasTexture" id="dwarf_idle"]
 atlas = ExtResource("2_dwarf")
@@ -150,129 +151,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Close"
 
-[node name="SettingsModal" type="Control" parent="."]
+[node name="SettingsModal" parent="." instance=ExtResource("3_settings")]
 unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Dimmer" type="ColorRect" parent="SettingsModal"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.7)
-
-[node name="Panel" type="PanelContainer" parent="SettingsModal"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="SettingsModal/Panel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Title" type="Label" parent="SettingsModal/Panel/VBox"]
-layout_mode = 2
-theme_type_variation = &"HeaderLabel"
-text = "SETTINGS"
-horizontal_alignment = 1
-
-[node name="MusicRow" type="HBoxContainer" parent="SettingsModal/Panel/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Label" type="Label" parent="SettingsModal/Panel/VBox/MusicRow"]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-text = "Music"
-
-[node name="MusicSlider" type="HSlider" parent="SettingsModal/Panel/VBox/MusicRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.05
-
-[node name="MusicValue" type="Label" parent="SettingsModal/Panel/VBox/MusicRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "80%"
-horizontal_alignment = 2
-
-[node name="SfxRow" type="HBoxContainer" parent="SettingsModal/Panel/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Label" type="Label" parent="SettingsModal/Panel/VBox/SfxRow"]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-text = "SFX"
-
-[node name="SfxSlider" type="HSlider" parent="SettingsModal/Panel/VBox/SfxRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.05
-
-[node name="SfxValue" type="Label" parent="SettingsModal/Panel/VBox/SfxRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 0)
-layout_mode = 2
-theme_type_variation = &"MutedLabel"
-text = "80%"
-horizontal_alignment = 2
-
-[node name="FullscreenRow" type="HBoxContainer" parent="SettingsModal/Panel/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Label" type="Label" parent="SettingsModal/Panel/VBox/FullscreenRow"]
-custom_minimum_size = Vector2(88, 0)
-layout_mode = 2
-size_flags_vertical = 4
-text = "Fullscreen"
-
-[node name="FullscreenToggle" type="Button" parent="SettingsModal/Panel/VBox/FullscreenRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-toggle_mode = true
-text = "Off"
-
-[node name="Spacer" type="Control" parent="SettingsModal/Panel/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="SettingsClose" type="Button" parent="SettingsModal/Panel/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Close"
 
 [connection signal="pressed" from="Layout/Row/Buttons/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Leave" to="." method="_on_leave_pressed"]
 [connection signal="pressed" from="CreditsModal/Panel/VBox/CreditsClose" to="." method="_close_modal"]
-[connection signal="value_changed" from="SettingsModal/Panel/VBox/MusicRow/MusicSlider" to="." method="_on_music_slider_value_changed"]
-[connection signal="value_changed" from="SettingsModal/Panel/VBox/SfxRow/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
-[connection signal="toggled" from="SettingsModal/Panel/VBox/FullscreenRow/FullscreenToggle" to="." method="_on_fullscreen_toggled"]
-[connection signal="pressed" from="SettingsModal/Panel/VBox/SettingsClose" to="." method="_close_modal"]

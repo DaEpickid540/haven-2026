@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://citabd2f6iqau" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://wl5kturnpj1y" path="res://Assets/Players/Dwarf/dwarf x1.png" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://b3hilkve4j1uw" path="res://Scenes/PauseMenu.tscn" id="2_pause"]
 
 [sub_resource type="Animation" id="Animation_v0iea"]
 resource_name = "Idle"
@@ -162,3 +163,5 @@ autoplay = &"Idle"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=298149144]
 tree_root = SubResource("AnimationNodeBlendTree_0wjns")
+
+[node name="PauseMenu" parent="." instance=ExtResource("2_pause")]
