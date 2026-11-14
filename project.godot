@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 GameManage="*uid://cjjhs25j0rav1"
 GameSettings="*res://Scripts/game_settings.gd"
+PlayerStats="*res://Scripts/player_stats.gd"
 
 [display]
 
