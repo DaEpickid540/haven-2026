@@ -33,6 +33,10 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="Haven 2026 Jam"
 
+[global_group]
+
+Player=""
+
 [gui]
 
 theme/custom="res://Assets/Fonts/pixel_theme.tres"
