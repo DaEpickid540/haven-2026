@@ -10,12 +10,7 @@ const DWARF_CROP_OFFSET_X := 8
 const DWARF_FPS := 2.0
 
 @onready var credits_modal: Control = %CreditsModal
-@onready var settings_modal: Control = %SettingsModal
-@onready var music_slider: HSlider = %MusicSlider
-@onready var music_value: Label = %MusicValue
-@onready var sfx_slider: HSlider = %SfxSlider
-@onready var sfx_value: Label = %SfxValue
-@onready var fullscreen_toggle: Button = %FullscreenToggle
+@onready var settings_modal = %SettingsModal  # Scenes/settings_modal.tscn
 @onready var dwarf_texture: AtlasTexture = %Dwarf.texture
 
 var _open_modal: Control = null
@@ -27,6 +22,7 @@ func _ready() -> void:
 	%StartGame.grab_focus()
 	if OS.has_feature("web"):
 		%Leave.hide()  # Quitting does nothing in a browser.
+	settings_modal.closed.connect(func(): %Settings.grab_focus())
 
 
 func _process(delta: float) -> void:
@@ -38,7 +34,7 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Esc (ui_cancel) closes whichever modal is open.
+	# Esc (ui_cancel) closes Credits. (Settings handles its own Esc.)
 	if _open_modal and event.is_action_pressed("ui_cancel"):
 		_close_modal()
 		get_viewport().set_input_as_handled()
@@ -51,12 +47,7 @@ func _on_start_game_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
-	# Show the saved values without triggering the change handlers.
-	music_slider.set_value_no_signal(GameSettings.music_volume)
-	sfx_slider.set_value_no_signal(GameSettings.sfx_volume)
-	fullscreen_toggle.set_pressed_no_signal(GameSettings.fullscreen)
-	_refresh_settings_labels()
-	_open(settings_modal, music_slider)
+	settings_modal.open()
 
 
 func _on_credits_pressed() -> void:
@@ -65,29 +56,6 @@ func _on_credits_pressed() -> void:
 
 func _on_leave_pressed() -> void:
 	GameManage.quit_game()
-
-
-# --- Settings controls (apply live, save on close) ---
-
-func _on_music_slider_value_changed(value: float) -> void:
-	GameSettings.set_music_volume(value)
-	_refresh_settings_labels()
-
-
-func _on_sfx_slider_value_changed(value: float) -> void:
-	GameSettings.set_sfx_volume(value)
-	_refresh_settings_labels()
-
-
-func _on_fullscreen_toggled(enabled: bool) -> void:
-	GameSettings.set_fullscreen(enabled)
-	_refresh_settings_labels()
-
-
-func _refresh_settings_labels() -> void:
-	music_value.text = "%d%%" % roundi(music_slider.value * 100)
-	sfx_value.text = "%d%%" % roundi(sfx_slider.value * 100)
-	fullscreen_toggle.text = "On" if fullscreen_toggle.button_pressed else "Off"
 
 
 # --- Modals ---
@@ -102,8 +70,6 @@ func _open(modal: Control, focus_target: Control) -> void:
 func _close_modal() -> void:
 	if _open_modal == null:
 		return
-	if _open_modal == settings_modal:
-		GameSettings.save_settings()
 	_open_modal.hide()
 	_open_modal = null
 	if is_instance_valid(_return_focus):
