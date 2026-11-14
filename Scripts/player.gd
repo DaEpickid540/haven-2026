@@ -23,6 +23,7 @@ func move_state(delta: float) -> void:
 	input_vector = Input.get_vector("left","right","up","down")
 			
 	if input_vector != Vector2.ZERO:
+		print("moving")
 		var direction_vector = Vector2(input_vector.x, -input_vector.y)
 		update_blend_positions(direction_vector)
 				
