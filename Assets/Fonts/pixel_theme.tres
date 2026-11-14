@@ -1,13 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://v84t7lkt3541"]
 
-; Haven UI theme. Colors come from "Assets/color palette (16 Bital).png" and the dwarf sprite:
-;   black  #000000   navy   #212b5e   periwinkle #636fb2   light  #adc4ff
-;   red    #e52d40   orange #ef604a   gold       #ffd877   white  #ffffff
-; Label variations for any scene: TitleLabel (big red), HeaderLabel (gold), MutedLabel (light blue).
-
 [ext_resource type="FontFile" uid="uid://bg0nb38awkl5k" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="1_font"]
 
-[sub_resource type="StyleBoxFlat" id="button_normal"]
+[sub_resource type="StyleBoxFlat" id="button_disabled"]
 content_margin_left = 8.0
 content_margin_top = 4.0
 content_margin_right = 8.0
@@ -17,7 +12,20 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.38824, 0.43529, 0.69804, 1)
+border_color = Color(0.12941, 0.16863, 0.36863, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="focus_outline"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.84706, 0.46667, 1)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -58,7 +66,7 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="button_disabled"]
+[sub_resource type="StyleBoxFlat" id="button_normal"]
 content_margin_left = 8.0
 content_margin_top = 4.0
 content_margin_right = 8.0
@@ -68,24 +76,45 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.12941, 0.16863, 0.36863, 1)
+border_color = Color(0.38824, 0.43529, 0.69804, 1)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="focus_outline"]
-draw_center = false
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.84706, 0.46667, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+[sub_resource type="Gradient" id="grabber_white"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="grabber"]
+gradient = SubResource("grabber_white")
+width = 4
+height = 8
+
+[sub_resource type="Gradient" id="grabber_gold"]
+colors = PackedColorArray(1, 0.84706, 0.46667, 1, 1, 0.84706, 0.46667, 1)
+
+[sub_resource type="GradientTexture2D" id="grabber_highlight"]
+gradient = SubResource("grabber_gold")
+width = 4
+height = 8
+
+[sub_resource type="StyleBoxFlat" id="slider_fill"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.89804, 0.17647, 0.25098, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="slider_fill_highlight"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.93725, 0.37647, 0.2902, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="slider_track"]
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.12941, 0.16863, 0.36863, 1)
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="panel"]
@@ -104,42 +133,6 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="slider_track"]
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.12941, 0.16863, 0.36863, 1)
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="slider_fill"]
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.89804, 0.17647, 0.25098, 1)
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="slider_fill_highlight"]
-content_margin_top = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.93725, 0.37647, 0.2902, 1)
-anti_aliasing = false
-
-[sub_resource type="Gradient" id="grabber_white"]
-offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="grabber"]
-gradient = SubResource("grabber_white")
-width = 4
-height = 8
-
-[sub_resource type="Gradient" id="grabber_gold"]
-offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(1, 0.84706, 0.46667, 1, 1, 0.84706, 0.46667, 1)
-
-[sub_resource type="GradientTexture2D" id="grabber_highlight"]
-gradient = SubResource("grabber_gold")
-width = 4
-height = 8
 
 [resource]
 default_font = ExtResource("1_font")
