@@ -117,6 +117,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [25, 26, 27, 28]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [PackedVector2Array(), PackedVector2Array(-7, -1, -7, 0, -3, 0, -3, -8, -7, -9, -7, 0), PackedVector2Array(-6, 16, -6, 17, -4, 17, -4, 2, -6, 2), PackedVector2Array(-6, 16, -6, 18, -3, 18, -4, 13, -6, 13), PackedVector2Array()]
+}
 
 [sub_resource type="Animation" id="Animation_gymyn"]
 resource_name = "attack_left"
@@ -153,10 +165,10 @@ tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [PackedVector2Array(), PackedVector2Array(-6, -1, 3, -1, 3, -8, -6, -8), PackedVector2Array(-6, 16, -3, -3, -9, -2, -14, 9, -14, 16), PackedVector2Array(-6, 16, -6, 8, -11, 8, -14, 8, -14, 16)]
+"values": [PackedVector2Array(), PackedVector2Array(-6, -1, 3, -1, 3, -8, -6, -8), PackedVector2Array(-6, 16, -3, -3, -9, -2, -14, 9, -14, 16), PackedVector2Array(-6, 16, -6, 8, -11, 8, -14, 8, -14, 16), PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_ukyrk"]
@@ -174,6 +186,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [30, 31, 32, 33]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [PackedVector2Array(), PackedVector2Array(2, -1, 2, -6, 4, -8, 5, -8, 7, -7, 7, 0), PackedVector2Array(6, 3, 3, 3, 3, -3, 6, -3), PackedVector2Array(6, 3, 3, 3, 3, 1, 6, 1), PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_f1ek2"]
@@ -514,6 +538,8 @@ parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
 [node name="Area2D" type="Area2D" parent="." unique_id=1643113148]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=1342032514]
+position = Vector2(0.4250002, 0)
+scale = Vector2(1.125, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202009393]
 position = Vector2(0, 11)
