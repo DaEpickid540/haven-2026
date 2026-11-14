@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://citabd2f6iqau" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://wl5kturnpj1y" path="res://Assets/Players/Dwarf/dwarf x1.png" id="1_v0iea"]
-[ext_resource type="PackedScene" uid="uid://b3hilkve4j1uw" path="res://Scenes/PauseMenu.tscn" id="2_pause"]
 
 [sub_resource type="Animation" id="Animation_v0iea"]
 resource_name = "Idle"
@@ -50,7 +49,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_3smsa"]
 resource_name = "attack"
-length = 0.39999999999999997
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -79,7 +78,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_pu2lt"]
 resource_name = "attack_down"
-length = 0.39999999999999997
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -96,7 +95,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_gymyn"]
 resource_name = "attack_left"
-length = 0.39999999999999997
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -125,7 +124,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_ukyrk"]
 resource_name = "attack_up"
-length = 0.39999999999999997
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -463,10 +462,6 @@ libraries/ = SubResource("AnimationLibrary_cvnsp")
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=298149144]
 root_node = NodePath("../Sprite2D")
 tree_root = SubResource("AnimationNodeBlendTree_0wjns")
-
-[node name="PauseMenu" parent="." instance=ExtResource("2_pause")]
-advance_expression_base_node = NodePath("..")
-anim_player = NodePath("../AnimationPlayer")
-parameters/StateMachine/AttackState/blend_position = Vector2(-0.008515835, -0.79204893)
-parameters/StateMachine/MoveState/RunState/blend_position = Vector2(0.0012165308, -0.003058076)
-parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, -0.24159026)
+parameters/StateMachine/AttackState/blend_position = Vector2(0, 0)
+parameters/StateMachine/MoveState/RunState/blend_position = Vector2(0, 0)
+parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
