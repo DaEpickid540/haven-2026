@@ -6,7 +6,7 @@ var current_world: Node2D
 
 
 func _ready() -> void:
-	load_world("res://scenes/dungeon_hub.tscn")
+	load_world("res://Scenes/dunegon_hub.tscn")
 
 
 func load_world(scene_path: String) -> void:
