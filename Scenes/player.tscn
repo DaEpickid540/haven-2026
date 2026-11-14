@@ -544,7 +544,3 @@ scale = Vector2(1.125, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202009393]
 position = Vector2(0, 11)
 shape = SubResource("CircleShape2D_0wjns")
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1719978783]
-process_callback = 0
-position_smoothing_enabled = true
