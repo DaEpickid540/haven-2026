@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Haven 2026 Jam"
 config/description="Haven 2026 game jam project."
-run/main_scene="uid://bm52rdhpklh6d"
+run/main_scene="uid://e68v7c65ij8i"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
@@ -37,6 +37,7 @@ project/assembly_name="Haven 2026 Jam"
 [global_group]
 
 Player=""
+enemy=""
 
 [gui]
 
