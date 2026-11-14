@@ -36,7 +36,6 @@ project/assembly_name="Haven 2026 Jam"
 [global_group]
 
 Player=""
-player=""
 enemy=""
 
 [gui]

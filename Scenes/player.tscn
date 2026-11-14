@@ -512,7 +512,7 @@ node_connections = [&"output", 0, &"StateMachine"]
 [sub_resource type="CircleShape2D" id="CircleShape2D_0wjns"]
 radius = 5.0
 
-[node name="Player" type="CharacterBody2D" unique_id=222476482 groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=222476482 groups=["Player"]]
 script = ExtResource("1_cvnsp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=880345902]
