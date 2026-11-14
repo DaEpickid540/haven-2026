@@ -136,41 +136,31 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="bar_background"]
 bg_color = Color(0.12941, 0.16863, 0.36863, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="bar_fill_health"]
 bg_color = Color(0.89804, 0.17647, 0.25098, 1)
-border_width_left = 1
 border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+border_color = Color(0.93725, 0.37647, 0.2902, 1)
 anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="bar_fill_stamina"]
 bg_color = Color(0.09804, 0.72941, 1, 1)
+border_width_top = 1
+border_color = Color(0.67843, 0.76863, 1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="bar_frame"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+border_color = Color(0.38824, 0.43529, 0.69804, 1)
 anti_aliasing = false
 
 [resource]
@@ -206,6 +196,12 @@ ProgressBar/styles/background = SubResource("bar_background")
 ProgressBar/styles/fill = SubResource("bar_fill_health")
 StaminaBar/base_type = &"ProgressBar"
 StaminaBar/styles/fill = SubResource("bar_fill_stamina")
+BarFrame/base_type = &"PanelContainer"
+BarFrame/styles/panel = SubResource("bar_frame")
+HudLabel/base_type = &"Label"
+HudLabel/colors/font_color = Color(1, 0.84706, 0.46667, 1)
+HudLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+HudLabel/constants/outline_size = 2
 TitleLabel/base_type = &"Label"
 TitleLabel/colors/font_color = Color(0.89804, 0.17647, 0.25098, 1)
 TitleLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
