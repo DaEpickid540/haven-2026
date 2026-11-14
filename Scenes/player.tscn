@@ -47,10 +47,22 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedVector2Array(-3, -1, 6, -1, 6, -8, -3, -8)]
+}
 
 [sub_resource type="Animation" id="Animation_3smsa"]
 resource_name = "attack"
-length = 0.4
+length = 0.39999999999999997
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -75,6 +87,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(), PackedVector2Array(-3, -1, 6, -1, 6, -8, -3, -8), PackedVector2Array(7, 16, 4, -2, 9, -2, 15, 7, 15, 16), PackedVector2Array(6, 15, 15, 15, 15, 7, 6, 7), PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_pu2lt"]
@@ -448,6 +472,9 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_6t5aa")
 nodes/StateMachine/position = Vector2(26.666666, 106.666664)
 node_connections = [&"output", 0, &"StateMachine"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_0wjns"]
+radius = 5.0
+
 [node name="Player" type="CharacterBody2D" unique_id=222476482]
 script = ExtResource("1_cvnsp")
 
@@ -470,3 +497,16 @@ parameters/StateMachine/MoveState/RunState/blend_position = Vector2(-0.53771293,
 parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
 
 [node name="PauseMenu" parent="." unique_id=263341844 instance=ExtResource("2_pause")]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1643113148]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=1342032514]
+polygon = PackedVector2Array(-3, -1, 6, -1, 6, -8, -3, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202009393]
+position = Vector2(0, 11)
+shape = SubResource("CircleShape2D_0wjns")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1719978783]
+process_callback = 0
+position_smoothing_enabled = true

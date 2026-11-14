@@ -31,6 +31,9 @@ func move_state(delta: float) -> void:
 		playback.travel("AttackState")
 	if Input.is_action_just_pressed("attack"):
 		playback.travel("AttackState")
+	if Input.is_action_just_pressed("dash"):
+		speed=150.0
+	else: speed=100.0
 
 
 func update_blend_positions(direction_vector: Vector2) -> void:
