@@ -3,7 +3,7 @@ extends CanvasLayer
 ## Gameplay code updates it through these functions, e.g. from the player:
 ##     $Hud.set_health(hp, max_hp)
 ##     $Hud.set_dash(stamina, max_stamina)
-##     $Hud.set_coins(coins)
+## The coin counter follows PlayerStats.coins automatically.
 ## Process mode is Inherit, so the coin animation freezes while paused.
 
 const COIN_FRAMES: Array[Texture2D] = [
@@ -20,6 +20,11 @@ const COIN_FPS := 6.0
 @onready var coin_icon: TextureRect = %CoinIcon
 
 var _coin_time := 0.0
+
+
+func _ready() -> void:
+	set_coins(PlayerStats.coins)
+	PlayerStats.coins_changed.connect(set_coins)
 
 
 func set_health(current: float, maximum: float) -> void:
