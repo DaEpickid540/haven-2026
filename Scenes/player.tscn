@@ -63,7 +63,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_3smsa"]
 resource_name = "attack"
-length = 0.39999999999999997
+length = 0.4
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -431,10 +431,10 @@ animation = &"move_down"
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_f1ek2"]
 blend_mode = 1
 blend_point_0/node = SubResource("AnimationNodeAnimation_cvnsp")
-blend_point_0/pos = Vector2(-1, 0)
+blend_point_0/pos = Vector2(-0.90000004, 0)
 blend_point_0/name = &"move_left"
 blend_point_1/node = SubResource("AnimationNodeAnimation_6t5aa")
-blend_point_1/pos = Vector2(1, 0)
+blend_point_1/pos = Vector2(0.90000004, 0)
 blend_point_1/name = &"move_right"
 blend_point_2/node = SubResource("AnimationNodeAnimation_vgqql")
 blend_point_2/pos = Vector2(0, 1)
@@ -536,7 +536,7 @@ parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
 
 [node name="PauseMenu" parent="." unique_id=263341844 instance=ExtResource("2_pause")]
 
-[node name="Hud" parent="." instance=ExtResource("3_hud")]
+[node name="Hud" parent="." unique_id=1669573446 instance=ExtResource("3_hud")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1643113148]
 

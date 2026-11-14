@@ -2,6 +2,19 @@
 
 [ext_resource type="FontFile" uid="uid://bg0nb38awkl5k" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="1_font"]
 
+[sub_resource type="StyleBoxFlat" id="bar_frame"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38824, 0.43529, 0.69804, 1)
+anti_aliasing = false
+
 [sub_resource type="StyleBoxFlat" id="button_disabled"]
 content_margin_left = 8.0
 content_margin_top = 4.0
@@ -150,22 +163,11 @@ border_width_top = 1
 border_color = Color(0.67843, 0.76863, 1, 1)
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="bar_frame"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.38824, 0.43529, 0.69804, 1)
-anti_aliasing = false
-
 [resource]
 default_font = ExtResource("1_font")
 default_font_size = 8
+BarFrame/base_type = &"PanelContainer"
+BarFrame/styles/panel = SubResource("bar_frame")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_disabled_color = Color(0.38824, 0.43529, 0.69804, 1)
 Button/colors/font_focus_color = Color(1, 1, 1, 1)
@@ -185,6 +187,10 @@ HSlider/styles/grabber_area_highlight = SubResource("slider_fill_highlight")
 HSlider/styles/slider = SubResource("slider_track")
 HeaderLabel/base_type = &"Label"
 HeaderLabel/colors/font_color = Color(1, 0.84706, 0.46667, 1)
+HudLabel/base_type = &"Label"
+HudLabel/colors/font_color = Color(1, 0.84706, 0.46667, 1)
+HudLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+HudLabel/constants/outline_size = 2
 Label/colors/font_color = Color(1, 1, 1, 1)
 MutedLabel/base_type = &"Label"
 MutedLabel/colors/font_color = Color(0.67843, 0.76863, 1, 1)
@@ -196,12 +202,6 @@ ProgressBar/styles/background = SubResource("bar_background")
 ProgressBar/styles/fill = SubResource("bar_fill_health")
 StaminaBar/base_type = &"ProgressBar"
 StaminaBar/styles/fill = SubResource("bar_fill_stamina")
-BarFrame/base_type = &"PanelContainer"
-BarFrame/styles/panel = SubResource("bar_frame")
-HudLabel/base_type = &"Label"
-HudLabel/colors/font_color = Color(1, 0.84706, 0.46667, 1)
-HudLabel/colors/font_outline_color = Color(0, 0, 0, 1)
-HudLabel/constants/outline_size = 2
 TitleLabel/base_type = &"Label"
 TitleLabel/colors/font_color = Color(0.89804, 0.17647, 0.25098, 1)
 TitleLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
