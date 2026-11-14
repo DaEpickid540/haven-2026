@@ -7,6 +7,8 @@ var speed = 100.0
 
 var input_vector = Vector2.ZERO
 
+const SPEED = 100.0
+#Yo what's this oh, wait this is the game thingy
 func _physics_process(delta: float) -> void:
 	var state = playback.get_current_node()
 	match state:
