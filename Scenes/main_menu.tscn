@@ -1,0 +1,189 @@
+[gd_scene format=3 uid="uid://bu2w45out51yc"]
+
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="1_menu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bkgwq"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(1.2874976e-06, 0.34058738, 0.09412203, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 3.0
+bg_color = Color(0, 0.22, 0.06, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.09, 0.48, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.85, 0.5, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.07, 0.09, 0.08, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.09, 0.48, 0.18, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+
+[node name="MainMenu" type="Control" unique_id=233291376]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1957304255]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="Start Game" type="Button" parent="VBoxContainer" unique_id=1247434830]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkgwq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+text = "Start Game"
+
+[node name="Settings" type="Button" parent="VBoxContainer" unique_id=1171031226]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkgwq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+text = "Settings"
+
+[node name="Credits" type="Button" parent="VBoxContainer" unique_id=1955758313]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkgwq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+text = "Credits"
+
+[node name="CreditsModal" type="Control" parent="." unique_id=1480045801]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dimmer" type="ColorRect" parent="CreditsModal" unique_id=1735799085]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="CreditsModal" unique_id=1723650810]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="CreditsModal/Panel" unique_id=1446050908]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreditsModal/Panel/MarginContainer" unique_id=1409252901]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="CreditsModal/Panel/MarginContainer/VBoxContainer" unique_id=571413353]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 8
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="Creators" type="Label" parent="CreditsModal/Panel/MarginContainer/VBoxContainer" unique_id=2079541466]
+layout_mode = 2
+theme_override_constants/line_spacing = 2
+theme_override_font_sizes/font_size = 8
+text = "Made by
+Sarvin Sukhe
+Reid Henderson
+Sarvesh Raman"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="CreditsModal/Panel/MarginContainer/VBoxContainer" unique_id=1333092047]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Assets" type="Label" parent="CreditsModal/Panel/MarginContainer/VBoxContainer" unique_id=47490738]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_constants/line_spacing = 2
+theme_override_font_sizes/font_size = 8
+text = "Art: Trevor Pupkin (itch.io)
+Font: Press Start 2P (OFL)"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Close" type="Button" parent="CreditsModal/Panel/MarginContainer/VBoxContainer" unique_id=1054317340]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_bkgwq")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+text = "Close"
+
+[connection signal="pressed" from="VBoxContainer/Start Game" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="CreditsModal/Panel/MarginContainer/VBoxContainer/Close" to="." method="_on_credits_close_pressed"]
