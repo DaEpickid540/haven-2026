@@ -152,7 +152,7 @@ position_smoothing_enabled = true
 
 [node name="LeaveHubModal" parent="." unique_id=140661145 instance=ExtResource("4_leave")]
 
-[node name="Node2D" parent="." unique_id=1705568422 instance=ExtResource("5_37qhs")]
+[node name="Shopkeeper" parent="." unique_id=1705568422 instance=ExtResource("5_37qhs")]
 position = Vector2(244, 80)
 
 [node name="Shop" parent="." instance=ExtResource("5_shop")]
@@ -163,3 +163,4 @@ position = Vector2(245, 108)
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]
 [connection signal="stayed" from="LeaveHubModal" to="." method="_on_leave_hub_modal_stayed"]
+[connection signal="interacted" from="Shopkeeper" to="Shop" method="open"]

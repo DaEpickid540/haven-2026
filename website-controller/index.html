@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#212b5e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Haven Pad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="pad">
+    <section class="stick-zone" id="stick-zone" aria-label="Movement joystick">
+      <div class="gate" id="gate">
+        <i class="arrow up" data-dir="up"></i>
+        <i class="arrow right" data-dir="right"></i>
+        <i class="arrow down" data-dir="down"></i>
+        <i class="arrow left" data-dir="left"></i>
+        <div class="knob" id="knob"></div>
+      </div>
+    </section>
+
+    <div class="system">
+      <div class="chip" id="link" data-state="connecting" role="status">
+        <i class="led"></i>
+        <span id="link-label">Searching</span>
+      </div>
+      <button class="chip" id="fs-btn" type="button">Fullscreen</button>
+    </div>
+
+    <section class="buttons" aria-label="Action buttons">
+      <div class="cluster">
+        <button class="btn interact" data-btn="interact" type="button">Interact</button>
+        <button class="btn attack" data-btn="attack" type="button">Attack</button>
+        <button class="btn dash" data-btn="dash" type="button">Dash</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="prompt" id="prompt" hidden>
+    <div class="prompt-panel">
+      <p id="prompt-title"></p>
+      <div class="prompt-buttons" id="prompt-buttons"></div>
+    </div>
+  </div>
+
+  <div class="rotate-hint">
+    <div class="rotate-icon"></div>
+    <p>Rotate your phone</p>
+  </div>
+
+  <script src="connection.js"></script>
+  <script src="visual.js"></script>
+</body>
+</html>

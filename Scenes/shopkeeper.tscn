@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://q5pxe0da1c0p"]
 
 [ext_resource type="Texture2D" uid="uid://b128kap2poclh" path="res://Assets/NPC/shopkeeper.png" id="1_eno6s"]
+[ext_resource type="Script" uid="uid://dg4q04oq6xl00" path="res://Scripts/shopkeeper.gd" id="2_uxpfs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1e8i3"]
 atlas = ExtResource("1_eno6s")
@@ -41,15 +42,34 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_g7b7a"]
 radius = 8.062258
 
-[node name="Node2D" type="Node2D" unique_id=1705568422]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5iksb"]
+radius = 24.0
 
-[node name="Shop Keeper" type="CharacterBody2D" parent="." unique_id=756524773]
+[node name="Shopkeeper" type="Node2D" unique_id=1705568422]
+script = ExtResource("2_uxpfs")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shop Keeper" unique_id=1512147843]
+[node name="Body" type="CharacterBody2D" parent="." unique_id=756524773]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Body" unique_id=1512147843]
 sprite_frames = SubResource("SpriteFrames_gyc6d")
 animation = &"walking"
 frame_progress = 0.28345448
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop Keeper" unique_id=36052858]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body" unique_id=36052858]
 position = Vector2(1, -5)
 shape = SubResource("CircleShape2D_g7b7a")
+
+[node name="TalkZone" type="Area2D" parent="." unique_id=1948521727]
+position = Vector2(1, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TalkZone" unique_id=928222939]
+shape = SubResource("CircleShape2D_5iksb")
+
+[node name="Prompt" type="Label" parent="." unique_id=1136073784]
+offset_left = -7.0
+offset_top = -28.0
+offset_right = 9.0
+offset_bottom = -18.0
+theme_type_variation = &"HudLabel"
+text = "E"
+horizontal_alignment = 1
