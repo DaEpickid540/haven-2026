@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://citabd2f6iqau" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://wl5kturnpj1y" path="res://Assets/Players/Dwarf/dwarf x1.png" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://b3hilkve4j1uw" path="res://Scenes/PauseMenu.tscn" id="2_pause"]
+[ext_resource type="PackedScene" path="res://Scenes/hud.tscn" id="3_hud"]
 
 [sub_resource type="Animation" id="Animation_v0iea"]
 resource_name = "Idle"
@@ -534,6 +535,8 @@ parameters/StateMachine/MoveState/RunState/blend_position = Vector2(-0.53771293,
 parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
 
 [node name="PauseMenu" parent="." unique_id=263341844 instance=ExtResource("2_pause")]
+
+[node name="Hud" parent="." instance=ExtResource("3_hud")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1643113148]
 
