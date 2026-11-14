@@ -13,7 +13,5 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
-website-controller/style.css
-website-controller/script.js
-website-controller/index.html
 .claude/launch.json
+website-controller/.claude/launch.json
