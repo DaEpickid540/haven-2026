@@ -1,6 +1,8 @@
 extends CharacterBody2D
 
 var speed = 100.0
+var strength = 10.0
+var stamina = 10.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
