@@ -1,2 +1,7 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Godot writes LF line endings, so keep every text file LF on every computer.
+# (CRLF breaks multi-line strings in .tscn files and causes noisy diffs.)
+* text=auto eol=lf
+
+# Windows batch files need CRLF to run reliably.
+*.cmd text eol=crlf
+*.bat text eol=crlf
