@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://db0fpjasttonn"]
 
+[ext_resource type="Script" uid="uid://cif6ykvhi1ur6" path="res://Scripts/enemy.gd" id="1_4gyqm"]
 [ext_resource type="Texture2D" uid="uid://brkjk0ghmjjk7" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Green.png" id="1_7k104"]
 
 [sub_resource type="Animation" id="Animation_4gyqm"]
@@ -38,31 +39,41 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_0wjns"]
 radius = 6.0827627
 
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7k104"]
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7k104"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4gyqm"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qi2p4"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iifgy"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qi2p4"]
+states/Chase/node = SubResource("AnimationNodeStateMachine_7k104")
+states/Chase/position = Vector2(398.66666, 200.66666)
 states/idle/node = SubResource("AnimationNodeAnimation_7k104")
 states/idle/position = Vector2(398.66666, 101.333336)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4gyqm")]
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4gyqm"), "idle", "Chase", SubResource("AnimationNodeStateMachineTransition_qi2p4"), "Chase", "idle", SubResource("AnimationNodeStateMachineTransition_iifgy")]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_3agft"]
-graph_offset = Vector2(-315.88333, -48.761993)
+graph_offset = Vector2(-502.4641, -77.43173)
 nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_qi2p4")
 nodes/StateMachine/position = Vector2(-59.724117, 133.29341)
 node_connections = [&"output", 0, &"StateMachine"]
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1620705969]
 motion_mode = 1
+script = ExtResource("1_4gyqm")
+range = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=80382903]
 texture = ExtResource("1_7k104")
 hframes = 7
 vframes = 2
-frame = 3
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=629370387]
 root_node = NodePath("../Sprite2D")
