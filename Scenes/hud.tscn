@@ -1,0 +1,102 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" uid="uid://q1mxo3s0n7bo" path="res://Assets/UI/heart.png" id="2_heart"]
+[ext_resource type="Texture2D" uid="uid://55ua3inv6vtj" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png" id="4_coin"]
+
+[node name="Hud" type="CanvasLayer" unique_id=1245555729]
+layer = 1
+script = ExtResource("1_hud")
+
+[node name="HealthRow" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -24.0
+offset_right = 128.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="HealthIcon" type="TextureRect" parent="HealthRow"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_heart")
+stretch_mode = 3
+
+[node name="HealthFrame" type="PanelContainer" parent="HealthRow"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"BarFrame"
+
+[node name="Health" type="ProgressBar" parent="HealthRow/HealthFrame" unique_id=927956362]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 6)
+layout_mode = 2
+mouse_filter = 2
+value = 100.0
+show_percentage = false
+
+[node name="DashRow" type="HBoxContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -108.0
+offset_top = -24.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 2
+
+[node name="DashFrame" type="PanelContainer" parent="DashRow"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_type_variation = &"BarFrame"
+
+[node name="Dash" type="ProgressBar" parent="DashRow/DashFrame" unique_id=674646581]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 6)
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"StaminaBar"
+value = 100.0
+fill_mode = 1
+show_percentage = false
+
+[node name="CoinRow" type="HBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 24.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="CoinIcon" type="TextureRect" parent="CoinRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_coin")
+stretch_mode = 3
+
+[node name="Coins" type="Label" parent="CoinRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"HudLabel"
+text = "0"
