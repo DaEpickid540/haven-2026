@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[node name="Hud" type="CanvasLayer" unique_id=1245555729]
+layer = 1
+
+[node name="Health" type="ProgressBar" parent="." unique_id=927956362]
+unique_name_in_owner = true
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 136.0
+offset_bottom = 81.0
+grow_vertical = 2
+value = 100.0
+
+[node name="Dash" type="ProgressBar" parent="." unique_id=674646581]
+unique_name_in_owner = true
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -136.0
+offset_top = 56.0
+offset_right = -8.0
+offset_bottom = 81.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_type_variation = &"StaminaBar"
+value = 100.0

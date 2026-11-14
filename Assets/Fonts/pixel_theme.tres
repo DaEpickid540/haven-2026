@@ -134,6 +134,45 @@ corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="bar_background"]
+bg_color = Color(0.12941, 0.16863, 0.36863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="bar_fill_health"]
+bg_color = Color(0.89804, 0.17647, 0.25098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="bar_fill_stamina"]
+bg_color = Color(0.09804, 0.72941, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
 [resource]
 default_font = ExtResource("1_font")
 default_font_size = 8
@@ -160,6 +199,13 @@ Label/colors/font_color = Color(1, 1, 1, 1)
 MutedLabel/base_type = &"Label"
 MutedLabel/colors/font_color = Color(0.67843, 0.76863, 1, 1)
 PanelContainer/styles/panel = SubResource("panel")
+ProgressBar/colors/font_color = Color(1, 1, 1, 1)
+ProgressBar/colors/font_outline_color = Color(0, 0, 0, 1)
+ProgressBar/constants/outline_size = 2
+ProgressBar/styles/background = SubResource("bar_background")
+ProgressBar/styles/fill = SubResource("bar_fill_health")
+StaminaBar/base_type = &"ProgressBar"
+StaminaBar/styles/fill = SubResource("bar_fill_stamina")
 TitleLabel/base_type = &"Label"
 TitleLabel/colors/font_color = Color(0.89804, 0.17647, 0.25098, 1)
 TitleLabel/colors/font_shadow_color = Color(0, 0, 0, 1)
