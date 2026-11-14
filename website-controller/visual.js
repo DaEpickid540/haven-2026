@@ -12,16 +12,18 @@ const state = {
   attack: false,
   dash: false,
   interact: false,
+  pause: false,
 };
 
 const zone = document.querySelector("#stick-zone");
 const gate = document.querySelector("#gate");
 const knob = document.querySelector("#knob");
 const arrows = document.querySelectorAll(".arrow");
-const buttons = document.querySelectorAll(".btn");
+const buttons = document.querySelectorAll("[data-btn]");
 const fsBtn = document.querySelector("#fs-btn");
 const promptEl = document.querySelector("#prompt");
-const promptTitle = document.querySelector("#prompt-title");
+const promptPanel = document.querySelector(".prompt-panel");
+const promptLines = document.querySelector("#prompt-lines");
 const promptButtons = document.querySelector("#prompt-buttons");
 
 function update() {
@@ -116,17 +118,32 @@ fsBtn.addEventListener("click", async () => {
   screen.orientation.lock?.("landscape").catch(() => {});
 });
 
+function label(line) {
+  const el = document.createElement("p");
+  el.className = line.style;
+  el.textContent = line.text;
+  return el;
+}
+
 function showPrompt(menu) {
   promptEl.hidden = !menu;
   if (!menu) return;
-  promptTitle.textContent = menu.title;
+  promptEl.dataset.panel = menu.panel;
+  promptPanel.style.width = menu.panel ? `calc(var(--px) * ${menu.width})` : "";
+  promptPanel.style.height = menu.panel ? `calc(var(--px) * ${menu.height})` : "";
+  promptLines.replaceChildren(...menu.lines.map(label));
   promptButtons.replaceChildren(...menu.buttons.map((button, index) => {
     const el = document.createElement("button");
-    el.className = "chip";
     el.textContent = button.text;
     el.disabled = button.disabled;
+    el.classList.toggle("focus", button.focused);
+    el.style.width = `calc(var(--px) * ${button.width})`;
     el.onclick = () => sendChoice(index);
-    return el;
+    if (button.labels.length === 0) return el;
+    const row = document.createElement("div");
+    row.className = "row";
+    row.append(...button.labels.map(label), el);
+    return row;
   }));
 }
 

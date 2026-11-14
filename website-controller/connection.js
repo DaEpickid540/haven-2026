@@ -6,6 +6,7 @@ const BITS = [
   "attack",
   "dash",
   "interact",
+  "pause",
 ];
 
 const GAME_URL = location.protocol === "https:"
