@@ -20,12 +20,10 @@ var _exhausted := false
 @onready var weapon_hitbox: Area2D = $WeaponHitbox
 
 
-var input_vector = Vector2.ZERO
 
 const SPEED = 100.0
-const HURT_COOLDOWN := 0.6
 
-var _hurt_timer := 0.0
+
 var _enemies_hit_this_attack: Array[Node2D] = []
 
 
@@ -66,7 +64,7 @@ func _physics_process(delta: float) -> void:
 	velocity = input_vector * speed
 	move_and_slide()
 
-func move_state(delta: float) -> void:
+func move_state() -> void:
 	input_vector = Input.get_vector("left","right","up","down")
 			
 	if input_vector != Vector2.ZERO:
