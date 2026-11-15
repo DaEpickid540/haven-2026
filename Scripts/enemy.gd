@@ -65,7 +65,7 @@ func is_player_in_range() -> bool:
 	
 	if player is Player:
 		var distance_to_player = global_position.distance_to(player.global_position)
-		if distance_to_player < detected_range:
+		if float(distance_to_player) < float(detected_range):
 			result = true
 	return result
 	
