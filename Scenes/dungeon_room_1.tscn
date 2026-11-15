@@ -113,27 +113,6 @@ position = Vector2(904, 312)
 [node name="Coin18" parent="Coins" unique_id=1378175552 instance=ExtResource("5_coin")]
 position = Vector2(920, 312)
 
-[node name="Coin19" parent="Coins" unique_id=1734639578 instance=ExtResource("5_coin")]
-position = Vector2(936, 312)
-
-[node name="Coin20" parent="Coins" unique_id=1519326868 instance=ExtResource("5_coin")]
-position = Vector2(792, 152)
-
-[node name="Coin21" parent="Coins" unique_id=1261811487 instance=ExtResource("5_coin")]
-position = Vector2(808, 152)
-
-[node name="Coin22" parent="Coins" unique_id=284336301 instance=ExtResource("5_coin")]
-position = Vector2(392, 88)
-
-[node name="Coin23" parent="Coins" unique_id=1202929980 instance=ExtResource("5_coin")]
-position = Vector2(728, 88)
-
-[node name="Coin24" parent="Coins" unique_id=1456749569 instance=ExtResource("5_coin")]
-position = Vector2(392, 280)
-
-[node name="Coin25" parent="Coins" unique_id=704535273 instance=ExtResource("5_coin")]
-position = Vector2(728, 280)
-
 [node name="EnemySpawns" type="Node2D" parent="." unique_id=1710383374]
 
 [node name="Guard1" type="Marker2D" parent="EnemySpawns" unique_id=1066277987]

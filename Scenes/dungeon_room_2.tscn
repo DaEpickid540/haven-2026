@@ -69,9 +69,6 @@ position = Vector2(216, 488)
 [node name="Coin5" parent="Coins" unique_id=1785442162 instance=ExtResource("5_coin")]
 position = Vector2(72, 680)
 
-[node name="Coin6" parent="Coins" unique_id=317323831 instance=ExtResource("5_coin")]
-position = Vector2(88, 680)
-
 [node name="Coin7" parent="Coins" unique_id=1089313269 instance=ExtResource("5_coin")]
 position = Vector2(200, 680)
 
@@ -90,14 +87,8 @@ position = Vector2(104, 216)
 [node name="Coin12" parent="Coins" unique_id=1307095141 instance=ExtResource("5_coin")]
 position = Vector2(200, 216)
 
-[node name="Coin13" parent="Coins" unique_id=518872593 instance=ExtResource("5_coin")]
-position = Vector2(88, 312)
-
 [node name="Coin14" parent="Coins" unique_id=1880000389 instance=ExtResource("5_coin")]
 position = Vector2(200, 312)
-
-[node name="Coin15" parent="Coins" unique_id=21630037 instance=ExtResource("5_coin")]
-position = Vector2(712, 296)
 
 [node name="Coin16" parent="Coins" unique_id=1748279181 instance=ExtResource("5_coin")]
 position = Vector2(936, 296)
@@ -111,50 +102,14 @@ position = Vector2(824, 200)
 [node name="Coin19" parent="Coins" unique_id=217079003 instance=ExtResource("5_coin")]
 position = Vector2(728, 40)
 
-[node name="Coin20" parent="Coins" unique_id=1309952743 instance=ExtResource("5_coin")]
-position = Vector2(744, 40)
-
-[node name="Coin21" parent="Coins" unique_id=818320398 instance=ExtResource("5_coin")]
-position = Vector2(760, 40)
-
-[node name="Coin22" parent="Coins" unique_id=855307223 instance=ExtResource("5_coin")]
-position = Vector2(840, 40)
-
 [node name="Coin23" parent="Coins" unique_id=482972263 instance=ExtResource("5_coin")]
 position = Vector2(856, 40)
-
-[node name="Coin24" parent="Coins" unique_id=197111039 instance=ExtResource("5_coin")]
-position = Vector2(872, 40)
-
-[node name="Coin25" parent="Coins" unique_id=1554230916 instance=ExtResource("5_coin")]
-position = Vector2(728, 88)
-
-[node name="Coin26" parent="Coins" unique_id=1606393355 instance=ExtResource("5_coin")]
-position = Vector2(744, 88)
-
-[node name="Coin27" parent="Coins" unique_id=580379879 instance=ExtResource("5_coin")]
-position = Vector2(856, 88)
 
 [node name="Coin28" parent="Coins" unique_id=1009351322 instance=ExtResource("5_coin")]
 position = Vector2(872, 88)
 
-[node name="Coin29" parent="Coins" unique_id=1964954874 instance=ExtResource("5_coin")]
-position = Vector2(792, 56)
-
-[node name="Coin30" parent="Coins" unique_id=1781938126 instance=ExtResource("5_coin")]
-position = Vector2(808, 56)
-
 [node name="Coin31" parent="Coins" unique_id=1649335039 instance=ExtResource("5_coin")]
 position = Vector2(312, 184)
-
-[node name="Coin32" parent="Coins" unique_id=1870206339 instance=ExtResource("5_coin")]
-position = Vector2(600, 184)
-
-[node name="Coin33" parent="Coins" unique_id=272798148 instance=ExtResource("5_coin")]
-position = Vector2(312, 328)
-
-[node name="Coin34" parent="Coins" unique_id=1942999425 instance=ExtResource("5_coin")]
-position = Vector2(600, 328)
 
 [node name="EnemySpawns" type="Node2D" parent="." unique_id=1828576152]
 
