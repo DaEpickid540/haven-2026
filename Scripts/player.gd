@@ -1,5 +1,8 @@
 class_name Player extends CharacterBody2D
 
+var speed = 100.0
+var strength = 10.0
+
 const DASH_MULTIPLIER := 1.3
 const HURT_COOLDOWN := 0.6
 const SPRINT_DRAIN := 30.0
@@ -11,11 +14,19 @@ var stamina := 0.0
 var input_vector := Vector2.ZERO
 var _hurt_timer := 0.0
 var _exhausted := false
-var _enemies_hit_this_attack: Array[Node2D] = []
 
 @onready var animation_tree: AnimationTree = $AnimationTree
-@onready var playback := animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
+@onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
 @onready var weapon_hitbox: Area2D = $WeaponHitbox
+
+
+var input_vector = Vector2.ZERO
+
+const SPEED = 100.0
+const HURT_COOLDOWN := 0.6
+
+var _hurt_timer := 0.0
+var _enemies_hit_this_attack: Array[Node2D] = []
 
 
 func _ready() -> void:
@@ -38,29 +49,42 @@ func _on_died() -> void:
 	set_physics_process(false)
 	$DeathScreen.open()
 
-
 func _physics_process(delta: float) -> void:
 	_hurt_timer = maxf(_hurt_timer - delta, 0.0)
-	if playback.get_current_node() == "MoveState":
-		move_state()
-	else:
-		input_vector = Vector2.ZERO
-		dashing = false
+	var state = playback.get_current_node()
+	match state:
+		"MoveState":
+			move_state()
+		"AttackState":
+			input_vector = Vector2.ZERO
+			dashing = false
+		_:
+			input_vector = Vector2.ZERO
+			dashing = false
 	update_stamina(delta)
 	var speed := PlayerStats.get_move_speed() * (DASH_MULTIPLIER if dashing else 1.0)
 	velocity = input_vector * speed
 	move_and_slide()
 
-
-func move_state() -> void:
-	input_vector = Input.get_vector("left", "right", "up", "down")
-	dashing = Input.is_action_pressed("dash")
+func move_state(delta: float) -> void:
+	input_vector = Input.get_vector("left","right","up","down")
+			
 	if input_vector != Vector2.ZERO:
-		update_blend_positions(Vector2(input_vector.x, -input_vector.y))
+		var direction_vector = Vector2(input_vector.x, -input_vector.y)
+		update_blend_positions(direction_vector)
+		
 	if Input.is_action_just_pressed("attack"):
 		_start_attack()
+	if Input.is_action_pressed("dash"):
+		speed=130.0
+		dashing=true
+	else: 
+		speed=100.0
+		dashing=false
+		
 
 
+		
 func update_stamina(delta: float) -> void:
 	var max_stamina := PlayerStats.get_max_stamina()
 	if stamina >= max_stamina * SPRINT_RECOVER:
@@ -90,5 +114,6 @@ func _on_weapon_body_entered(body: Node2D) -> void:
 		return
 	if body in _enemies_hit_this_attack or not body.has_method("take_damage"):
 		return
+
 	_enemies_hit_this_attack.append(body)
 	body.take_damage(PlayerStats.get_damage())
