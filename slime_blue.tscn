@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://d1w04finjod5s"]
+
+[ext_resource type="Script" uid="uid://c81evyc304yt4" path="res://Scripts/slime_blue.gd" id="1_b4wiw"]
+[ext_resource type="Texture2D" uid="uid://cevv4k1q0ovwv" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Blue.png" id="2_b4wiw"]
+
+[sub_resource type="Animation" id="Animation_4gyqm"]
+length = 0.9
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+
+[sub_resource type="Animation" id="Animation_qi2p4"]
+resource_name = "death"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [6, 7, 8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_iifgy"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_11g03"]
+_data = {
+&"RESET": SubResource("Animation_4gyqm"),
+&"death": SubResource("Animation_qi2p4"),
+&"idle": SubResource("Animation_iifgy")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i0o7n"]
+radius = 7.071068
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4gyqm"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_epg4t"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7k104"]
+states/idle/node = SubResource("AnimationNodeAnimation_4gyqm")
+states/idle/position = Vector2(415.33334, 70)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_epg4t")]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7k104"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4gyqm"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qi2p4"]
+advance_mode = 2
+advance_expression = "can_see_player()"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iifgy"]
+advance_mode = 2
+advance_expression = "not can_see_player()"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qi2p4"]
+states/Chase/node = SubResource("AnimationNodeStateMachine_7k104")
+states/Chase/position = Vector2(398.66666, 200.66666)
+states/idle/node = SubResource("AnimationNodeAnimation_7k104")
+states/idle/position = Vector2(398.66666, 101.333336)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_4gyqm"), "idle", "Chase", SubResource("AnimationNodeStateMachineTransition_qi2p4"), "Chase", "idle", SubResource("AnimationNodeStateMachineTransition_iifgy")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ytqsa"]
+graph_offset = Vector2(-502.4641, -77.43173)
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_qi2p4")
+nodes/StateMachine/position = Vector2(-59.724117, 133.29341)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_80q1b"]
+
+[node name="SlimeBlue" type="CharacterBody2D" unique_id=1556184731 groups=["enemy"]]
+motion_mode = 1
+script = ExtResource("1_b4wiw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2098987288]
+texture = ExtResource("2_b4wiw")
+hframes = 7
+vframes = 2
+frame = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=135081827]
+root_node = NodePath("../Sprite2D")
+libraries/ = SubResource("AnimationLibrary_11g03")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=59992974]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_i0o7n")
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=531815826]
+root_node = NodePath("../Sprite2D")
+tree_root = SubResource("AnimationNodeBlendTree_ytqsa")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1500129010]
+target_position = Vector2(-17, 0)
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=1429499885]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=104825205]
+position = Vector2(1, 4)
+shape = SubResource("CircleShape2D_80q1b")

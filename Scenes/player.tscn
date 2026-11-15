@@ -570,7 +570,7 @@ texture = ExtResource("1_v0iea")
 hframes = 5
 vframes = 9
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1870438563]
 shape = SubResource("CircleShape2D_0wjns")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2010076232]
