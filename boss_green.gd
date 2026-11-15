@@ -2,9 +2,8 @@ extends CharacterBody2D
 
 @export var max_health := 18
 @export var contact_damage := 1    
-@export var contact_knockback_force := 180.0  # Adjustable knockback strength
+@export var contact_knockback_force := 180.0
 @export var attack_damage := 3    
-@export var attack_range := 65.0   
 @export var attack_interval := 5.0 
 @export var loot_rewarded := 5
 
@@ -51,13 +50,6 @@ func _physics_process(delta: float) -> void:
 			animated_sprite_2d.scale.x = sign(dir_x) * abs(animated_sprite_2d.scale.x)
 
 	move_and_slide()
-	# REMOVE THIS LINE: damage_overlapping_player()
-	if player:
-		var dir_x = player.global_position.x - global_position.x
-		if dir_x != 0:
-			animated_sprite_2d.scale.x = sign(dir_x) * abs(animated_sprite_2d.scale.x)
-
-	move_and_slide()
 
 func execute_pound_attack() -> void:
 	is_attacking = true
@@ -80,11 +72,11 @@ func execute_pound_attack() -> void:
 	is_attacking = false
 
 func check_and_damage_player_in_range() -> void:
-	var player = get_player()
-	if player and is_instance_valid(player):
-		var distance = global_position.distance_to(player.global_position)
-		if distance <= attack_range:
+	for other_area in damage_area.get_overlapping_areas():
+		var player := other_area.get_parent() as Player
+		if player != null and other_area.name == "Hurtbox":
 			player.take_damage(attack_damage, global_position)
+			return
 
 func trigger_screenshake() -> void:
 	Juice.shake(0.9)

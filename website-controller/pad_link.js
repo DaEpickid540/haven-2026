@@ -7,6 +7,8 @@ const ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const CODE_LENGTH = 5;
 const LIFETIME = 10 * 60 * 1000;
 const QR_LIB = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm";
+// stable
+const CONTROLLER_URL = "https://deathbounce.web.app/controller.html";
 
 // bridge
 const link = (window.padLink = {
@@ -44,7 +46,7 @@ box.innerHTML = `
   <span id="pad-status">Phone pad: connecting...</span>
   <img id="pad-qr" alt="Scan to join" hidden>
   <b id="pad-value"></b>
-  <span>${location.host}/controller.html</span>`;
+  <span>${CONTROLLER_URL.replace("https://", "")}</span>`;
 document.body.appendChild(box);
 box.querySelector("button").onclick = () => (box.hidden = true);
 const statusEl = box.querySelector("#pad-status");
@@ -55,7 +57,7 @@ const qrEl = box.querySelector("#pad-qr");
 const qrLib = import(QR_LIB).then((m) => m.default).catch(() => null);
 
 async function showQr(code) {
-  const url = new URL("controller.html", location.href);
+  const url = new URL(CONTROLLER_URL);
   url.search = `?code=${code}`;
   const qrcode = await qrLib;
   if (!qrcode || valueEl.textContent !== code) return;

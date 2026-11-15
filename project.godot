@@ -14,6 +14,7 @@ config/name="DeathBounce"
 config/description="DeathBounce game jam project."
 run/main_scene="uid://e68v7c65ij8i"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.png"
 
 [autoload]
 

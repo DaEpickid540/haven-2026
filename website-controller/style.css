@@ -1,4 +1,4 @@
-/* Mirrors the game's UI theme (Assets/Fonts/pixel_theme.tres). */
+/* theme */
 
 @font-face {
   font-family: "Press Start 2P";
@@ -17,7 +17,7 @@
   --orange: #ef604a;
   --cyan: #19baff;
 
-  /* one game pixel: the game's 320x180 screen scaled to fit this one */
+  /* pixel */
   --px: min(100dvw / 320, 100dvh / 180);
 }
 
@@ -42,7 +42,7 @@ body {
   touch-action: none;
 }
 
-/* Button: normal, hover, pressed, disabled, focus */
+/* buttons */
 
 button,
 .chip {
@@ -92,7 +92,7 @@ button.focus,
   border-color: var(--gold);
 }
 
-/* Label variations */
+/* labels */
 
 p {
   margin: 0;
@@ -125,7 +125,7 @@ p {
   color: var(--light);
 }
 
-/* Pad layout */
+/* layout */
 
 .pad {
   position: fixed;
@@ -145,7 +145,7 @@ p {
   place-content: center;
 }
 
-/* Joystick */
+/* joystick */
 
 .gate {
   --g: calc(var(--px) * 100);
@@ -157,7 +157,7 @@ p {
   background: var(--black);
 }
 
-/* 5x3 stepped triangle */
+/* arrows */
 .arrow {
   position: absolute;
   inset: 0;
@@ -213,7 +213,7 @@ p {
   border: var(--px) solid var(--periwinkle);
   border-radius: calc(var(--px) * 2);
   background: var(--black);
-  /* --sx / --sy: stick position in -1..1, set from visual.js */
+  /* stick */
   transform: translate(
     calc(var(--sx, 0) * var(--g) * 0.27),
     calc(var(--sy, 0) * var(--g) * 0.27)
@@ -227,7 +227,7 @@ p {
   transition: none;
 }
 
-/* Game link status and Fullscreen */
+/* status */
 
 .system {
   display: grid;
@@ -261,7 +261,7 @@ p {
   }
 }
 
-/* Action buttons */
+/* actions */
 
 .cluster {
   display: flex;
@@ -274,7 +274,7 @@ p {
   height: calc(var(--px) * 40);
 }
 
-/* Esc stays above the cast menu so it can close it */
+/* esc */
 
 .esc {
   position: fixed;
@@ -283,7 +283,7 @@ p {
   z-index: 1;
 }
 
-/* Menu cast from the game */
+/* menu */
 
 .prompt {
   position: fixed;
@@ -386,7 +386,7 @@ p {
   text-align: left;
 }
 
-/* Portrait phone: ask to rotate */
+/* rotate */
 
 .rotate-hint {
   position: fixed;
