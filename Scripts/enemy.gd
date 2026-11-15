@@ -97,6 +97,7 @@ func _on_damage_area_entered(other_area: Area2D) -> void:
 		_try_attack_player(player)
 
 
+
 func _try_attack_player(player: Player) -> void:
 	if _attack_cooldown > 0.0:
 		return
