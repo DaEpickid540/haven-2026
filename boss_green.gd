@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var max_health := 18
 @export var contact_damage := 1    
+@export var contact_knockback_force := 300.0  # Adjustable knockback strength
 @export var attack_damage := 3    
 @export var attack_range := 65.0   
 @export var attack_interval := 5.0 
@@ -91,8 +92,22 @@ func damage_overlapping_player() -> void:
 	for other_area in damage_area.get_overlapping_areas():
 		var player := other_area.get_parent() as Player
 		if player != null and other_area.name == "Hurtbox":
-			player.take_damage(contact_damage)
+			apply_contact_to_player(player)
 			return
+
+func apply_contact_to_player(player: Player) -> void:
+	player.take_damage(contact_damage)
+	
+	# Calculate vector pointing from enemy to player
+	var push_dir = (player.global_position - global_position).normalized()
+	if push_dir == Vector2.ZERO:
+		push_dir = Vector2.RIGHT
+		
+	# Apply knockback safely based on available player properties/methods
+	if "velocity" in player:
+		player.velocity += push_dir * contact_knockback_force
+	elif player.has_method("knockback"):
+		player.knockback(push_dir * contact_knockback_force)
 
 func take_damage(amount: int) -> void:
 	if dying:
@@ -117,4 +132,4 @@ func take_damage(amount: int) -> void:
 func _on_damage_area_entered(other_area: Area2D) -> void:
 	var player := other_area.get_parent() as Player
 	if player != null and other_area.name == "Hurtbox":
-		player.take_damage(contact_damage)
+		apply_contact_to_player(player)
