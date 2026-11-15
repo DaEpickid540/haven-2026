@@ -1,9 +1,4 @@
 extends CanvasLayer
-## In-game HUD (Scenes/hud.tscn): health bar, dash bar, coin counter.
-## Gameplay code updates it through these functions, e.g. from the player:
-##     $Hud.set_dash(stamina, max_stamina)
-## The coin counter and health bar follow PlayerStats automatically
-## Process mode is Inherit, so the coin animation freezes while paused.
 @onready var player: Player = $".."
 
 const COIN_FRAMES: Array[Texture2D] = [
