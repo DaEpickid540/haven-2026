@@ -3,7 +3,7 @@ extends CharacterBody2D
 const SPEED = 30.0
 
 @export var detected_range = 64
-@export var stop_distance := 16.0
+@export var stop_distance := 10.0
 @export var max_health := 3
 @export var contact_damage := 1
 
@@ -20,7 +20,6 @@ var health: int
 func _ready() -> void:
 	dying=false
 	health = max_health
-	damage_area.area_entered.connect(_on_damage_area_entered)
 
 func _physics_process(delta: float) -> void:
 	if dying:
@@ -41,6 +40,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
+	damage_overlapping_player()
+
+# Deal contact damage every frame the player's Hurtbox overlaps, not only on
+# entry, so the slime keeps hurting the player while chasing/touching them.
+# The player's own HURT_COOLDOWN limits how often this lands.
+func damage_overlapping_player() -> void:
+	for other_area in damage_area.get_overlapping_areas():
+		var player := other_area.get_parent() as Player
+		if player != null and other_area.name == "Hurtbox":
+			player.take_damage(contact_damage)
+			return
+
 func get_player() -> Player:
 	return get_tree().get_first_node_in_group("player")
 	
@@ -81,11 +92,4 @@ func take_damage(amount: int) -> void:
 	var flash := create_tween()
 	flash.tween_property(sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
 	flash.tween_property(sprite_2d, "modulate", Color.WHITE, 0.12)
-
-
-func _on_damage_area_entered(other_area: Area2D) -> void:
-	velocity = Vector2.ZERO
-	var player := other_area.get_parent() as Player
-	if player != null and other_area.name == "Hurtbox":
-		player.take_damage(contact_damage)
 	

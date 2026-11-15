@@ -102,7 +102,7 @@ nodes/StateMachine/position = Vector2(-59.724117, 133.29341)
 node_connections = [&"output", 0, &"StateMachine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a5u4x"]
-radius = 4.0
+radius = 10.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1620705969]
 collision_layer = 4
