@@ -2,9 +2,13 @@
 .godot/
 /android/
 *.translation
-export_presets.cfg
 export_credentials.cfg
 builds/
+build/
+
+# Firebase
+.firebase/
+*-debug.log
 
 # Python
 __pycache__/

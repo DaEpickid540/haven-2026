@@ -22,10 +22,15 @@ var _server := TCPServer.new()
 var _pads: Array[Pad] = []
 var _buttons := 0
 var _prompt_buttons: Array[Button] = []
+var _web_link: JavaScriptObject = null
+var _web_buttons := 0
+var _web_prompt := ""
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	if OS.has_feature("web"):
+		return
 	var err := _server.listen(PORT, "127.0.0.1")
 	if err != OK:
 		push_warning("Pad server couldn't listen on port %d (error %d)" % [PORT, err])
@@ -33,6 +38,9 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
+	if OS.has_feature("web"):
+		_poll_web()
+		return
 	while _server.is_connection_available():
 		var pad := Pad.new()
 		pad.socket.accept_stream(_server.take_connection())
@@ -61,7 +69,7 @@ func _process(_delta: float) -> void:
 
 
 func _update_actions() -> void:
-	var held := 0
+	var held := _web_buttons
 	for pad in _pads:
 		held |= pad.buttons
 	for i in ACTIONS.size():
@@ -152,3 +160,33 @@ func _press_prompt_button(index_text: String) -> void:
 		button.button_pressed = not button.button_pressed
 	else:
 		button.pressed.emit()
+
+
+# web
+
+func _poll_web() -> void:
+	if _web_link == null:
+		_web_link = JavaScriptBridge.get_interface("padLink")
+		if _web_link == null:
+			return
+	if not _web_link.connected:
+		_web_prompt = ""
+		if _web_buttons != 0:
+			_web_buttons = 0
+			_update_actions()
+		return
+
+	var buttons := int(_web_link.buttons)
+	if buttons != _web_buttons:
+		_web_buttons = buttons
+		_update_actions()
+
+	var choice := str(_web_link.takeChoice())
+	while choice != "":
+		_press_prompt_button(choice)
+		choice = str(_web_link.takeChoice())
+
+	var prompt := JSON.stringify(_read_prompt())
+	if prompt != _web_prompt:
+		_web_prompt = prompt
+		_web_link.sendPrompt(prompt)

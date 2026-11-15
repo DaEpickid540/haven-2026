@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "deathbounce",
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/*.import"],
+    "headers": [
+      {
+        "source": "**/*.@(html|js|css)",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "**/*.@(wasm|pck)",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      }
+    ]
+  }
+}
