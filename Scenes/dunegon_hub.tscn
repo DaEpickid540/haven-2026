@@ -159,9 +159,6 @@ position = Vector2(244, 80)
 
 [node name="Coins" type="Node2D" parent="." unique_id=540540695]
 
-[node name="Coin" parent="Coins" unique_id=685441500 instance=ExtResource("10_prlfk")]
-position = Vector2(161, 50)
-
 [node name="Coin2" parent="Coins" unique_id=313324363 instance=ExtResource("10_prlfk")]
 position = Vector2(90, 54)
 
