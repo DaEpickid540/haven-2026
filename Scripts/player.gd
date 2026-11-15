@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-var speed = 100.0
+var speed = 80.0
 var strength = 10.0
 
 const DASH_MULTIPLIER := 1.3

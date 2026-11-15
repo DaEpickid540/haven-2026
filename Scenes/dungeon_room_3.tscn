@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://xnpr1536a0rs" path="res://slime_red.tscn" id="3_fugpy"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="4_2octr"]
 [ext_resource type="PackedScene" uid="uid://r5xfe1r04fk" path="res://boss_green.tscn" id="6_vmr8y"]
+[ext_resource type="PackedScene" uid="uid://bn1x13txttkg" path="res://Scenes/skeleton.tscn" id="7_k1shn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uqcd"]
 texture = ExtResource("1_hlq5x")
@@ -268,33 +269,18 @@ position = Vector2(166, 78)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("4_2octr")]
 position = Vector2(62, -14)
-faces_right = false
-detected_range = 80.0
-stop_distance = 16.0
-contact_damage = 1
-loot_rewarded = 1
 
 [node name="SlimeBlue2" parent="." unique_id=2080422903 instance=ExtResource("4_2octr")]
 position = Vector2(260, -13)
-faces_right = false
-detected_range = 80.0
-stop_distance = 16.0
-contact_damage = 1
-loot_rewarded = 1
 
 [node name="SlimeRed3" parent="." unique_id=1278907147 instance=ExtResource("3_fugpy")]
 position = Vector2(-215, -110)
 
 [node name="SlimeBlue3" parent="." unique_id=158431765 instance=ExtResource("4_2octr")]
 position = Vector2(-344, -98)
-faces_right = false
-detected_range = 80.0
-stop_distance = 16.0
-contact_damage = 1
-loot_rewarded = 1
 
 [node name="SlimeRed4" parent="." unique_id=382545394 instance=ExtResource("3_fugpy")]
-position = Vector2(492, 280)
+position = Vector2(500, 290)
 
 [node name="Coins" type="Node2D" parent="." unique_id=1656557135]
 
@@ -321,3 +307,18 @@ position = Vector2(-26, -8)
 
 [node name="BossGreen" parent="." unique_id=87376223 instance=ExtResource("6_vmr8y")]
 position = Vector2(-188, -432)
+
+[node name="Skeleton" parent="." unique_id=672855553 instance=ExtResource("7_k1shn")]
+position = Vector2(-176, -216)
+
+[node name="Skeleton2" parent="." unique_id=1972458820 instance=ExtResource("7_k1shn")]
+position = Vector2(-219, 7)
+
+[node name="SlimeRed5" parent="." unique_id=851488551 instance=ExtResource("3_fugpy")]
+position = Vector2(264, -375)
+
+[node name="SlimeBlue4" parent="." unique_id=343567425 instance=ExtResource("4_2octr")]
+position = Vector2(443, -53)
+
+[node name="SlimeBlue5" parent="." unique_id=209231297 instance=ExtResource("4_2octr")]
+position = Vector2(482, 269)
