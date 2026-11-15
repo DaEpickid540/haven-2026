@@ -1,10 +1,13 @@
 extends CharacterBody2D
 
-@export var range = 128
+const SPEED = 30.0
+
+@export var detected_range = 64
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
+@onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 
 func _physics_process(delta: float) -> void:
@@ -14,10 +17,15 @@ func _physics_process(delta: float) -> void:
 			pass
 		"Chase":
 			var player = get_player()
-			
+			if player is Player:
+				velocity = global_position.direction_to(player.global_position) * SPEED
+				sprite_2d.scale.x = sign(velocity.x) * -1
+			else:
+				velocity = Vector2.ZERO
+			move_and_slide()
 			
 func get_player() -> Player:
-	return get_tree().get_first_node_in_group("Player")
+	return get_tree().get_first_node_in_group("player")
 	
 func is_player_in_range() -> bool:
 	var result = false
@@ -25,8 +33,16 @@ func is_player_in_range() -> bool:
 	
 	if player is Player:
 		var distance_to_player = global_position.distance_to(player.global_position)
-		if distance_to_player < range:
+		if distance_to_player < detected_range:
 			result = true
 	return result
-
-pass
+	
+func can_see_player() ->bool:
+	if not is_player_in_range():
+		return false
+		print("ah")
+	var player := get_player()
+	ray_cast_2d.target_position = player.global_position - global_position
+	var player_in_sight = not ray_cast_2d.is_colliding()
+	return player_in_sight
+	

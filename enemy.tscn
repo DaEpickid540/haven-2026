@@ -36,10 +36,19 @@ _data = {
 &"idle": SubResource("Animation_iifgy")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0wjns"]
-radius = 6.0827627
+[sub_resource type="CircleShape2D" id="CircleShape2D_fkybt"]
+radius = 7.071068
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4gyqm"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_epg4t"]
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_7k104"]
+states/idle/node = SubResource("AnimationNodeAnimation_4gyqm")
+states/idle/position = Vector2(415.33334, 70)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_epg4t")]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7k104"]
 animation = &"idle"
@@ -48,8 +57,12 @@ animation = &"idle"
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qi2p4"]
+advance_mode = 2
+advance_expression = "can_see_player()"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_iifgy"]
+advance_mode = 2
+advance_expression = "not can_see_player()"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_qi2p4"]
 states/Chase/node = SubResource("AnimationNodeStateMachine_7k104")
@@ -64,7 +77,12 @@ nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_qi2p4")
 nodes/StateMachine/position = Vector2(-59.724117, 133.29341)
 node_connections = [&"output", 0, &"StateMachine"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_a5u4x"]
+radius = 4.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=1620705969]
+collision_layer = 4
+collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_4gyqm")
 
@@ -72,18 +90,26 @@ script = ExtResource("1_4gyqm")
 texture = ExtResource("1_7k104")
 hframes = 7
 vframes = 2
-frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=629370387]
 root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_epg4t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=584054671]
-position = Vector2(0, 2)
-shape = SubResource("CircleShape2D_0wjns")
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_fkybt")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1229563384]
 root_node = NodePath("../Sprite2D")
 tree_root = SubResource("AnimationNodeBlendTree_3agft")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=300324515]
+target_position = Vector2(-17, 0)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1159431271]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2062662106]
+position = Vector2(1, 4)
+shape = SubResource("CircleShape2D_a5u4x")

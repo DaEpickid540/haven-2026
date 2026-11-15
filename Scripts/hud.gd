@@ -1,4 +1,10 @@
 extends CanvasLayer
+## In-game HUD (Scenes/hud.tscn): health bar, dash bar, coin counter.
+## Gameplay code updates it through these functions, e.g. from the player:
+##     $Hud.set_dash(stamina, max_stamina)
+## The coin counter and health bar follow PlayerStats automatically
+## Process mode is Inherit, so the coin animation freezes while paused.
+@onready var player: Player = $".."
 
 const COIN_FRAMES: Array[Texture2D] = [
 	preload("res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png"),
@@ -31,6 +37,10 @@ func set_health(current: float, maximum: float) -> void:
 func set_dash(current: float, maximum: float) -> void:
 	dash_bar.max_value = maximum
 	dash_bar.value = current
+	
+func dash_handling(current: float, maximum: float)->void:
+	if player.dashing == true:
+		print("oh")
 
 
 func set_coins(amount: int) -> void:
