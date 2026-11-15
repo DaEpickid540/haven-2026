@@ -71,6 +71,11 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Settings"
 
+[node name="Controls" type="Button" parent="Layout/Row/Buttons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Controls"
+
 [node name="Credits" type="Button" parent="Layout/Row/Buttons" unique_id=1955758313]
 unique_name_in_owner = true
 layout_mode = 2
@@ -107,17 +112,17 @@ color = Color(0, 0, 0, 0.7)
 
 [node name="Panel" type="PanelContainer" parent="CreditsModal"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CreditsModal/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="CreditsModal/Panel/VBox"]
 layout_mode = 2
@@ -125,27 +130,140 @@ theme_type_variation = &"HeaderLabel"
 text = "CREDITS"
 horizontal_alignment = 1
 
-[node name="Creators" type="Label" parent="CreditsModal/Panel/VBox"]
+[node name="CreditsGrid" type="GridContainer" parent="CreditsModal/Panel/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/line_spacing = 2
-text = "Made by\nSarvin Sukhe\nReid Henderson\nSarvesh Raman"
-horizontal_alignment = 1
-autowrap_mode = 3
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+columns = 2
 
-[node name="Spacer" type="Control" parent="CreditsModal/Panel/VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-
-[node name="Assets" type="Label" parent="CreditsModal/Panel/VBox"]
+[node name="Role0" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
 layout_mode = 2
 theme_type_variation = &"MutedLabel"
-theme_override_constants/line_spacing = 2
-text = "Art: Trevor Pupkin (itch.io)\nFont: Press Start 2P (OFL)"
-horizontal_alignment = 1
-autowrap_mode = 3
+text = "Made by"
+horizontal_alignment = 2
+
+[node name="Name0" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Sarvin Sukhe"
+
+[node name="Role1" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+horizontal_alignment = 2
+
+[node name="Name1" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Reid Henderson"
+
+[node name="Role2" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = ""
+horizontal_alignment = 2
+
+[node name="Name2" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Sarvesh Raman"
+
+[node name="Role3" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Art"
+horizontal_alignment = 2
+
+[node name="Name3" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Trevor Pupkin"
+
+[node name="Role4" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Slimes"
+horizontal_alignment = 2
+
+[node name="Name4" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Pixelsnorf (CC BY 4.0)"
+
+[node name="Role5" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Audio"
+horizontal_alignment = 2
+
+[node name="Name5" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Juhani Junkala (CC0)"
+
+[node name="Role6" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+theme_type_variation = &"MutedLabel"
+text = "Font"
+horizontal_alignment = 2
+
+[node name="Name6" type="Label" parent="CreditsModal/Panel/VBox/CreditsGrid"]
+layout_mode = 2
+text = "Press Start 2P (OFL)"
+
 
 [node name="CreditsClose" type="Button" parent="CreditsModal/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Close"
+
+[node name="ControlsModal" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dimmer" type="ColorRect" parent="ControlsModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="ControlsModal"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="ControlsModal/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="ControlsModal/Panel/VBox"]
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="ControlsGrid" type="GridContainer" parent="ControlsModal/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+columns = 2
+
+
+[node name="ControlsClose" type="Button" parent="ControlsModal/Panel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -156,6 +274,8 @@ unique_name_in_owner = true
 
 [connection signal="pressed" from="Layout/Row/Buttons/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Layout/Row/Buttons/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Layout/Row/Buttons/Leave" to="." method="_on_leave_pressed"]
 [connection signal="pressed" from="CreditsModal/Panel/VBox/CreditsClose" to="." method="_close_modal"]
+[connection signal="pressed" from="ControlsModal/Panel/VBox/ControlsClose" to="." method="_close_modal"]

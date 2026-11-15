@@ -95,5 +95,5 @@ func _on_node_added(node: Node) -> void:
 func _on_focus_changed(control: Control) -> void:
 	var moved := _last_focus != null and is_instance_valid(_last_focus) and _last_focus.is_visible_in_tree()
 	_last_focus = control
-	if moved and control is BaseButton:
+	if moved and (control is BaseButton or control is Range):
 		play_sfx("menu_move")

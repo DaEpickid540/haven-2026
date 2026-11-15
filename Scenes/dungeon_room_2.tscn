@@ -45,8 +45,7 @@ position = Vector2(124, 220)
 collision_layer = 0
 collision_mask = 3
 script = ExtResource("4_exit")
-target_scene = "res://Scenes/dungeon_room_1.tscn"
-target_entry = "FromRoom2"
+target_scene = "res://Scenes/dungeon_room_3.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToRoom2" unique_id=1600627430]
 position = Vector2(16, -20)

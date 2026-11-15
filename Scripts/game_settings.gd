@@ -3,6 +3,7 @@ extends Node
 const PATH := "user://settings.cfg"
 const MUSIC_BUS := "Music"
 const SFX_BUS := "SFX"
+const MAX_VOLUME := 0.7
 
 var music_volume := 0.8
 var sfx_volume := 0.8
@@ -67,7 +68,7 @@ func _apply_bus(bus_name: String, volume: float) -> void:
 	if idx == -1:
 		push_warning("Audio bus '%s' is missing (see default_bus_layout.tres)" % bus_name)
 		return
-	AudioServer.set_bus_volume_db(idx, linear_to_db(volume))
+	AudioServer.set_bus_volume_db(idx, linear_to_db(volume * MAX_VOLUME))
 	AudioServer.set_bus_mute(idx, volume <= 0.0)
 
 

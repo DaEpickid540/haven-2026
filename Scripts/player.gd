@@ -136,8 +136,4 @@ func _on_weapon_body_entered(body: Node2D) -> void:
 
 	_enemies_hit_this_attack.append(body)
 	Audio.play_sfx("hit", 0.1)
-	print($"Hit {body}]")
-	body.take_damage(PlayerStats.get_damage())
-
-	_enemies_hit_this_attack.append(body)
 	body.take_damage(PlayerStats.get_damage())

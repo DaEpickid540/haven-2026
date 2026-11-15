@@ -128,7 +128,10 @@ function sendChoice(index) {
 
 if (PAIRING) {
   pairInput.value = (params.get("code") || "").toUpperCase();
-  addEventListener("DOMContentLoaded", () => askCode("Shown on the game screen"));
+  addEventListener("DOMContentLoaded", () => {
+    if (pairInput.value.length === 5) pairForm.requestSubmit();
+    else askCode("Shown on the game screen");
+  });
 } else {
   connect();
 }

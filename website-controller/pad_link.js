@@ -6,6 +6,7 @@ import {
 const ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const CODE_LENGTH = 5;
 const LIFETIME = 10 * 60 * 1000;
+const QR_LIB = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm";
 
 // bridge
 const link = (window.padLink = {
@@ -35,16 +36,35 @@ box.innerHTML = `
       border-radius: 4px; text-align: right; pointer-events: auto; }
     #pad-code b { display: block; font-size: 18px; letter-spacing: 3px; }
     #pad-code button { all: unset; cursor: pointer; position: absolute; top: 2px; left: 6px; }
-    #pad-code[hidden] { display: none; }
+    #pad-qr { display: block; margin: 6px 0 6px auto;
+      image-rendering: pixelated; background: #fff; }
+    #pad-code[hidden], #pad-qr[hidden] { display: none; }
   </style>
   <button type="button" aria-label="Hide">x</button>
   <span id="pad-status">Phone pad: connecting...</span>
+  <img id="pad-qr" alt="Scan to join" hidden>
   <b id="pad-value"></b>
   <span>${location.host}/controller.html</span>`;
 document.body.appendChild(box);
 box.querySelector("button").onclick = () => (box.hidden = true);
 const statusEl = box.querySelector("#pad-status");
 const valueEl = box.querySelector("#pad-value");
+const qrEl = box.querySelector("#pad-qr");
+
+// qr
+const qrLib = import(QR_LIB).then((m) => m.default).catch(() => null);
+
+async function showQr(code) {
+  const url = new URL("controller.html", location.href);
+  url.search = `?code=${code}`;
+  const qrcode = await qrLib;
+  if (!qrcode || valueEl.textContent !== code) return;
+  const qr = qrcode(0, "M");
+  qr.addData(url.href);
+  qr.make();
+  qrEl.src = qr.createDataURL(3, 2);
+  qrEl.hidden = false;
+}
 
 function randomCode() {
   const bytes = crypto.getRandomValues(new Uint8Array(CODE_LENGTH));
@@ -96,6 +116,7 @@ async function host() {
     channel.send(link.prompt);
     statusEl.textContent = "Phone pad connected";
     valueEl.textContent = "";
+    qrEl.hidden = true;
     box.hidden = true;
   };
   channel.onmessage = (e) => {
@@ -114,8 +135,10 @@ async function host() {
   await gathered(pc);
   const claimed = await publish(pc.localDescription.sdp);
   node = claimed.node;
-  statusEl.textContent = "Phone pad code";
+  statusEl.textContent = "Scan or enter code";
   valueEl.textContent = claimed.code;
+  qrEl.hidden = true;
+  showQr(claimed.code);
 
   expiry = setTimeout(() => {
     if (!link.connected) restart();
