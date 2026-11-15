@@ -21,8 +21,12 @@ func _process(_delta: float) -> void:
 	_was_past_exit = past_exit
 
 
+func _ready() -> void:
+	PlayerStats.heal_full()  # The hub is safe so arriving or respawning here refills health
+
+
 func _on_leave_hub_modal_entered() -> void:
-	get_tree().change_scene_to_file(DUNGEON_SCENE)
+	Transition.change_scene(DUNGEON_SCENE)
 
 
 func _on_leave_hub_modal_stayed() -> void:
