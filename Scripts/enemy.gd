@@ -28,35 +28,25 @@ func _physics_process(delta: float) -> void:
 		return
 
 	_attack_cooldown = maxf(_attack_cooldown - delta, 0.0)
-	var state = playback.get_current_node()
-	match state:
-		"Idle":
-			velocity = Vector2.ZERO
-		"Chase":
-			var player = get_player()
-			if player is Player:
-				var direction := global_position.direction_to(player.global_position)
-				var distance_to_player := global_position.distance_to(player.global_position)
-				if distance_to_player > stop_distance:
-					velocity = direction * SPEED
-				else:
-					velocity = Vector2.ZERO
-					_try_attack_player(player)
-				if direction.x != 0.0:
-					sprite_2d.scale.x = sign(direction.x) * -1
-			else:
-				velocity = Vector2.ZERO
+	velocity = Vector2.ZERO
+	# Chase
+	if can_see_player():
+		var to_player := ray_cast_2d.global_transform.basis_xform(ray_cast_2d.target_position)
+		if to_player.length() > stop_distance:
+			velocity = to_player.normalized() * SPEED
+		else:
+			_try_attack_player(get_player())
+		if to_player.x != 0.0:
+			sprite_2d.scale.x = -sign(to_player.x)
 	move_and_slide()
 	damage_overlapping_player()
 
-# Deal contact damage every frame the player's Hurtbox overlaps, not only on
-# entry, so the slime keeps hurting the player while chasing/touching them.
-# The player's own HURT_COOLDOWN limits how often this lands.
+# Contact
 func damage_overlapping_player() -> void:
 	for other_area in damage_area.get_overlapping_areas():
 		var player := other_area.get_parent() as Player
 		if player != null and other_area.name == "Hurtbox":
-			player.take_damage(contact_damage)
+			_try_attack_player(player)
 			return
 
 func get_player() -> Player:
@@ -75,11 +65,10 @@ func is_player_in_range() -> bool:
 func can_see_player() ->bool:
 	if not is_player_in_range():
 		return false
-		print("ah")
 	var player := get_player()
-	ray_cast_2d.target_position = player.global_position - global_position
-	var player_in_sight = not ray_cast_2d.is_colliding()
-	return player_in_sight
+	ray_cast_2d.target_position = ray_cast_2d.to_local(player.global_position)
+	ray_cast_2d.force_raycast_update()  # Refresh
+	return not ray_cast_2d.is_colliding() or ray_cast_2d.get_collider() == player
 
 
 func take_damage(amount: int) -> void:
