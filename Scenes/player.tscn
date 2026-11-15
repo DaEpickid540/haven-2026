@@ -52,7 +52,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/2/path = NodePath("../WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -60,6 +60,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../WeaponHitbox/CollisionPolygon2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.42500022, -12)]
 }
 
 [sub_resource type="Animation" id="Animation_3smsa"]
@@ -93,7 +105,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/2/path = NodePath("../WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -122,7 +134,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("../WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -163,7 +175,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/2/path = NodePath("../WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -171,6 +183,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [PackedVector2Array(), PackedVector2Array(-6, -1, 3, -1, 3, -8, -6, -8), PackedVector2Array(-6, 16, -3, -3, -9, -2, -14, 9, -14, 16), PackedVector2Array(-6, 16, -6, 8, -11, 8, -14, 8, -14, 16), PackedVector2Array()]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../WeaponHitbox/CollisionPolygon2D:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.42500022, -12)]
 }
 
 [sub_resource type="Animation" id="Animation_ukyrk"]
@@ -192,7 +216,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("../Area2D/CollisionPolygon2D:polygon")
+tracks/1/path = NodePath("../WeaponHitbox/CollisionPolygon2D:polygon")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -542,13 +566,20 @@ parameters/StateMachine/MoveState/StandState/blend_position = Vector2(0, 0)
 
 [node name="Hud" parent="." unique_id=1669573446 instance=ExtResource("3_hud")]
 
-[node name="DeathScreen" parent="." instance=ExtResource("4_death")]
+[node name="DeathScreen" parent="." unique_id=1080805255 instance=ExtResource("4_death")]
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1643113148]
+[node name="WeaponHitbox" type="Area2D" parent="." unique_id=1643113148]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D" unique_id=1342032514]
-position = Vector2(0.4250002, 0)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WeaponHitbox" unique_id=1342032514]
+position = Vector2(0.42500022, -12)
 scale = Vector2(1.125, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=202009393]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1640876588]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=202009393]
 shape = SubResource("CircleShape2D_0wjns")

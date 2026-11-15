@@ -1,5 +1,4 @@
 extends CanvasLayer
-@onready var player: Player = $".."
 
 const COIN_FRAMES: Array[Texture2D] = [
 	preload("res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/coin/coin_1.png"),
@@ -32,10 +31,6 @@ func set_health(current: float, maximum: float) -> void:
 func set_dash(current: float, maximum: float) -> void:
 	dash_bar.max_value = maximum
 	dash_bar.value = current
-	
-func dash_handling(current: float, maximum: float)->void:
-	if player.dashing == true:
-		print("oh")
 
 
 func set_coins(amount: int) -> void:

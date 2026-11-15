@@ -2,18 +2,26 @@ class_name Player extends CharacterBody2D
 
 const DASH_MULTIPLIER := 1.3
 const HURT_COOLDOWN := 0.6
+const SPRINT_DRAIN := 30.0
+const STAMINA_REGEN := 20.0
+const SPRINT_RECOVER := 0.25
 
 var dashing := false
-var stamina := 10.0
+var stamina := 0.0
 var input_vector := Vector2.ZERO
 var _hurt_timer := 0.0
+var _exhausted := false
+var _enemies_hit_this_attack: Array[Node2D] = []
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback := animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
+@onready var weapon_hitbox: Area2D = $WeaponHitbox
 
 
 func _ready() -> void:
+	stamina = PlayerStats.get_max_stamina()
 	PlayerStats.died.connect(_on_died)
+	weapon_hitbox.body_entered.connect(_on_weapon_body_entered)
 
 
 func take_damage(amount: int) -> void:
@@ -37,6 +45,8 @@ func _physics_process(delta: float) -> void:
 		move_state()
 	else:
 		input_vector = Vector2.ZERO
+		dashing = false
+	update_stamina(delta)
 	var speed := PlayerStats.get_move_speed() * (DASH_MULTIPLIER if dashing else 1.0)
 	velocity = input_vector * speed
 	move_and_slide()
@@ -48,10 +58,37 @@ func move_state() -> void:
 	if input_vector != Vector2.ZERO:
 		update_blend_positions(Vector2(input_vector.x, -input_vector.y))
 	if Input.is_action_just_pressed("attack"):
-		playback.travel("AttackState")
+		_start_attack()
+
+
+func update_stamina(delta: float) -> void:
+	var max_stamina := PlayerStats.get_max_stamina()
+	if stamina >= max_stamina * SPRINT_RECOVER:
+		_exhausted = false
+	dashing = dashing and not _exhausted and input_vector != Vector2.ZERO
+	if dashing:
+		stamina = maxf(stamina - SPRINT_DRAIN * delta, 0.0)
+		_exhausted = stamina == 0.0
+	else:
+		stamina = minf(stamina + STAMINA_REGEN * delta, max_stamina)
+	$Hud.set_dash(stamina, max_stamina)
 
 
 func update_blend_positions(direction: Vector2) -> void:
 	animation_tree.set("parameters/StateMachine/MoveState/RunState/blend_position", direction)
 	animation_tree.set("parameters/StateMachine/MoveState/StandState/blend_position", direction)
 	animation_tree.set("parameters/StateMachine/AttackState/blend_position", direction)
+
+
+func _start_attack() -> void:
+	_enemies_hit_this_attack.clear()
+	playback.travel("AttackState")
+
+
+func _on_weapon_body_entered(body: Node2D) -> void:
+	if playback.get_current_node() != "AttackState":
+		return
+	if body in _enemies_hit_this_attack or not body.has_method("take_damage"):
+		return
+	_enemies_hit_this_attack.append(body)
+	body.take_damage(PlayerStats.get_damage())
