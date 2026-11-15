@@ -96,3 +96,16 @@ func take_damage(amount: int) -> bool:
 func heal_full() -> void:
 	health = max_health
 	health_changed.emit(health, max_health)
+
+
+# reset
+
+func reset_character() -> void:
+	coins = 0
+	max_health = BASE_MAX_HEALTH
+	health = max_health
+	for stat in levels:
+		levels[stat] = 1
+		upgraded.emit(stat, 1)
+	coins_changed.emit(coins)
+	health_changed.emit(health, max_health)
