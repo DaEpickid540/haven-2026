@@ -35,12 +35,20 @@ animations = [{
 "texture": SubResource("AtlasTexture_rla2l")
 }],
 "loop": 1,
-"name": &"walking",
+"name": &"idle",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g7b7a"]
 radius = 8.062258
+
+[sub_resource type="Animation" id="Animation_1e8i3"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7scxg"]
+_data = {
+&"idle": SubResource("Animation_1e8i3")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5iksb"]
 radius = 24.0
@@ -52,12 +60,16 @@ script = ExtResource("2_uxpfs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Body" unique_id=1512147843]
 sprite_frames = SubResource("SpriteFrames_gyc6d")
-animation = &"walking"
-frame_progress = 0.28345448
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.82701284
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body" unique_id=36052858]
 position = Vector2(1, -5)
 shape = SubResource("CircleShape2D_g7b7a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body" unique_id=1794429611]
+libraries/ = SubResource("AnimationLibrary_7scxg")
 
 [node name="TalkZone" type="Area2D" parent="." unique_id=1948521727]
 position = Vector2(1, -5)

@@ -26,7 +26,7 @@
         <i class="led"></i>
         <span id="link-label">Searching</span>
       </div>
-      <button class="chip" id="fs-btn" type="button">Fullscreen</button>
+      <button id="fs-btn" type="button">Fullscreen</button>
     </div>
 
     <section class="buttons" aria-label="Action buttons">
@@ -40,14 +40,16 @@
 
   <div class="prompt" id="prompt" hidden>
     <div class="prompt-panel">
-      <p id="prompt-title"></p>
+      <div class="prompt-lines" id="prompt-lines"></div>
       <div class="prompt-buttons" id="prompt-buttons"></div>
     </div>
   </div>
 
+  <button class="esc" data-btn="pause" type="button">Esc</button>
+
   <div class="rotate-hint">
     <div class="rotate-icon"></div>
-    <p>Rotate your phone</p>
+    <p class="HeaderLabel">Rotate your phone</p>
   </div>
 
   <script src="connection.js"></script>

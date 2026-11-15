@@ -1,4 +1,4 @@
-/* Follows the game's UI theme (Assets/Fonts/pixel_theme.tres). */
+/* Mirrors the game's UI theme (Assets/Fonts/pixel_theme.tres). */
 
 @font-face {
   font-family: "Press Start 2P";
@@ -12,16 +12,13 @@
   --periwinkle: #636fb2;
   --light: #adc4ff;
   --white: #ffffff;
-  --gold: #ffd878;
+  --gold: #ffd877;
   --red: #e52d40;
   --orange: #ef604a;
   --cyan: #19baff;
 
-  /* one game pixel */
-  --px: 3px;
-  --radius: calc(var(--px) * 2);
-  /* how far a button sticks out until pressed */
-  --lip: calc(var(--px) * 2);
+  /* one game pixel: the game's 320x180 screen scaled to fit this one */
+  --px: min(100dvw / 320, 100dvh / 180);
 }
 
 * {
@@ -34,8 +31,7 @@ body {
   height: 100%;
   background: var(--navy);
   color: var(--white);
-  font: 8px/1 "Press Start 2P", ui-monospace, monospace;
-  text-transform: uppercase;
+  font: calc(var(--px) * 8) / 1 "Press Start 2P", monospace;
   -webkit-font-smoothing: none;
   overflow: hidden;
   overscroll-behavior: none;
@@ -46,19 +42,90 @@ body {
   touch-action: none;
 }
 
-button {
-  appearance: none;
+/* Button: normal, hover, pressed, disabled, focus */
+
+button,
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--px) * 4);
+  min-height: calc(var(--px) * 16);
   margin: 0;
-  padding: 0;
+  padding: calc(var(--px) * 3) calc(var(--px) * 7);
+  border: var(--px) solid var(--periwinkle);
+  border-radius: calc(var(--px) * 2);
+  outline: none;
+  background: var(--black);
+  color: var(--white);
   font: inherit;
-  text-transform: inherit;
-  color: inherit;
+  white-space: nowrap;
+  appearance: none;
   cursor: pointer;
 }
 
-button:focus {
-  outline: none;
+@media (hover: hover) {
+  button:hover {
+    background: var(--periwinkle);
+    border-color: var(--light);
+  }
 }
+
+button:active,
+button.is-down {
+  padding-top: calc(var(--px) * 4);
+  padding-bottom: calc(var(--px) * 2);
+  background: var(--red);
+  border-color: var(--orange);
+}
+
+button:disabled {
+  padding: calc(var(--px) * 3) calc(var(--px) * 7);
+  background: var(--black);
+  border-color: var(--navy);
+  color: var(--periwinkle);
+  cursor: default;
+}
+
+button.focus,
+.last {
+  border-color: var(--gold);
+}
+
+/* Label variations */
+
+p {
+  margin: 0;
+  line-height: calc(var(--px) * 10);
+  text-align: center;
+  white-space: pre-line;
+}
+
+.TitleLabel {
+  color: var(--red);
+  font-size: calc(var(--px) * 24);
+  line-height: 1;
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--black);
+}
+
+.HeaderLabel,
+.HudLabel {
+  color: var(--gold);
+}
+
+.HudLabel {
+  text-shadow:
+    var(--px) 0 0 var(--black),
+    calc(var(--px) * -1) 0 0 var(--black),
+    0 var(--px) 0 var(--black),
+    0 calc(var(--px) * -1) 0 var(--black);
+}
+
+.MutedLabel {
+  color: var(--light);
+}
+
+/* Pad layout */
 
 .pad {
   position: fixed;
@@ -72,33 +139,21 @@ button:focus {
     env(safe-area-inset-left);
 }
 
-/* The last control that was used keeps the game's gold focus outline. */
-.last {
-  outline: var(--px) solid var(--gold);
-  outline-offset: var(--px);
+.stick-zone,
+.buttons {
+  display: grid;
+  place-content: center;
 }
 
 /* Joystick */
 
-.stick-zone,
-.buttons {
-  container-type: size;
-  display: grid;
-  place-content: center;
-  min-width: 0;
-  min-height: 0;
-}
-
-.stick-zone {
-  --g: min(68cqh, 72cqw);
-}
-
 .gate {
+  --g: calc(var(--px) * 100);
   position: relative;
   width: var(--g);
   height: var(--g);
   border: var(--px) solid var(--periwinkle);
-  border-radius: var(--radius);
+  border-radius: calc(var(--px) * 2);
   background: var(--black);
 }
 
@@ -156,8 +211,8 @@ button:focus {
   width: 34%;
   height: 34%;
   border: var(--px) solid var(--periwinkle);
-  border-radius: var(--radius);
-  background: var(--navy);
+  border-radius: calc(var(--px) * 2);
+  background: var(--black);
   /* --sx / --sy: stick position in -1..1, set from visual.js */
   transform: translate(
     calc(var(--sx, 0) * var(--g) * 0.27),
@@ -172,40 +227,22 @@ button:focus {
   transition: none;
 }
 
-/* Game link status / Fullscreen */
+/* Game link status and Fullscreen */
 
 .system {
   display: grid;
   align-content: center;
-  gap: 14px;
+  gap: calc(var(--px) * 4);
+  width: calc(var(--px) * 96);
 }
 
 .chip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 30px;
-  padding: 0 12px;
-  border: 2px solid var(--periwinkle);
-  border-radius: 4px;
-  background: var(--black);
-  white-space: nowrap;
-}
-
-button.chip:active {
-  background: var(--red);
-  border-color: var(--orange);
-}
-
-.chip.last {
-  outline-width: 2px;
-  outline-offset: 2px;
+  cursor: default;
 }
 
 .led {
-  width: 6px;
-  height: 6px;
+  width: calc(var(--px) * 4);
+  height: calc(var(--px) * 4);
   background: var(--periwinkle);
 }
 
@@ -224,41 +261,26 @@ button.chip:active {
   }
 }
 
-/* Action buttons: three in a rising row */
-
-.buttons {
-  --d: min(27cqw, 44cqh);
-}
+/* Action buttons */
 
 .cluster {
   display: flex;
-  align-items: flex-end;
-  gap: calc(var(--d) * 0.12);
+  flex-direction: column-reverse;
+  gap: calc(var(--px) * 4);
 }
 
 .btn {
-  width: var(--d);
-  height: var(--d);
-  border: var(--px) solid var(--periwinkle);
-  border-radius: var(--radius);
-  background: var(--black);
-  box-shadow: 0 var(--lip) 0 var(--periwinkle);
-  font-size: clamp(8px, calc(var(--d) * 0.1), 12px);
+  width: calc(var(--px) * 96);
+  height: calc(var(--px) * 40);
 }
 
-.btn.attack {
-  margin-bottom: calc(var(--d) * 0.3);
-}
+/* Esc stays above the cast menu so it can close it */
 
-.btn.dash {
-  margin-bottom: calc(var(--d) * 0.6);
-}
-
-.btn.is-down {
-  translate: 0 var(--lip);
-  background: var(--red);
-  border-color: var(--orange);
-  box-shadow: none;
+.esc {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + var(--px) * 4);
+  left: calc(env(safe-area-inset-left) + var(--px) * 4);
+  z-index: 1;
 }
 
 /* Menu cast from the game */
@@ -268,43 +290,63 @@ button.chip:active {
   inset: 0;
   display: grid;
   place-content: center;
-  background: rgb(0 0 0 / 0.6);
+  background: rgb(0 0 0 / 0.7);
 }
 
 .prompt[hidden] {
   display: none;
 }
 
-.prompt-panel {
-  display: grid;
-  gap: 14px;
-  min-width: 240px;
-  padding: 16px;
-  border: var(--px) solid var(--periwinkle);
-  border-radius: var(--radius);
+.prompt[data-panel="false"] {
   background: var(--navy);
-  text-align: center;
 }
 
-.prompt-panel p {
-  margin: 0;
-  font-size: 10px;
-  line-height: 1.6;
-  color: var(--gold);
+.prompt-panel {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--px) * 8);
+  padding: calc(var(--px) * 7);
+  border: var(--px) solid var(--periwinkle);
+  border-radius: calc(var(--px) * 2);
+  background: var(--black);
+}
+
+.prompt[data-panel="false"] .prompt-panel {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.prompt-lines,
+.prompt-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--px) * 4);
 }
 
 .prompt-buttons {
-  display: grid;
-  gap: 8px;
+  flex: 1;
 }
 
-.prompt-buttons .chip {
-  height: 34px;
+.prompt-buttons > button:last-child {
+  margin-top: auto;
 }
 
-.prompt-buttons .chip:disabled {
-  color: var(--periwinkle);
-  background: var(--navy);
+.prompt-lines:empty {
+  display: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: calc(var(--px) * 6);
+}
+
+.row p:first-child {
+  flex: 1;
+  text-align: left;
 }
 
 /* Portrait phone: ask to rotate */
@@ -312,25 +354,21 @@ button.chip:active {
 .rotate-hint {
   position: fixed;
   inset: 0;
+  z-index: 2;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
   background: var(--navy);
-  color: var(--gold);
-}
-
-.rotate-hint p {
-  margin: 0;
   font-size: 10px;
 }
 
 .rotate-icon {
   width: 42px;
   height: 72px;
-  border: var(--px) solid var(--periwinkle);
-  border-radius: var(--radius);
+  border: 3px solid var(--periwinkle);
+  border-radius: 6px;
   background: var(--black);
   animation: tip 2.4s steps(4) infinite;
 }

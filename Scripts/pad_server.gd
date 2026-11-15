@@ -10,6 +10,7 @@ const ACTIONS: Array[StringName] = [
 	&"attack",
 	&"dash",
 	&"interact",
+	&"pause",
 ]
 
 class Pad:
@@ -25,7 +26,6 @@ var _prompt_buttons: Array[Button] = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# Localhost only; the phone connects through `tailscale serve`.
 	var err := _server.listen(PORT, "127.0.0.1")
 	if err != OK:
 		push_warning("Pad server couldn't listen on port %d (error %d)" % [PORT, err])
@@ -80,21 +80,43 @@ func _read_prompt() -> Variant:
 	if menu == null:
 		return null
 
-	var title := ""
+	var lines := []
 	for label: Label in menu.find_children("*", "Label", true, false):
-		if label.is_visible_in_tree():
-			title = label.text
-			break
+		if label.is_visible_in_tree() and not label.get_parent() is HBoxContainer:
+			lines.append(_label_data(label))
 
 	var buttons := []
 	for button: Button in menu.find_children("*", "Button", true, false):
 		if button.is_visible_in_tree():
 			_prompt_buttons.append(button)
 			buttons.append({
-				"text": _button_text(button),
+				"text": button.text,
+				"labels": _row_labels(button),
+				"width": button.size.x,
 				"disabled": button.disabled,
+				"focused": button.has_focus(),
 			})
-	return {"title": title, "buttons": buttons}
+
+	var panel_size := Vector2.ZERO
+	for panel: Control in menu.find_children("*", "PanelContainer", true, false):
+		if panel.is_visible_in_tree():
+			panel_size = panel.size
+			break
+
+	return {
+		"panel": panel_size != Vector2.ZERO,
+		"width": panel_size.x,
+		"height": panel_size.y,
+		"lines": lines,
+		"buttons": buttons,
+	}
+
+
+func _label_data(label: Label) -> Dictionary:
+	return {
+		"text": label.text,
+		"style": String(label.theme_type_variation),
+	}
 
 
 func _focused_menu() -> Control:
@@ -108,14 +130,13 @@ func _focused_menu() -> Control:
 	return null
 
 
-func _button_text(button: Button) -> String:
-	if not button.get_parent() is HBoxContainer:
-		return button.text
-	var row := PackedStringArray()
-	for sibling in button.get_parent().get_children():
-		if sibling is Label and sibling.visible and sibling.text != "":
-			row.append(sibling.text)
-	return "%s: %s" % [" ".join(row), button.text]
+func _row_labels(button: Button) -> Array:
+	var labels := []
+	if button.get_parent() is HBoxContainer:
+		for sibling in button.get_parent().get_children():
+			if sibling is Label and sibling.visible and sibling.text != "":
+				labels.append(_label_data(sibling))
+	return labels
 
 
 func _press_prompt_button(index_text: String) -> void:
@@ -126,6 +147,7 @@ func _press_prompt_button(index_text: String) -> void:
 	if index < 0 or index >= _prompt_buttons.size() or _prompt_buttons[index].disabled:
 		return
 	var button := _prompt_buttons[index]
+	button.grab_focus()
 	if button.toggle_mode:
 		button.button_pressed = not button.button_pressed
 	else:
