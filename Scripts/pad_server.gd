@@ -21,7 +21,7 @@ class Pad:
 var _server := TCPServer.new()
 var _pads: Array[Pad] = []
 var _buttons := 0
-var _prompt_buttons: Array[Button] = []
+var _prompt_buttons: Array[Control] = []
 var _web_link: JavaScriptObject = null
 var _web_buttons := 0
 var _web_prompt := ""
@@ -89,21 +89,19 @@ func _read_prompt() -> Variant:
 		return null
 
 	var lines := []
-	for label: Label in menu.find_children("*", "Label", true, false):
-		if label.is_visible_in_tree() and not label.get_parent() is HBoxContainer:
-			lines.append(_label_data(label))
-
 	var buttons := []
-	for button: Button in menu.find_children("*", "Button", true, false):
-		if button.is_visible_in_tree():
-			_prompt_buttons.append(button)
-			buttons.append({
-				"text": button.text,
-				"labels": _row_labels(button),
-				"width": button.size.x,
-				"disabled": button.disabled,
-				"focused": button.has_focus(),
-			})
+	for node in menu.find_children("*", "", true, false):
+		var control := node as Control
+		if control == null or not control.is_visible_in_tree():
+			continue
+		var parent := control.get_parent()
+		if control is GridContainer:
+			lines.append(_grid_data(control))
+		elif control is Label and not parent is HBoxContainer and not parent is GridContainer:
+			lines.append(_label_data(control))
+		elif control is Button or control is Slider:
+			_prompt_buttons.append(control)
+			buttons.append(_item_data(control))
 
 	var panel_size := Vector2.ZERO
 	for panel: Control in menu.find_children("*", "PanelContainer", true, false):
@@ -138,23 +136,89 @@ func _focused_menu() -> Control:
 	return null
 
 
-func _row_labels(button: Button) -> Array:
+func _grid_data(grid: GridContainer) -> Dictionary:
+	var cells := []
+	for child in grid.get_children():
+		var label := child as Label
+		if label != null and label.visible:
+			var data := _label_data(label)
+			data["align"] = label.horizontal_alignment
+			cells.append(data)
+	return {
+		"columns": grid.columns,
+		"cells": cells,
+		"h_gap": grid.get_theme_constant("h_separation"),
+		"v_gap": grid.get_theme_constant("v_separation"),
+	}
+
+
+func _item_data(control: Control) -> Dictionary:
+	var labels := _row_labels(control)
+	var data := {
+		"labels": labels,
+		"split": _labels_before(control, labels.size()),
+		"group": _button_group(control, labels),
+		"width": control.size.x,
+		"focused": control.has_focus(),
+	}
+	var slider := control as Slider
+	if slider != null:
+		data["text"] = ""
+		data["slider"] = inverse_lerp(slider.min_value, slider.max_value, slider.value)
+		data["disabled"] = not slider.editable
+	else:
+		data["text"] = (control as Button).text
+		data["disabled"] = (control as Button).disabled
+	return data
+
+
+func _row_labels(control: Control) -> Array:
 	var labels := []
-	if button.get_parent() is HBoxContainer:
-		for sibling in button.get_parent().get_children():
+	if control.get_parent() is HBoxContainer:
+		for sibling in control.get_parent().get_children():
 			if sibling is Label and sibling.visible and sibling.text != "":
 				labels.append(_label_data(sibling))
 	return labels
 
 
-func _press_prompt_button(index_text: String) -> void:
-	if not index_text.is_valid_int():
+func _labels_before(control: Control, total: int) -> int:
+	if total == 0:
+		return 0
+	var count := 0
+	for sibling in control.get_parent().get_children():
+		if sibling == control:
+			return count
+		if sibling is Label and sibling.visible and sibling.text != "":
+			count += 1
+	return total
+
+
+# side-by-side
+func _button_group(control: Control, labels: Array) -> String:
+	var parent := control.get_parent()
+	if parent is HBoxContainer and labels.is_empty():
+		return str(parent.get_instance_id())
+	return ""
+
+
+func _press_prompt_button(choice: String) -> void:
+	var parts := choice.split(":")
+	if not parts[0].is_valid_int():
 		return
 	_read_prompt()
-	var index := index_text.to_int()
-	if index < 0 or index >= _prompt_buttons.size() or _prompt_buttons[index].disabled:
+	var index := parts[0].to_int()
+	if index < 0 or index >= _prompt_buttons.size():
 		return
-	var button := _prompt_buttons[index]
+	var slider := _prompt_buttons[index] as Slider
+	if slider != null:
+		if slider.editable and parts.size() == 2:
+			slider.grab_focus()
+			var nudge := maxf(slider.step, (slider.max_value - slider.min_value) / 10.0)
+			slider.value += nudge * (-1.0 if parts[1] == "-" else 1.0)
+		return
+	var button := _prompt_buttons[index] as Button
+	if button.disabled:
+		return
 	button.grab_focus()
 	if button.toggle_mode:
 		button.button_pressed = not button.button_pressed

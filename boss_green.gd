@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var max_health := 18
 @export var contact_damage := 1    
-@export var contact_knockback_force := 300.0  # Adjustable knockback strength
+@export var contact_knockback_force := 180.0  # Adjustable knockback strength
 @export var attack_damage := 3    
 @export var attack_range := 65.0   
 @export var attack_interval := 5.0 
@@ -74,16 +74,10 @@ func check_and_damage_player_in_range() -> void:
 	if player and is_instance_valid(player):
 		var distance = global_position.distance_to(player.global_position)
 		if distance <= attack_range:
-			player.take_damage(attack_damage)
+			player.take_damage(attack_damage, global_position)
 
 func trigger_screenshake() -> void:
-	var cam = get_viewport().get_camera_2d()
-	if cam:
-		var tween = create_tween()
-		for i in range(4):
-			var random_offset = Vector2(randf_range(-6, 6), randf_range(-6, 6))
-			tween.tween_property(cam, "offset", random_offset, 0.03)
-		tween.tween_property(cam, "offset", Vector2.ZERO, 0.03)
+	Juice.shake(0.9)
 
 func get_player() -> Player:
 	return get_tree().get_first_node_in_group("player")
@@ -96,24 +90,22 @@ func damage_overlapping_player() -> void:
 			return
 
 func apply_contact_to_player(player: Player) -> void:
-	player.take_damage(contact_damage)
-	
+	if not player.take_damage(contact_damage):
+		return
+
 	# Calculate vector pointing from enemy to player
 	var push_dir = (player.global_position - global_position).normalized()
 	if push_dir == Vector2.ZERO:
 		push_dir = Vector2.RIGHT
-		
-	# Apply knockback safely based on available player properties/methods
-	if "velocity" in player:
-		player.velocity += push_dir * contact_knockback_force
-	elif player.has_method("knockback"):
-		player.knockback(push_dir * contact_knockback_force)
+
+	player.knockback(push_dir * contact_knockback_force)
 
 func take_damage(amount: int) -> void:
 	if dying:
 		return
 
 	health -= amount
+	Juice.hit(animated_sprite_2d, amount, Juice.ENEMY_HIT, 0.35)
 	if health <= 0:
 		dying = true
 		velocity = Vector2.ZERO
@@ -124,10 +116,6 @@ func take_damage(amount: int) -> void:
 		await animated_sprite_2d.animation_finished
 		queue_free()
 		return
-
-	var flash := create_tween()
-	flash.tween_property(animated_sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
-	flash.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.12)
 
 func _on_damage_area_entered(other_area: Area2D) -> void:
 	var player := other_area.get_parent() as Player

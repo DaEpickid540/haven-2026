@@ -305,6 +305,9 @@ p {
   display: flex;
   flex-direction: column;
   gap: calc(var(--px) * 8);
+  max-width: 100dvw;
+  max-height: 100dvh;
+  overflow-y: auto;
   padding: calc(var(--px) * 7);
   border: var(--px) solid var(--periwinkle);
   border-radius: calc(var(--px) * 2);
@@ -329,8 +332,42 @@ p {
   flex: 1;
 }
 
-.prompt-buttons > button:last-child {
+.prompt-buttons > :last-child {
   margin-top: auto;
+}
+
+.grid {
+  display: grid;
+}
+
+.choices {
+  display: flex;
+  gap: calc(var(--px) * 8);
+}
+
+.slider {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 3);
+}
+
+.slider button {
+  padding-inline: calc(var(--px) * 5);
+}
+
+.slider i {
+  flex: 1;
+  height: calc(var(--px) * 6);
+  border: var(--px) solid var(--periwinkle);
+  background: linear-gradient(
+    to right,
+    var(--light) calc(var(--fill) * 100%),
+    var(--navy) 0
+  );
+}
+
+.slider.focus i {
+  border-color: var(--gold);
 }
 
 .prompt-lines:empty {
