@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var detected_range = 64.0
 @export var stop_distance := 16.0
 @export var max_health := 3
-@export var contact_damage := 0.5
+@export var contact_damage := 1.0
 @export var attack_interval := 0.5
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
