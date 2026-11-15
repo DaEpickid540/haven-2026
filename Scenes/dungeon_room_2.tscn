@@ -30,6 +30,9 @@ collision_enabled = false
 [node name="FromRoom1" type="Marker2D" parent="Entries" unique_id=1823434071]
 position = Vector2(504, 712)
 
+[node name="FromRoom3" type="Marker2D" parent="Entries" unique_id=1375096642]
+position = Vector2(140, 232)
+
 [node name="ExitToRoom1" type="Area2D" parent="." unique_id=1937701291]
 position = Vector2(504, 816)
 collision_layer = 0

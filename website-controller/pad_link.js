@@ -33,12 +33,13 @@ box.id = "pad-code";
 box.innerHTML = `
   <style>
     @font-face { font-family: PadPixel; src: url("fonts/PressStart2P-Regular.ttf"); }
-    #pad-code { position: fixed; right: 12px; bottom: 12px; z-index: 10; padding: 10px 12px;
-      background: #212b5ecc; color: #fff; font: 10px/1.6 PadPixel, monospace; border: 2px solid #fff;
-      border-radius: 4px; text-align: right; pointer-events: auto; }
-    #pad-code b { display: block; font-size: 18px; letter-spacing: 3px; }
-    #pad-code button { all: unset; cursor: pointer; position: absolute; top: 2px; left: 6px; }
-    #pad-qr { display: block; margin: 6px 0 6px auto;
+    #pad-code { position: fixed; right: 12px; top: 50%; transform: translateY(-50%); z-index: 10;
+      box-sizing: border-box; width: 188px; padding: 18px 12px 10px; background: #212b5ecc; color: #fff;
+      font: 8px/1.6 PadPixel, monospace; border: 2px solid #fff; border-radius: 4px;
+      text-align: center; overflow-wrap: anywhere; pointer-events: auto; }
+    #pad-code b { display: block; font-size: 18px; letter-spacing: 3px; margin-right: -3px; }
+    #pad-code button { all: unset; cursor: pointer; position: absolute; top: 4px; left: 8px; }
+    #pad-qr { display: block; margin: 6px auto; max-width: 100%;
       image-rendering: pixelated; background: #fff; }
     #pad-code[hidden], #pad-qr[hidden] { display: none; }
   </style>
@@ -46,7 +47,7 @@ box.innerHTML = `
   <span id="pad-status">Phone pad: connecting...</span>
   <img id="pad-qr" alt="Scan to join" hidden>
   <b id="pad-value"></b>
-  <span>${CONTROLLER_URL.replace("https://", "")}</span>`;
+  <span>${CONTROLLER_URL.replace("https://", "").replace("/", "/<wbr>")}</span>`;
 document.body.appendChild(box);
 box.querySelector("button").onclick = () => (box.hidden = true);
 const statusEl = box.querySelector("#pad-status");

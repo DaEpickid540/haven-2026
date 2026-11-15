@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://r5xfe1r04fk" path="res://boss_green.tscn" id="6_vmr8y"]
 [ext_resource type="PackedScene" uid="uid://bn1x13txttkg" path="res://Scenes/skeleton.tscn" id="7_k1shn"]
 [ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="8_xxwcs"]
+[ext_resource type="Script" uid="uid://ckcacq02vi0wv" path="res://Scripts/room_exit.gd" id="9_exit"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uqcd"]
 texture = ExtResource("1_hlq5x")
@@ -246,6 +247,9 @@ texture = ExtResource("1_hlq5x")
 [sub_resource type="TileSet" id="TileSet_gyc6d"]
 sources/0 = SubResource("TileSetAtlasSource_23la8")
 
+[sub_resource type="RectangleShape2D" id="Shape_ExitToRoom2"]
+size = Vector2(48, 12)
+
 [node name="DungeonRoom3" type="Node2D" unique_id=189765543]
 position = Vector2(-2, 2)
 metadata/_edit_vertical_guides_ = [-840.0]
@@ -257,6 +261,17 @@ tile_set = SubResource("TileSet_g7b7a")
 [node name="Items and accesories" type="TileMapLayer" parent="." unique_id=1455099435]
 tile_map_data = PackedByteArray("AAAMAAQAAAAHAAcAAAAIAAgAAAAHAAcAAAALAAIAAAAHAAcAAAAEAAEAAAAHAAcAAAATAP//AAAHAAcAAAAbAPv/AAAHAAcAAAAeAAgAAAAHAAcAAAAgAAMAAAAHAAcAAAAbAAAAAAAHAAcAAAAeAAUAAAACAAQAAAAbAPX/AAAIAAYAAAAVAPX/AAAIAAYAAAARAPf/AAAIAAYAAAAPAPT/AAAIAAYAAAD8//T/AAAIAAYAAADx/wcAAAAEAAYAAADx/wQAAAAEAAYAAADz/wEAAAAIAAYAAADv//7/AAAIAAYAAAD4//7/AAAIAAYAAADr//7/AAAIAAYAAADq//z/AAAHAAcAAADy//z/AAAHAAcAAADy//T/AAAHAAcAAADy//D/AAAHAAcAAADv/+T/AAAIAAYAAAD5/+T/AAAHAAcAAAD0/+b/AAAHAAcAAADs/+P/AAAHAAcAAAD0/+T/AAAIAAYAAAD5/+b/AAAIAAYAAADt/+f/AAAEAAYAAAD8//H/AAAEAAYAAAAJAP7/AAAEAAYAAAAMAOr/AAAEAAYAAAARAOj/AAAHAAcAAAANAOf/AAAHAAcAAAAUAOb/AAAIAAYAAAAHAOn/AAAIAAYAAAAHAAcAAAABAAkAAAD+/wQAAAABAAkAAAACAP3/AAAAAAkAAAAHAP3/AAAAAAkAAAANAP3/AAAAAAkAAAAbAAIAAAABAAkAAAAdAA8AAAAAAAkAAAAPAOX/AAAAAAkAAAATAOX/AAAAAAkAAAAMAOj/AAABAAkAAADx//H/AAABAAkAAADx//X/AAABAAkAAADx/+//AAABAAkAAAAeAAYAAAAJAAQAAAAeAAcAAAAJAAUAAAA=")
 tile_set = SubResource("TileSet_gyc6d")
+
+[node name="ExitToRoom2" type="Area2D" parent="." unique_id=1482230917]
+position = Vector2(136, 202)
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("9_exit")
+target_scene = "res://Scenes/dungeon_room_2.tscn"
+target_entry = "FromRoom3"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitToRoom2" unique_id=911604528]
+shape = SubResource("Shape_ExitToRoom2")
 
 [node name="Player" parent="." unique_id=222476482 instance=ExtResource("2_6uqcd")]
 position = Vector2(138, 162)
