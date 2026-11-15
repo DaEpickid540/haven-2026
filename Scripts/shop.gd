@@ -33,7 +33,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_buy_requested(stat: String) -> void:
-	if PlayerStats.buy_upgrade(stat):
+	if not PlayerStats.buy_upgrade(stat):
+		Audio.play_sfx("error")
+	else:
+		Audio.play_sfx("buy")
 		greeting.text = "%s is now Lv%d!" % [stat.capitalize(), PlayerStats.get_level(stat)]
 	var focused := get_viewport().gui_get_focus_owner()
 	if focused is BaseButton and focused.disabled:

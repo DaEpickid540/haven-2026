@@ -39,6 +39,7 @@ func take_damage(amount: int) -> void:
 	if _hurt_timer > 0.0:
 		return
 	_hurt_timer = HURT_COOLDOWN
+	Audio.play_sfx("hurt")
 	PlayerStats.take_damage(amount)
 	var flash := create_tween()
 	flash.tween_property($Sprite2D, "modulate", Color(1, 0.3, 0.3), 0.08)
@@ -50,6 +51,7 @@ func _on_died() -> void:
 		return
 
 	dying = true
+	Audio.play_sfx("player_die")
 	set_physics_process(false)
 	velocity = Vector2.ZERO
 	animation_tree.active = false
@@ -121,6 +123,7 @@ func update_blend_positions(direction: Vector2) -> void:
 
 func _start_attack() -> void:
 	_enemies_hit_this_attack.clear()
+	Audio.play_sfx("swing", 0.08)
 	playback.travel("AttackState")
 
 
@@ -132,6 +135,7 @@ func _on_weapon_body_entered(body: Node2D) -> void:
 		return
 
 	_enemies_hit_this_attack.append(body)
+	Audio.play_sfx("hit", 0.1)
 	print($"Hit {body}]")
 	body.take_damage(PlayerStats.get_damage())
 
