@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ba3uu3ajy6cq8" path="res://Assets/UI/strength.png" id="5_strength"]
 [ext_resource type="Texture2D" uid="uid://bofdh4y5jde0p" path="res://Assets/UI/stamina.png" id="6_stamina"]
 [ext_resource type="Texture2D" uid="uid://08seprelhp7e" path="res://Assets/UI/speed.png" id="7_speed"]
+[ext_resource type="Texture2D" uid="uid://q1mxo3s0n7bo" path="res://Assets/UI/heart.png" id="8_heart"]
 
 [sub_resource type="AtlasTexture" id="keeper_portrait"]
 atlas = ExtResource("2_keeper")
@@ -115,6 +116,12 @@ layout_mode = 2
 item_id = "stamina"
 display_name = "Stamina"
 icon = ExtResource("6_stamina")
+
+[node name="Health" parent="Overlay/Panel/VBox/Items" unique_id=1938475620 instance=ExtResource("4_item")]
+layout_mode = 2
+item_id = "health"
+display_name = "Health"
+icon = ExtResource("8_heart")
 
 [node name="Spacer" type="Control" parent="Overlay/Panel/VBox" unique_id=1243959180]
 layout_mode = 2

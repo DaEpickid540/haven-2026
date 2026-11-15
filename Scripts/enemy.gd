@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-const SPEED = 30.0
-
+@export var speed := 30.0
+@export var faces_right := false
 @export var detected_range = 64.0
 @export var stop_distance := 16.0
 @export var max_health := 3
@@ -33,11 +33,11 @@ func _physics_process(delta: float) -> void:
 	if can_see_player():
 		var to_player := ray_cast_2d.global_transform.basis_xform(ray_cast_2d.target_position)
 		if to_player.length() > stop_distance:
-			velocity = to_player.normalized() * SPEED
+			velocity = to_player.normalized() * speed
 		else:
 			_try_attack_player(get_player())
 		if to_player.x != 0.0:
-			sprite_2d.scale.x = -sign(to_player.x)
+			sprite_2d.scale.x = sign(to_player.x) * (1 if faces_right else -1)
 	move_and_slide()
 	damage_overlapping_player()
 

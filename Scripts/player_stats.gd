@@ -6,18 +6,20 @@ signal health_changed(current: int, maximum: int)
 signal died
 
 const MAX_LEVEL := 5
-const UPGRADE_BASE_COST := {"strength": 10, "speed": 12, "stamina": 8}
+const UPGRADE_BASE_COST := {"strength": 10, "speed": 12, "stamina": 8, "health": 10}
 
 const DAMAGE_PER_STRENGTH_LEVEL := 1
 const BASE_MAX_STAMINA := 50.0
 const STAMINA_PER_LEVEL := 25.0
 const BASE_MOVE_SPEED := 100.0
 const SPEED_PER_LEVEL := 10.0
+const BASE_MAX_HEALTH := 5
+const HEALTH_PER_LEVEL := 1
 
 var coins := 0
-var max_health := 5
+var max_health := BASE_MAX_HEALTH
 var health := max_health
-var levels := {"strength": 1, "speed": 1, "stamina": 1}
+var levels := {"strength": 1, "speed": 1, "stamina": 1, "health": 1}
 
 
 # coins
@@ -57,6 +59,11 @@ func buy_upgrade(stat: String) -> bool:
 	if is_maxed(stat) or not spend_coins(get_upgrade_cost(stat)):
 		return false
 	levels[stat] += 1
+	if stat == "health":
+		# Heal
+		max_health += HEALTH_PER_LEVEL
+		health += HEALTH_PER_LEVEL
+		health_changed.emit(health, max_health)
 	upgraded.emit(stat, levels[stat])
 	return true
 

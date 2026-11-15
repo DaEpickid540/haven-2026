@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://q5pxe0da1c0p" path="res://Scenes/shopkeeper.tscn" id="5_37qhs"]
 [ext_resource type="PackedScene" uid="uid://cqundqlt10qo0" path="res://Scenes/shop.tscn" id="5_shop"]
 [ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="4_37qhs"]
+[ext_resource type="PackedScene" path="res://Scenes/skeleton.tscn" id="6_skel"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mry4j"]
 texture = ExtResource("1_4hdsq")
@@ -159,6 +160,9 @@ position = Vector2(244, 80)
 
 [node name="Slime" parent="." unique_id=1620705969 instance=ExtResource("4_37qhs")]
 position = Vector2(245, 108)
+
+[node name="Skeleton" parent="." instance=ExtResource("6_skel")]
+position = Vector2(200, 120)
 
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]

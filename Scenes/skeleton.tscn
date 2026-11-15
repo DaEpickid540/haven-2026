@@ -1,0 +1,137 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://cif6ykvhi1ur6" path="res://Scripts/enemy.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://diy6ltfipkudd" path="res://Assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_1.png" id="2_f1"]
+[ext_resource type="Texture2D" uid="uid://cv8kevqio1nb0" path="res://Assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_2.png" id="3_f2"]
+[ext_resource type="Texture2D" uid="uid://ccq53ei3p7i4x" path="res://Assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_3.png" id="4_f3"]
+[ext_resource type="Texture2D" uid="uid://dbl2ivpgggw7w" path="res://Assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_4.png" id="5_f4"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_f1")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+step = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_f1"), ExtResource("3_f2"), ExtResource("4_f3"), ExtResource("5_f4")]
+}
+
+[sub_resource type="Animation" id="Animation_death"]
+resource_name = "death"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.35, 0.35, 1), Color(1, 0.35, 0.35, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_skel"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"death": SubResource("Animation_death"),
+&"idle": SubResource("Animation_idle")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 5.0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_start"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_skel"]
+states/idle/node = SubResource("AnimationNodeAnimation_idle")
+states/idle/position = Vector2(400, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_start")]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_skel"]
+nodes/StateMachine/node = SubResource("AnimationNodeStateMachine_skel")
+nodes/StateMachine/position = Vector2(-60, 130)
+node_connections = [&"output", 0, &"StateMachine"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_damage"]
+radius = 10.0
+
+[node name="Skeleton" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_enemy")
+speed = 25.0
+faces_right = true
+detected_range = 80.0
+max_health = 4
+contact_damage = 1
+attack_interval = 1.2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_f1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries/ = SubResource("AnimationLibrary_skel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_body")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../Sprite2D")
+tree_root = SubResource("AnimationNodeBlendTree_skel")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(-17, 0)
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_damage")
