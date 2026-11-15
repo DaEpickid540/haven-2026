@@ -1,6 +1,6 @@
 // host
 import {
-  auth, db, ready, ref, child, set, remove, onValue, onDisconnect, PAIRS, ICE, gathered,
+  auth, db, ready, ref, child, set, remove, onValue, onDisconnect, PAIRS, RELAY, ICE, gathered,
 } from "./firebase.js";
 
 const ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
@@ -22,10 +22,12 @@ const link = (window.padLink = {
   sendPrompt(text) {
     this.prompt = text;
     if (channel && channel.readyState === "open") channel.send(text);
+    if (relay) set(child(relay, "prompt"), text).catch(() => {});
   },
 });
 
 let channel = null;
+let relay = null;
 
 // overlay
 const box = document.createElement("div");
@@ -98,15 +100,23 @@ async function host() {
   channel.binaryType = "arraybuffer";
 
   let node = null;
+  let spot = null;
+  let relayOn = false;
+  let keep = 0;
   let expiry = 0;
   let stopAnswer = () => {};
+  let stopRelay = () => {};
   let restarted = false;
   const restart = () => {
     if (restarted) return;
     restarted = true;
     clearTimeout(expiry);
+    clearInterval(keep);
     stopAnswer();
+    stopRelay();
     if (node) remove(node).catch(() => {});
+    if (spot) remove(spot).catch(() => {});
+    if (relay === spot) relay = null;
     pc.close();
     setTimeout(start, 1000);
   };
@@ -127,11 +137,12 @@ async function host() {
     else link.buttons = new Uint8Array(e.data)[0] || 0;
   };
   channel.onclose = () => {
+    if (relayOn) return;
     box.hidden = false;
     restart();
   };
   pc.onconnectionstatechange = () => {
-    if (pc.connectionState === "failed") restart();
+    if (pc.connectionState === "failed" && !relayOn) restart();
   };
 
   await pc.setLocalDescription(await pc.createOffer());
@@ -142,6 +153,44 @@ async function host() {
   valueEl.textContent = claimed.code;
   qrEl.hidden = true;
   showQr(claimed.code);
+
+  // relay
+  const mine = ref(db, `${RELAY}/${claimed.code}`);
+  try {
+    await set(mine, { hostUid: auth.currentUser.uid, expiresAt: Date.now() + LIFETIME, prompt: link.prompt });
+    onDisconnect(mine).remove();
+    spot = relay = mine;
+    keep = setInterval(() => {
+      set(child(mine, "expiresAt"), Date.now() + LIFETIME).catch(() => {});
+    }, LIFETIME / 2);
+    const stopPad = onValue(child(mine, "pad"), (snap) => {
+      if (snap.exists()) {
+        link.buttons = snap.val();
+        if (relayOn) return;
+        relayOn = true;
+        link.connected = true;
+        statusEl.textContent = "Phone pad connected";
+        valueEl.textContent = "";
+        qrEl.hidden = true;
+        box.hidden = true;
+      } else if (relayOn) {
+        relayOn = false;
+        if (channel.readyState === "open") return;
+        box.hidden = false;
+        restart();
+      }
+    });
+    const stopChoice = onValue(child(mine, "choice"), (snap) => {
+      const pick = snap.val();
+      if (typeof pick === "string") link.choices.push(pick.slice(pick.indexOf(":") + 1));
+    });
+    stopRelay = () => {
+      stopPad();
+      stopChoice();
+    };
+  } catch {
+    // direct
+  }
 
   expiry = setTimeout(() => {
     if (!link.connected) restart();

@@ -21,7 +21,9 @@ const linkLabel = document.querySelector("#link-label");
 
 let socket = null;
 let channel = null;
+let relay = null;
 let packet = new Uint8Array(3);
+const FALLBACK = 3000;
 
 function setLink(mode, label) {
   link.dataset.state = mode;
@@ -31,6 +33,8 @@ function setLink(mode, label) {
 function send(data) {
   if (channel && channel.readyState === "open") {
     channel.send(data);
+  } else if (relay) {
+    relaySend(data);
   } else if (socket && socket.readyState === WebSocket.OPEN) {
     socket.send(data);
   }
@@ -63,6 +67,48 @@ function askCode(message) {
   pairInput.focus();
 }
 
+// relay
+function relaySend(data) {
+  const { fb, spot, pad } = relay;
+  if (typeof data === "string") {
+    fb.set(fb.child(spot, "choice"), `${++relay.picks}:${data}`).catch(() => {});
+  } else if (data[0] !== relay.sent) {
+    relay.sent = data[0];
+    fb.set(pad, data[0]).catch(() => {});
+  }
+}
+
+async function openRelay(fb, code) {
+  if (relay) return true;
+  const spot = fb.ref(fb.db, `${fb.RELAY}/${code}`);
+  const pad = fb.child(spot, "pad");
+  const sent = packet[0];
+  try {
+    await fb.set(pad, sent);
+  } catch {
+    return false;
+  }
+  if (relay) return true;
+  fb.onDisconnect(pad).remove();
+  const mine = (relay = { fb, spot, pad, sent, picks: 0 });
+  const stop = fb.onValue(spot, (snap) => {
+    if (relay !== mine) return stop();
+    const direct = channel && channel.readyState === "open";
+    const room = snap.val();
+    if (!room || !room.hostUid) {
+      relay = null;
+      stop();
+      if (!direct) askCode("Disconnected");
+    } else if (!direct && room.prompt !== mine.shown) {
+      mine.shown = room.prompt;
+      showPrompt(JSON.parse(room.prompt || "null"));
+    }
+  });
+  if (!(channel && channel.readyState === "open")) setLink("on", "Connected");
+  relaySend(packet);
+  return true;
+}
+
 async function join(code) {
   const fb = await import("./firebase.js");
   await fb.ready;
@@ -74,6 +120,7 @@ async function join(code) {
   }
 
   const pc = new RTCPeerConnection(fb.ICE);
+  let falling = false;
   pc.ondatachannel = (e) => {
     channel = e.channel;
     channel.binaryType = "arraybuffer";
@@ -85,13 +132,15 @@ async function join(code) {
     channel.onclose = () => {
       channel = null;
       pc.close();
-      askCode("Disconnected");
+      if (relay) relaySend(packet);
+      else if (!falling) askCode("Disconnected");
     };
   };
   pc.onconnectionstatechange = () => {
     if (pc.connectionState === "failed") {
+      falling = true;
       pc.close();
-      askCode("Couldn't reach the game");
+      openRelay(fb, code).then((ok) => ok || askCode("Couldn't reach the game"));
     }
   };
 
@@ -99,6 +148,9 @@ async function join(code) {
   await pc.setLocalDescription(await pc.createAnswer());
   await fb.gathered(pc);
   await fb.set(fb.child(node, "answer"), pc.localDescription.sdp);
+  setTimeout(() => {
+    if (!(channel && channel.readyState === "open")) openRelay(fb, code);
+  }, FALLBACK);
 }
 
 pairForm.onsubmit = (e) => {

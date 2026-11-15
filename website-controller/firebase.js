@@ -19,6 +19,7 @@ export const ready = signInAnonymously(auth);
 export { ref, child, get, set, remove, onValue, onDisconnect };
 
 export const PAIRS = "deathbounce/pairs";
+export const RELAY = "deathbounce/relay";
 export const ICE = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 
 // gather
