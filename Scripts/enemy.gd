@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 const SPEED = 30.0
 
-@export var detected_range = 64
+@export var detected_range = 64.0
 @export var stop_distance := 16.0
 @export var max_health := 3
 @export var contact_damage := 1
+@export var attack_interval := 0.8
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -16,6 +17,7 @@ const SPEED = 30.0
 var dying = false
 
 var health: int
+var _attack_cooldown := 0.0
 
 func _ready() -> void:
 	dying=false
@@ -23,27 +25,29 @@ func _ready() -> void:
 	damage_area.area_entered.connect(_on_damage_area_entered)
 
 func _physics_process(delta: float) -> void:
-	if !dying:
-		var state = playback.get_current_node()
-		match state:
-			"Idle":
-				pass
-			"Chase":
-				var player = get_player()
-				if player is Player:
-					var direction := global_position.direction_to(player.global_position)
-					var distance_to_player := global_position.distance_to(player.global_position)
-					if distance_to_player >= stop_distance:
-						velocity = direction * SPEED
-					else:
-						velocity = Vector2.ZERO
-					if direction.x != 0.0:
-						sprite_2d.scale.x = sign(direction.x) * -1
+	if dying:
+		return
+
+	_attack_cooldown = maxf(_attack_cooldown - delta, 0.0)
+	var state = playback.get_current_node()
+	match state:
+		"Idle":
+			velocity = Vector2.ZERO
+		"Chase":
+			var player = get_player()
+			if player is Player:
+				var direction := global_position.direction_to(player.global_position)
+				var distance_to_player := global_position.distance_to(player.global_position)
+				if distance_to_player > stop_distance:
+					velocity = direction * SPEED
 				else:
 					velocity = Vector2.ZERO
-				move_and_slide()
-	else:
-		animation_player.play("death")
+					_try_attack_player(player)
+				if direction.x != 0.0:
+					sprite_2d.scale.x = sign(direction.x) * -1
+			else:
+				velocity = Vector2.ZERO
+	move_and_slide()
 func get_player() -> Player:
 	return get_tree().get_first_node_in_group("player")
 	
@@ -68,12 +72,17 @@ func can_see_player() ->bool:
 
 
 func take_damage(amount: int) -> void:
+	if dying:
+		return
+
 	health -= amount
 	if health <= 0:
-		dying=true
+		dying = true
 		velocity = Vector2.ZERO
-		animation_player.play("death")
-		await get_tree().create_timer(1.0).timeout
+		animation_tree.active = false
+		damage_area.set_deferred("monitoring", false)
+		animation_player.play(&"death")
+		await animation_player.animation_finished
 		queue_free()
 		return
 
@@ -83,8 +92,14 @@ func take_damage(amount: int) -> void:
 
 
 func _on_damage_area_entered(other_area: Area2D) -> void:
-	velocity = Vector2.ZERO
 	var player := other_area.get_parent() as Player
 	if player != null and other_area.name == "Hurtbox":
-		player.take_damage(contact_damage)
-	
+		_try_attack_player(player)
+
+
+func _try_attack_player(player: Player) -> void:
+	if _attack_cooldown > 0.0:
+		return
+
+	_attack_cooldown = attack_interval
+	player.take_damage(contact_damage)

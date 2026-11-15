@@ -20,12 +20,9 @@ var _exhausted := false
 @onready var weapon_hitbox: Area2D = $WeaponHitbox
 
 
-var input_vector = Vector2.ZERO
 
 const SPEED = 100.0
-const HURT_COOLDOWN := 0.6
 
-var _hurt_timer := 0.0
 var _enemies_hit_this_attack: Array[Node2D] = []
 
 
@@ -54,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	var state = playback.get_current_node()
 	match state:
 		"MoveState":
-			move_state()
+			move_state(delta)
 		"AttackState":
 			input_vector = Vector2.ZERO
 			dashing = false
