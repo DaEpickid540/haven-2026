@@ -163,6 +163,8 @@ size = Vector2(137, 67)
 
 [node name="BossGreen" type="CharacterBody2D" unique_id=87376223]
 scale = Vector2(2, 2)
+collision_layer = 4
+collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_8k8d5")
 

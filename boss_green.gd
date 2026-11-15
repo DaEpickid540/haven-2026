@@ -111,7 +111,6 @@ func take_damage(amount: int) -> void:
 		queue_free()
 		return
 
-	# Flash red when taking damage
 	var flash := create_tween()
 	flash.tween_property(animated_sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
 	flash.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.12)
