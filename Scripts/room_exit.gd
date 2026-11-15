@@ -1,8 +1,11 @@
 class_name RoomExit extends Area2D
 
-## Drop this on a doorway: when the player walks into it, the game switches to
-## `target_scene`. The target scene places its own Player at its entry point.
+## Walking into this switches to `target_scene` and puts the player at the
+## `Entries/<target_entry>` marker there (or the default spot if empty).
 @export_file("*.tscn") var target_scene: String
+@export var target_entry: String
+
+static var pending_entry := ""
 
 var _used := false
 
@@ -15,5 +18,6 @@ func _on_body_entered(body: Node2D) -> void:
 	if _used or not body.is_in_group("Player") or target_scene.is_empty():
 		return
 	_used = true
+	RoomExit.pending_entry = target_entry
 	# Deferred: changing scenes inside a physics callback is not allowed.
 	get_tree().change_scene_to_file.call_deferred(target_scene)
