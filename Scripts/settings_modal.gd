@@ -8,6 +8,10 @@ signal closed
 @onready var sfx_value: Label = %SfxValue
 @onready var fullscreen_toggle: Button = %FullscreenToggle
 
+const PREVIEW_GAP_MS := 120
+
+var _last_preview := 0
+
 
 func open() -> void:
 	music_slider.set_value_no_signal(GameSettings.music_volume)
@@ -40,6 +44,11 @@ func _on_music_slider_value_changed(value: float) -> void:
 func _on_sfx_slider_value_changed(value: float) -> void:
 	GameSettings.set_sfx_volume(value)
 	_refresh_labels()
+	# preview
+	var now := Time.get_ticks_msec()
+	if now - _last_preview > PREVIEW_GAP_MS:
+		_last_preview = now
+		Audio.play_sfx("coin")
 
 
 func _on_fullscreen_toggled(enabled: bool) -> void:

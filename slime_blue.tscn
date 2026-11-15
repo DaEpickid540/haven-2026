@@ -109,8 +109,13 @@ collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_b4wiw")
 speed = 40.0
+faces_right = null
+detected_range = null
+stop_distance = null
 max_health = 2
+contact_damage = null
 attack_interval = 0.6
+loot_rewarded = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2098987288 groups=["enemy"]]
 texture = ExtResource("2_b4wiw")

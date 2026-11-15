@@ -2,8 +2,6 @@ class_name Coin extends Area2D
 
 @export var value := 1
 
-@onready var sprite_2d: Sprite2D = $Sprite2D # Adjust this if your sprite has a different name
-
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 

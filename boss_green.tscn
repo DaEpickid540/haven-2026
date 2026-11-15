@@ -2,7 +2,28 @@
 
 [ext_resource type="Script" uid="uid://di6nv6bgyjqvw" path="res://boss_green.gd" id="1_8k8d5"]
 [ext_resource type="Texture2D" uid="uid://bmur638h8ehjc" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Violet.png" id="1_q14ju"]
+[ext_resource type="Texture2D" uid="uid://dwpince4h1jyg" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Dead/Dead_Violet.png" id="2_jo1xu"]
 [ext_resource type="Texture2D" uid="uid://d3u3pvyjcr8ke" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Jump (16x32)/Jump_Violet.png" id="3_4phxg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqyds"]
+atlas = ExtResource("2_jo1xu")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyxdj"]
+atlas = ExtResource("2_jo1xu")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xk60r"]
+atlas = ExtResource("2_jo1xu")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nar3"]
+atlas = ExtResource("2_jo1xu")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3gdyo"]
+atlas = ExtResource("2_jo1xu")
+region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4phxg"]
 atlas = ExtResource("1_q14ju")
@@ -84,6 +105,26 @@ region = Rect2(176, 0, 16, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_mqyds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xyxdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xk60r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nar3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3gdyo")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_4phxg")
 }, {
 "duration": 1.0,
@@ -163,6 +204,8 @@ size = Vector2(137, 67)
 
 [node name="BossGreen" type="CharacterBody2D" unique_id=87376223]
 scale = Vector2(2, 2)
+collision_layer = 4
+collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_8k8d5")
 
@@ -170,6 +213,8 @@ script = ExtResource("1_8k8d5")
 sprite_frames = SubResource("SpriteFrames_a5u4x")
 animation = &"pound"
 autoplay = "idle"
+frame = 5
+frame_progress = 0.24745888
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1140549575]
 position = Vector2(0, 5)

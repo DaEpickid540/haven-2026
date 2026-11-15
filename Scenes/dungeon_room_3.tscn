@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="3_23la8"]
 [ext_resource type="PackedScene" uid="uid://xnpr1536a0rs" path="res://slime_red.tscn" id="3_fugpy"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="4_2octr"]
+[ext_resource type="PackedScene" uid="uid://r5xfe1r04fk" path="res://boss_green.tscn" id="6_vmr8y"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uqcd"]
 texture = ExtResource("1_hlq5x")
@@ -267,15 +268,30 @@ position = Vector2(166, 78)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("4_2octr")]
 position = Vector2(62, -14)
+faces_right = false
+detected_range = 80.0
+stop_distance = 16.0
+contact_damage = 1
+loot_rewarded = 1
 
 [node name="SlimeBlue2" parent="." unique_id=2080422903 instance=ExtResource("4_2octr")]
 position = Vector2(260, -13)
+faces_right = false
+detected_range = 80.0
+stop_distance = 16.0
+contact_damage = 1
+loot_rewarded = 1
 
 [node name="SlimeRed3" parent="." unique_id=1278907147 instance=ExtResource("3_fugpy")]
 position = Vector2(-215, -110)
 
 [node name="SlimeBlue3" parent="." unique_id=158431765 instance=ExtResource("4_2octr")]
 position = Vector2(-344, -98)
+faces_right = false
+detected_range = 80.0
+stop_distance = 16.0
+contact_damage = 1
+loot_rewarded = 1
 
 [node name="SlimeRed4" parent="." unique_id=382545394 instance=ExtResource("3_fugpy")]
 position = Vector2(492, 280)
@@ -302,3 +318,6 @@ position = Vector2(55, 8)
 
 [node name="Coin7" parent="Coins" unique_id=1871634488 instance=ExtResource("3_23la8")]
 position = Vector2(-26, -8)
+
+[node name="BossGreen" parent="." unique_id=87376223 instance=ExtResource("6_vmr8y")]
+position = Vector2(-188, -432)

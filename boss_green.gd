@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var max_health := 10
+@export var max_health := 18
 @export var contact_damage := 1    
 @export var attack_damage := 3    
 @export var attack_range := 65.0   
@@ -57,17 +57,16 @@ func execute_pound_attack() -> void:
 	animated_sprite_2d.play("jump_up")
 	await animated_sprite_2d.animation_finished
 	
-	# 2. Pause briefly in the air at the apex
 	await get_tree().create_timer(0.3).timeout
 	
-	# 3. Play pound animation, shake screen, and deal damage at range
 	animated_sprite_2d.play("pound")
-	trigger_screenshake()
-	check_and_damage_player_in_range()
 	
 	await animated_sprite_2d.animation_finished
-	is_attacking = false
 	animated_sprite_2d.position.y = 0
+	animated_sprite_2d.play("idle")
+	is_attacking = false
+	trigger_screenshake()
+	check_and_damage_player_in_range()
 
 func check_and_damage_player_in_range() -> void:
 	var player = get_player()
@@ -111,7 +110,6 @@ func take_damage(amount: int) -> void:
 		queue_free()
 		return
 
-	# Flash red when taking damage
 	var flash := create_tween()
 	flash.tween_property(animated_sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
 	flash.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.12)
