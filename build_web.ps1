@@ -6,7 +6,7 @@ $out = Join-Path $root "build\web"
 if (Test-Path $out) { Remove-Item $out -Recurse -Force }
 New-Item -ItemType Directory -Force $out | Out-Null
 
-godot --headless --path $root --export-release "Web" $out\index.html
+godot --headless --path $root --export-release "Deathbounce" $out\index.html
 if ($LASTEXITCODE -ne 0) { throw "Godot export failed" }
 
 # controller

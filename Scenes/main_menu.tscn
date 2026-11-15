@@ -41,7 +41,7 @@ theme_override_constants/separation = 12
 [node name="Title" type="Label" parent="Layout"]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
-text = "HAVEN"
+text = "DEATHBOUNCE"
 horizontal_alignment = 1
 
 [node name="Row" type="HBoxContainer" parent="Layout"]
