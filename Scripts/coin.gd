@@ -1,7 +1,6 @@
 class_name Coin extends Area2D
 
-## A coin pickup: touching it adds `value` to PlayerStats.coins (the HUD
-## counter updates by itself) and removes the coin.
+## A coin pickup
 @export var value := 1
 
 

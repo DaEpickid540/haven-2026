@@ -26,7 +26,6 @@ var _prompt_buttons: Array[Button] = []
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# Localhost only; the phone connects through `tailscale serve`.
 	var err := _server.listen(PORT, "127.0.0.1")
 	if err != OK:
 		push_warning("Pad server couldn't listen on port %d (error %d)" % [PORT, err])
