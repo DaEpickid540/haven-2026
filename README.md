@@ -39,3 +39,9 @@ You can also use your phone as a controller: scan the QR code shown on the game 
 - Audio: Juhani Junkala (CC0)
 - Font: Press Start 2P (OFL)
 - Built with Godot 4
+
+
+## AI
+
+- Debugging
+- Literally like 4 lines lmao
