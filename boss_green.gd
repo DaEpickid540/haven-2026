@@ -57,17 +57,14 @@ func execute_pound_attack() -> void:
 	animated_sprite_2d.play("jump_up")
 	await animated_sprite_2d.animation_finished
 	
-	# 2. Pause briefly in the air at the apex
 	await get_tree().create_timer(0.3).timeout
 	
-	# 3. Play pound animation, shake screen, and deal damage at range
 	animated_sprite_2d.play("pound")
-	trigger_screenshake()
-	check_and_damage_player_in_range()
 	
 	await animated_sprite_2d.animation_finished
+	trigger_screenshake()
+	check_and_damage_player_in_range()
 	is_attacking = false
-	animated_sprite_2d.position.y = 0
 
 func check_and_damage_player_in_range() -> void:
 	var player = get_player()
