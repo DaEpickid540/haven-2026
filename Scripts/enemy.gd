@@ -84,6 +84,7 @@ func take_damage(amount: int) -> void:
 		return
 
 	health -= amount
+	Juice.hit(sprite_2d, amount)
 	# Knockback
 	var player := get_player()
 	if player != null:
@@ -102,10 +103,6 @@ func take_damage(amount: int) -> void:
 		queue_free()
 		return
 
-	var flash := create_tween()
-	flash.tween_property(sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
-	flash.tween_property(sprite_2d, "modulate", Color.WHITE, 0.12)
-
 
 func _on_damage_area_entered(other_area: Area2D) -> void:
 	var player := other_area.get_parent() as Player
@@ -119,4 +116,4 @@ func _try_attack_player(player: Player) -> void:
 		return
 
 	_attack_cooldown = attack_interval
-	player.take_damage(contact_damage)
+	player.take_damage(contact_damage, global_position)

@@ -23,6 +23,8 @@ PlayerStats="*res://Scripts/player_stats.gd"
 PadServer="*res://Scripts/pad_server.gd"
 Transition="*res://Scripts/transition.gd"
 Audio="*res://Scripts/audio.gd"
+Juice="*res://Scripts/juice.gd"
+RoomBanner="*res://Scripts/room_banner.gd"
 
 [display]
 

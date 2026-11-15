@@ -9,12 +9,15 @@ const SPRINT_DRAIN := 30.0
 const STAMINA_REGEN := 20.0
 const SPRINT_RECOVER := 0.25
 const DEATH_TIME_SCALE := 0.5
+const KNOCKBACK_FORCE := 120.0
+const KNOCKBACK_DECAY := 700.0
 
 var dashing := false
 var stamina := 0.0
 var input_vector := Vector2.ZERO
 var _hurt_timer := 0.0
 var _exhausted := false
+var _knockback := Vector2.ZERO
 var dying := false
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -35,15 +38,20 @@ func _ready() -> void:
 	weapon_hitbox.body_entered.connect(_on_weapon_body_entered)
 
 
-func take_damage(amount: int) -> void:
-	if _hurt_timer > 0.0:
-		return
+func take_damage(amount: int, from := Vector2.INF) -> bool:
+	if _hurt_timer > 0.0 or dying:
+		return false
 	_hurt_timer = HURT_COOLDOWN
 	Audio.play_sfx("hurt")
+	Juice.hit($Sprite2D, amount, Juice.PLAYER_HIT, 0.5)
+	if from != Vector2.INF:
+		knockback((global_position - from).normalized() * KNOCKBACK_FORCE)
 	PlayerStats.take_damage(amount)
-	var flash := create_tween()
-	flash.tween_property($Sprite2D, "modulate", Color(1, 0.3, 0.3), 0.08)
-	flash.tween_property($Sprite2D, "modulate", Color.WHITE, 0.2)
+	return true
+
+
+func knockback(force: Vector2) -> void:
+	_knockback = force
 
 
 func _on_died() -> void:
@@ -80,7 +88,8 @@ func _physics_process(delta: float) -> void:
 			dashing = false
 	update_stamina(delta)
 	var speed := PlayerStats.get_move_speed() * (DASH_MULTIPLIER if dashing else 1.0)
-	velocity = input_vector * speed
+	velocity = input_vector * speed + _knockback
+	_knockback = _knockback.move_toward(Vector2.ZERO, KNOCKBACK_DECAY * delta)
 	move_and_slide()
 
 func move_state(delta: float) -> void:
