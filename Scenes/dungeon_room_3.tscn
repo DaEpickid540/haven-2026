@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://chw2o8hrbwh8d" path="res://Assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_hlq5x"]
 [ext_resource type="PackedScene" uid="uid://bwx5y3sqfe8k8" path="res://Scenes/player.tscn" id="2_6uqcd"]
+[ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="3_23la8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uqcd"]
 texture = ExtResource("1_hlq5x")
@@ -255,3 +256,7 @@ tile_set = SubResource("TileSet_gyc6d")
 position = Vector2(138, 162)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=181681798]
+
+[node name="Coins" type="Node2D" parent="." unique_id=281209454]
+
+[node name="Coin" parent="Coins" unique_id=823452450 instance=ExtResource("3_23la8")]
