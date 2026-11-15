@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bn1x13txttkg"]
 
 [ext_resource type="Script" uid="uid://cif6ykvhi1ur6" path="res://Scripts/enemy.gd" id="1_enemy"]
 [ext_resource type="Texture2D" uid="uid://diy6ltfipkudd" path="res://Assets/2D Pixel Dungeon Asset Pack/Character_animation/monsters_idle/skeleton2/v1/skeleton2_v1_1.png" id="2_f1"]
@@ -33,6 +33,22 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_death"]
+resource_name = "death"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0.35, 0.35, 1), Color(1, 0.35, 0.35, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_idle"]
 resource_name = "idle"
 length = 0.6
@@ -49,22 +65,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [ExtResource("2_f1"), ExtResource("3_f2"), ExtResource("4_f3"), ExtResource("5_f4")]
-}
-
-[sub_resource type="Animation" id="Animation_death"]
-resource_name = "death"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 0.35, 0.35, 1), Color(1, 0.35, 0.35, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_skel"]
@@ -94,9 +94,8 @@ nodes/StateMachine/position = Vector2(-60, 130)
 node_connections = [&"output", 0, &"StateMachine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_damage"]
-radius = 10.0
 
-[node name="Skeleton" type="CharacterBody2D"]
+[node name="Skeleton" type="CharacterBody2D" unique_id=672855553]
 collision_layer = 4
 collision_mask = 7
 motion_mode = 1
@@ -105,33 +104,32 @@ speed = 25.0
 faces_right = true
 detected_range = 80.0
 max_health = 4
-contact_damage = 1
 attack_interval = 1.2
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=775969010]
 texture = ExtResource("2_f1")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=982628866]
 root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_skel")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=616305372]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_body")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=759446810]
 root_node = NodePath("../Sprite2D")
 tree_root = SubResource("AnimationNodeBlendTree_skel")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1226429231]
 target_position = Vector2(-17, 0)
 
-[node name="DamageArea" type="Area2D" parent="."]
+[node name="DamageArea" type="Area2D" parent="." unique_id=965972945]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=2064882829]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_damage")

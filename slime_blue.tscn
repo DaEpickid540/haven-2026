@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1w04finjod5s"]
 
-[ext_resource type="Script" uid="uid://c81evyc304yt4" path="res://Scripts/slime_blue.gd" id="1_b4wiw"]
+[ext_resource type="Script" uid="uid://cif6ykvhi1ur6" path="res://Scripts/enemy.gd" id="1_b4wiw"]
 [ext_resource type="Texture2D" uid="uid://cevv4k1q0ovwv" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Blue.png" id="2_b4wiw"]
 
 [sub_resource type="Animation" id="Animation_4gyqm"]
@@ -103,11 +103,11 @@ node_connections = [&"output", 0, &"StateMachine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_80q1b"]
 
-[node name="SlimeBlue" type="CharacterBody2D" unique_id=1556184731 groups=["enemy"]]
+[node name="SlimeBlue" type="CharacterBody2D" unique_id=1556184731]
 motion_mode = 1
 script = ExtResource("1_b4wiw")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2098987288]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2098987288 groups=["enemy"]]
 texture = ExtResource("2_b4wiw")
 hframes = 7
 vframes = 2
@@ -117,7 +117,7 @@ frame = 6
 root_node = NodePath("../Sprite2D")
 libraries/ = SubResource("AnimationLibrary_11g03")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=59992974]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=59992974 groups=["enemy"]]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_i0o7n")
 
@@ -127,13 +127,13 @@ tree_root = SubResource("AnimationNodeBlendTree_ytqsa")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
 
-[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1500129010]
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1500129010 groups=["enemy"]]
 target_position = Vector2(-17, 0)
 
-[node name="DamageArea" type="Area2D" parent="." unique_id=1429499885]
+[node name="DamageArea" type="Area2D" parent="." unique_id=1429499885 groups=["enemy"]]
 collision_layer = 4
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=104825205]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=104825205 groups=["enemy"]]
 position = Vector2(1, 4)
 shape = SubResource("CircleShape2D_80q1b")

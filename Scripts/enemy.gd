@@ -41,7 +41,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	damage_overlapping_player()
 
-# Contact
 func damage_overlapping_player() -> void:
 	for other_area in damage_area.get_overlapping_areas():
 		var player := other_area.get_parent() as Player
