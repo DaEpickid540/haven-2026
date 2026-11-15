@@ -118,33 +118,97 @@ fsBtn.addEventListener("click", async () => {
   screen.orientation.lock?.("landscape").catch(() => {});
 });
 
+const ALIGN = ["left", "center", "right", "justify"];
+const px = (n) => `calc(var(--px) * ${n})`;
+
 function label(line) {
+  if (line.cells) return grid(line);
   const el = document.createElement("p");
   el.className = line.style;
   el.textContent = line.text;
   return el;
 }
 
+// columns
+function grid(line) {
+  const el = document.createElement("div");
+  el.className = "grid";
+  el.style.gridTemplateColumns = `repeat(${line.columns}, auto)`;
+  el.style.columnGap = px(line.h_gap);
+  el.style.rowGap = px(line.v_gap);
+  el.append(...line.cells.map((cell) => {
+    const p = label(cell);
+    p.style.textAlign = ALIGN[cell.align];
+    return p;
+  }));
+  return el;
+}
+
+function choice(text, value, item) {
+  const el = document.createElement("button");
+  el.textContent = text;
+  el.disabled = item.disabled;
+  el.onclick = () => sendChoice(value);
+  return el;
+}
+
+function control(item, index) {
+  if (item.slider === undefined) {
+    const el = choice(item.text, String(index), item);
+    el.classList.toggle("focus", item.focused);
+    el.style.width = px(item.width);
+    return el;
+  }
+  const el = document.createElement("div");
+  el.className = "slider";
+  el.classList.toggle("focus", item.focused);
+  el.style.width = px(item.width);
+  const bar = document.createElement("i");
+  bar.style.setProperty("--fill", item.slider);
+  el.append(choice("-", `${index}:-`, item), bar, choice("+", `${index}:+`, item));
+  return el;
+}
+
+function entry(item, index) {
+  const el = control(item, index);
+  if (item.labels.length === 0) return el;
+  const split = item.split ?? item.labels.length;
+  const row = document.createElement("div");
+  row.className = "row";
+  row.append(
+    ...item.labels.slice(0, split).map(label),
+    el,
+    ...item.labels.slice(split).map(label),
+  );
+  return row;
+}
+
 function showPrompt(menu) {
   promptEl.hidden = !menu;
   if (!menu) return;
   promptEl.dataset.panel = menu.panel;
-  promptPanel.style.width = menu.panel ? `calc(var(--px) * ${menu.width})` : "";
-  promptPanel.style.height = menu.panel ? `calc(var(--px) * ${menu.height})` : "";
+  promptPanel.style.width = menu.panel ? px(menu.width) : "";
+  promptPanel.style.minHeight = menu.panel ? px(menu.height) : "";
   promptLines.replaceChildren(...menu.lines.map(label));
-  promptButtons.replaceChildren(...menu.buttons.map((button, index) => {
-    const el = document.createElement("button");
-    el.textContent = button.text;
-    el.disabled = button.disabled;
-    el.classList.toggle("focus", button.focused);
-    el.style.width = `calc(var(--px) * ${button.width})`;
-    el.onclick = () => sendChoice(index);
-    if (button.labels.length === 0) return el;
-    const row = document.createElement("div");
-    row.className = "row";
-    row.append(...button.labels.map(label), el);
-    return row;
-  }));
+  // side-by-side
+  const nodes = [];
+  let group = null;
+  menu.buttons.forEach((item, index) => {
+    const el = entry(item, index);
+    if (!item.group) {
+      group = null;
+      nodes.push(el);
+      return;
+    }
+    if (group?.dataset.group !== item.group) {
+      group = document.createElement("div");
+      group.className = "choices";
+      group.dataset.group = item.group;
+      nodes.push(group);
+    }
+    group.append(el);
+  });
+  promptButtons.replaceChildren(...nodes);
 }
 
 function keepAwake() {
