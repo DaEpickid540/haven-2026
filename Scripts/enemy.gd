@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 const SPEED = 30.0
 
-@export var detected_range = 64
-@export var stop_distance := 10.0
+@export var detected_range = 64.0
+@export var stop_distance := 16.0
 @export var max_health := 3
 @export var contact_damage := 1
+@export var attack_interval := 0.8
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -16,6 +17,7 @@ const SPEED = 30.0
 var dying = false
 
 var health: int
+var _attack_cooldown := 0.0
 
 func _ready() -> void:
 	dying=false
@@ -23,22 +25,27 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if dying:
-		animation_player.play("death")
 		return
 
-	# Movement is driven directly by the raycast line of sight, so the enemy
-	# moves along the same ray that is drawn with "Visible Collision Shapes".
-	if can_see_player():
-		var to_player := ray_cast_2d.global_transform.basis_xform(ray_cast_2d.target_position)
-		var direction := to_player.normalized()
-		if to_player.length() >= stop_distance:
-			velocity = direction * SPEED
-		else:
+	_attack_cooldown = maxf(_attack_cooldown - delta, 0.0)
+	var state = playback.get_current_node()
+	match state:
+		"Idle":
 			velocity = Vector2.ZERO
-		if direction.x != 0.0:
-			sprite_2d.scale.x = sign(direction.x) * -1
-	else:
-		velocity = Vector2.ZERO
+		"Chase":
+			var player = get_player()
+			if player is Player:
+				var direction := global_position.direction_to(player.global_position)
+				var distance_to_player := global_position.distance_to(player.global_position)
+				if distance_to_player > stop_distance:
+					velocity = direction * SPEED
+				else:
+					velocity = Vector2.ZERO
+					_try_attack_player(player)
+				if direction.x != 0.0:
+					sprite_2d.scale.x = sign(direction.x) * -1
+			else:
+				velocity = Vector2.ZERO
 	move_and_slide()
 	damage_overlapping_player()
 
@@ -68,28 +75,43 @@ func is_player_in_range() -> bool:
 func can_see_player() ->bool:
 	if not is_player_in_range():
 		return false
+		print("ah")
 	var player := get_player()
-	# target_position is in the raycast's local space.
-	ray_cast_2d.target_position = ray_cast_2d.to_local(player.global_position)
-	# Refresh the ray now; otherwise is_colliding() reports last frame's target.
-	ray_cast_2d.force_raycast_update()
-	if not ray_cast_2d.is_colliding():
-		return true
-	# Hitting the player itself still counts as seeing them.
-	return ray_cast_2d.get_collider() == player
+	ray_cast_2d.target_position = player.global_position - global_position
+	var player_in_sight = not ray_cast_2d.is_colliding()
+	return player_in_sight
 
 
 func take_damage(amount: int) -> void:
+	if dying:
+		return
+
 	health -= amount
 	if health <= 0:
-		dying=true
+		dying = true
 		velocity = Vector2.ZERO
-		animation_player.play("death")
-		await get_tree().create_timer(1.0).timeout
+		animation_tree.active = false
+		damage_area.set_deferred("monitoring", false)
+		animation_player.play(&"death")
+		await animation_player.animation_finished
 		queue_free()
 		return
 
 	var flash := create_tween()
 	flash.tween_property(sprite_2d, "modulate", Color(1, 0.35, 0.35), 0.08)
 	flash.tween_property(sprite_2d, "modulate", Color.WHITE, 0.12)
-	
+
+
+func _on_damage_area_entered(other_area: Area2D) -> void:
+	var player := other_area.get_parent() as Player
+	if player != null and other_area.name == "Hurtbox":
+		_try_attack_player(player)
+
+
+
+func _try_attack_player(player: Player) -> void:
+	if _attack_cooldown > 0.0:
+		return
+
+	_attack_cooldown = attack_interval
+	player.take_damage(contact_damage)
