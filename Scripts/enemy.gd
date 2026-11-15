@@ -23,27 +23,24 @@ func _ready() -> void:
 	damage_area.area_entered.connect(_on_damage_area_entered)
 
 func _physics_process(delta: float) -> void:
-	if !dying:
-		var state = playback.get_current_node()
-		match state:
-			"Idle":
-				pass
-			"Chase":
-				var player = get_player()
-				if player is Player:
-					var direction := global_position.direction_to(player.global_position)
-					var distance_to_player := global_position.distance_to(player.global_position)
-					if distance_to_player >= stop_distance:
-						velocity = direction * SPEED
-					else:
-						velocity = Vector2.ZERO
-					if direction.x != 0.0:
-						sprite_2d.scale.x = sign(direction.x) * -1
-				else:
-					velocity = Vector2.ZERO
-				move_and_slide()
-	else:
+	if dying:
 		animation_player.play("death")
+		return
+
+	# Movement is driven directly by the raycast line of sight, so the enemy
+	# moves along the same ray that is drawn with "Visible Collision Shapes".
+	if can_see_player():
+		var to_player := ray_cast_2d.global_transform.basis_xform(ray_cast_2d.target_position)
+		var direction := to_player.normalized()
+		if to_player.length() >= stop_distance:
+			velocity = direction * SPEED
+		else:
+			velocity = Vector2.ZERO
+		if direction.x != 0.0:
+			sprite_2d.scale.x = sign(direction.x) * -1
+	else:
+		velocity = Vector2.ZERO
+	move_and_slide()
 func get_player() -> Player:
 	return get_tree().get_first_node_in_group("player")
 	
@@ -60,11 +57,15 @@ func is_player_in_range() -> bool:
 func can_see_player() ->bool:
 	if not is_player_in_range():
 		return false
-		print("ah")
 	var player := get_player()
-	ray_cast_2d.target_position = player.global_position - global_position
-	var player_in_sight = not ray_cast_2d.is_colliding()
-	return player_in_sight
+	# target_position is in the raycast's local space.
+	ray_cast_2d.target_position = ray_cast_2d.to_local(player.global_position)
+	# Refresh the ray now; otherwise is_colliding() reports last frame's target.
+	ray_cast_2d.force_raycast_update()
+	if not ray_cast_2d.is_colliding():
+		return true
+	# Hitting the player itself still counts as seeing them.
+	return ray_cast_2d.get_collider() == player
 
 
 func take_damage(amount: int) -> void:
