@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://r5xfe1r04fk"]
 
+[ext_resource type="Script" uid="uid://di6nv6bgyjqvw" path="res://boss_green.gd" id="1_8k8d5"]
 [ext_resource type="Texture2D" uid="uid://bmur638h8ehjc" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Violet.png" id="1_q14ju"]
 
 [sub_resource type="Animation" id="Animation_q14ju"]
@@ -44,8 +45,12 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_0wjns"]
 radius = 11.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0wjns"]
+size = Vector2(137, 67)
+
 [node name="BossGreen" type="CharacterBody2D" unique_id=87376223]
 motion_mode = 1
+script = ExtResource("1_8k8d5")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1138572608]
 scale = Vector2(2, 2)
@@ -60,3 +65,9 @@ autoplay = &"Idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1140549575]
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_0wjns")
+
+[node name="DamageArea" type="Area2D" parent="." unique_id=1552068756]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=2084314015]
+position = Vector2(-1, 5)
+shape = SubResource("RectangleShape2D_0wjns")
