@@ -48,6 +48,13 @@ func _physics_process(delta: float) -> void:
 			animated_sprite_2d.scale.x = sign(dir_x) * abs(animated_sprite_2d.scale.x)
 
 	move_and_slide()
+	# REMOVE THIS LINE: damage_overlapping_player()
+	if player:
+		var dir_x = player.global_position.x - global_position.x
+		if dir_x != 0:
+			animated_sprite_2d.scale.x = sign(dir_x) * abs(animated_sprite_2d.scale.x)
+
+	move_and_slide()
 	damage_overlapping_player()
 
 func execute_pound_attack() -> void:
@@ -62,12 +69,13 @@ func execute_pound_attack() -> void:
 	
 	animated_sprite_2d.play("pound")
 	
+	trigger_screenshake()
+	check_and_damage_player_in_range()
+	
 	await animated_sprite_2d.animation_finished
 	animated_sprite_2d.position.y = 0
 	animated_sprite_2d.play("idle")
 	is_attacking = false
-	trigger_screenshake()
-	check_and_damage_player_in_range()
 
 func check_and_damage_player_in_range() -> void:
 	var player = get_player()
@@ -93,7 +101,6 @@ func apply_contact_to_player(player: Player) -> void:
 	if not player.take_damage(contact_damage):
 		return
 
-	# Calculate vector pointing from enemy to player
 	var push_dir = (player.global_position - global_position).normalized()
 	if push_dir == Vector2.ZERO:
 		push_dir = Vector2.RIGHT

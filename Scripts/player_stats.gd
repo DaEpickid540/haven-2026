@@ -13,7 +13,7 @@ const BASE_MAX_STAMINA := 50.0
 const STAMINA_PER_LEVEL := 25.0
 const BASE_MOVE_SPEED := 100.0
 const SPEED_PER_LEVEL := 10.0
-const BASE_MAX_HEALTH := 5
+const BASE_MAX_HEALTH := 20
 const HEALTH_PER_LEVEL := 1
 
 var coins := 0

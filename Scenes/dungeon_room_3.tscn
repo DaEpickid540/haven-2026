@@ -318,9 +318,11 @@ position = Vector2(-188, -432)
 
 [node name="Skeleton" parent="." unique_id=672855553 instance=ExtResource("7_k1shn")]
 position = Vector2(-176, -216)
+knockback_force = 0.0
 
 [node name="Skeleton2" parent="." unique_id=1972458820 instance=ExtResource("7_k1shn")]
 position = Vector2(-219, 7)
+knockback_force = 0.0
 
 [node name="SlimeRed5" parent="." unique_id=851488551 instance=ExtResource("3_fugpy")]
 position = Vector2(264, -375)
