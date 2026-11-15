@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="5_coin"]
 [ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="6_pxr2g"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="7_n0vje"]
+[ext_resource type="PackedScene" uid="uid://bn1x13txttkg" path="res://Scenes/skeleton.tscn" id="8_6ikaa"]
 
 [sub_resource type="RectangleShape2D" id="Shape_ExitToHub"]
 size = Vector2(48, 32)
@@ -187,8 +188,9 @@ position = Vector2(816, 284)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("7_n0vje")]
 position = Vector2(554, 106)
-faces_right = false
-detected_range = 80.0
-stop_distance = 16.0
-contact_damage = 1
-loot_rewarded = 1
+
+[node name="Skeleton" parent="." unique_id=672855553 instance=ExtResource("8_6ikaa")]
+position = Vector2(426, 99)
+
+[node name="Skeleton2" parent="." unique_id=1283031209 instance=ExtResource("8_6ikaa")]
+position = Vector2(680, 102)
