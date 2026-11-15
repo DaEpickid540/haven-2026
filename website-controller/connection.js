@@ -9,6 +9,9 @@ const BITS = [
   "pause",
 ];
 
+const params = new URLSearchParams(location.search);
+const PAIRING = /\.(web\.app|firebaseapp\.com)$/.test(location.hostname) || params.has("pair") || params.has("code");
+
 const GAME_URL = location.protocol === "https:"
   ? `wss://${location.host}/ws`
   : `ws://${location.hostname || "localhost"}:5512`;
@@ -17,11 +20,20 @@ const link = document.querySelector("#link");
 const linkLabel = document.querySelector("#link-label");
 
 let socket = null;
+let channel = null;
 let packet = new Uint8Array(3);
 
 function setLink(mode, label) {
   link.dataset.state = mode;
   linkLabel.textContent = label;
+}
+
+function send(data) {
+  if (channel && channel.readyState === "open") {
+    channel.send(data);
+  } else if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(data);
+  }
 }
 
 function connect() {
@@ -38,6 +50,66 @@ function connect() {
   };
 }
 
+// pairing
+const pairForm = document.querySelector("#pair");
+const pairInput = document.querySelector("#pair-code");
+const pairMsg = document.querySelector("#pair-msg");
+
+function askCode(message) {
+  setLink("connecting", "Not paired");
+  showPrompt(null);
+  pairMsg.textContent = message;
+  pairForm.hidden = false;
+  pairInput.focus();
+}
+
+async function join(code) {
+  const fb = await import("./firebase.js");
+  await fb.ready;
+  const node = fb.ref(fb.db, `${fb.PAIRS}/${code}`);
+  const snap = await fb.get(node);
+  const pair = snap.val();
+  if (!pair || pair.answer || pair.expiresAt < Date.now()) {
+    throw new Error("Code not found");
+  }
+
+  const pc = new RTCPeerConnection(fb.ICE);
+  pc.ondatachannel = (e) => {
+    channel = e.channel;
+    channel.binaryType = "arraybuffer";
+    channel.onopen = () => {
+      setLink("on", "Connected");
+      channel.send(packet);
+    };
+    channel.onmessage = (msg) => showPrompt(JSON.parse(msg.data));
+    channel.onclose = () => {
+      channel = null;
+      pc.close();
+      askCode("Disconnected");
+    };
+  };
+  pc.onconnectionstatechange = () => {
+    if (pc.connectionState === "failed") {
+      pc.close();
+      askCode("Couldn't reach the game");
+    }
+  };
+
+  await pc.setRemoteDescription({ type: "offer", sdp: pair.offer });
+  await pc.setLocalDescription(await pc.createAnswer());
+  await fb.gathered(pc);
+  await fb.set(fb.child(node, "answer"), pc.localDescription.sdp);
+}
+
+pairForm.onsubmit = (e) => {
+  e.preventDefault();
+  const code = pairInput.value.trim().toUpperCase();
+  if (code.length !== 5) return;
+  pairForm.hidden = true;
+  setLink("connecting", "Pairing");
+  join(code).catch((err) => askCode(err.message === "Code not found" ? "Code not found" : "Pairing failed"));
+};
+
 function sendState(state) {
   const bits = BITS.reduce((acc, name, i) => acc | (state[name] << i), 0);
   const next = new Uint8Array([
@@ -47,15 +119,16 @@ function sendState(state) {
   ]);
   if (next.join() === packet.join()) return;
   packet = next;
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(packet);
-  }
+  send(packet);
 }
 
 function sendChoice(index) {
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(String(index));
-  }
+  send(String(index));
 }
 
-connect();
+if (PAIRING) {
+  pairInput.value = (params.get("code") || "").toUpperCase();
+  addEventListener("DOMContentLoaded", () => askCode("Shown on the game screen"));
+} else {
+  connect();
+}

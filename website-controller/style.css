@@ -401,3 +401,20 @@ p {
     animation: none;
   }
 }
+
+.pair .prompt-panel {
+  align-items: center;
+  text-align: center;
+}
+.pair input {
+  width: calc(var(--px) * 110);
+  font: inherit;
+  font-size: calc(var(--px) * 16);
+  letter-spacing: calc(var(--px) * 3);
+  text-align: center;
+  text-transform: uppercase;
+}
+.pair input:focus {
+  outline: none;
+  border-color: var(--gold);
+}
