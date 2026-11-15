@@ -124,11 +124,15 @@ func _start_attack() -> void:
 	playback.travel("AttackState")
 
 
+		
 func _on_weapon_body_entered(body: Node2D) -> void:
-	if playback.get_current_node() != "AttackState":
+	if not "Attack" in playback.get_current_node():
 		return
 	if body in _enemies_hit_this_attack or not body.has_method("take_damage"):
 		return
+
+	_enemies_hit_this_attack.append(body)
+	body.take_damage(PlayerStats.get_damage())
 
 	_enemies_hit_this_attack.append(body)
 	body.take_damage(PlayerStats.get_damage())
