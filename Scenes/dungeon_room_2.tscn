@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bwx5y3sqfe8k8" path="res://Scenes/player.tscn" id="3_player"]
 [ext_resource type="Script" uid="uid://ckcacq02vi0wv" path="res://Scripts/room_exit.gd" id="4_exit"]
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="5_coin"]
+[ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="6_yxrg4"]
 
 [sub_resource type="RectangleShape2D" id="Shape_ExitToRoom1"]
 size = Vector2(48, 32)
@@ -177,3 +178,15 @@ limit_top = -32
 limit_right = 1024
 limit_bottom = 864
 position_smoothing_enabled = true
+
+[node name="SlimeBlue" parent="Player" unique_id=1556184731 instance=ExtResource("6_yxrg4")]
+position = Vector2(0, -46)
+
+[node name="SlimeBlue2" parent="Player" unique_id=1909210266 instance=ExtResource("6_yxrg4")]
+position = Vector2(237, -145)
+
+[node name="SlimeBlue3" parent="Player" unique_id=502752578 instance=ExtResource("6_yxrg4")]
+position = Vector2(-327, -201)
+
+[node name="SlimeBlue4" parent="Player" unique_id=1389153001 instance=ExtResource("6_yxrg4")]
+position = Vector2(-416, -102)

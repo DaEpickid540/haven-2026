@@ -132,6 +132,7 @@ func _on_weapon_body_entered(body: Node2D) -> void:
 		return
 
 	_enemies_hit_this_attack.append(body)
+	print($"Hit {body}]")
 	body.take_damage(PlayerStats.get_damage())
 
 	_enemies_hit_this_attack.append(body)
