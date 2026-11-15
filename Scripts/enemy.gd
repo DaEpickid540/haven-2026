@@ -62,6 +62,7 @@ func get_player() -> Player:
 func is_player_in_range() -> bool:
 	var result = false
 	var player: = get_player()
+	print(player)
 	
 	if player is Player:
 		var distance_to_player = global_position.distance_to(player.global_position)
@@ -74,7 +75,7 @@ func can_see_player() ->bool:
 		return false
 	var player := get_player()
 	ray_cast_2d.target_position = ray_cast_2d.to_local(player.global_position)
-	ray_cast_2d.force_raycast_update()  # Refresh
+	ray_cast_2d.force_raycast_update()
 	return not ray_cast_2d.is_colliding() or ray_cast_2d.get_collider() == player
 
 
