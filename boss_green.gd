@@ -8,6 +8,9 @@ extends CharacterBody2D
 @export var attack_interval := 5.0 
 @export var loot_rewarded := 5
 
+const WIN_SCREEN := preload("res://Scenes/win_screen.tscn")
+const WIN_DELAY := 0.6
+
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var damage_area: Area2D = $DamageArea
 
@@ -119,8 +122,17 @@ func take_damage(amount: int) -> void:
 		damage_area.set_deferred("monitoring", false)
 		PlayerStats.add_coins(loot_rewarded)
 		animated_sprite_2d.play("death")
-		
+
 		await animated_sprite_2d.animation_finished
+		hide()
+		await get_tree().create_timer(WIN_DELAY, false).timeout
+		var player := get_player()
+		if player == null or player.dying:
+			queue_free()
+			return
+		var win := WIN_SCREEN.instantiate()
+		get_tree().current_scene.add_child(win)
+		win.open()
 		queue_free()
 		return
 
