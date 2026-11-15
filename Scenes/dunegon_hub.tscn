@@ -3,11 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://chw2o8hrbwh8d" path="res://Assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_4hdsq"]
 [ext_resource type="Script" uid="uid://dbny122ne7k8l" path="res://Scenes/dunegon_hub.gd" id="1_j46jl"]
 [ext_resource type="PackedScene" uid="uid://bwx5y3sqfe8k8" path="res://Scenes/player.tscn" id="2_mry4j"]
+[ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="4_37qhs"]
 [ext_resource type="PackedScene" uid="uid://d3wpnvgylt40e" path="res://Scenes/LeaveHubModal.tscn" id="4_leave"]
 [ext_resource type="PackedScene" uid="uid://q5pxe0da1c0p" path="res://Scenes/shopkeeper.tscn" id="5_37qhs"]
 [ext_resource type="PackedScene" uid="uid://cqundqlt10qo0" path="res://Scenes/shop.tscn" id="5_shop"]
-[ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="4_37qhs"]
 [ext_resource type="PackedScene" path="res://Scenes/skeleton.tscn" id="6_skel"]
+[ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="9_7sj57"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mry4j"]
 texture = ExtResource("1_4hdsq")
@@ -156,13 +157,16 @@ position_smoothing_enabled = true
 [node name="Shopkeeper" parent="." unique_id=1705568422 instance=ExtResource("5_37qhs")]
 position = Vector2(244, 80)
 
-[node name="Shop" parent="." instance=ExtResource("5_shop")]
+[node name="Shop" parent="." unique_id=1734087060 instance=ExtResource("5_shop")]
 
 [node name="Slime" parent="." unique_id=1620705969 instance=ExtResource("4_37qhs")]
 position = Vector2(245, 108)
 
-[node name="Skeleton" parent="." instance=ExtResource("6_skel")]
+[node name="Skeleton" parent="." unique_id=1392494296 instance=ExtResource("6_skel")]
 position = Vector2(200, 120)
+
+[node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("9_7sj57")]
+position = Vector2(101, 109)
 
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]
