@@ -43,8 +43,7 @@ func _on_settings_pressed() -> void:
 
 
 func _on_main_menu_pressed() -> void:
-	get_tree().paused = false  # Otherwise the menu would load frozen.
-	get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+	Transition.change_scene(MAIN_MENU_SCENE)
 
 
 func _on_leave_game_pressed() -> void:

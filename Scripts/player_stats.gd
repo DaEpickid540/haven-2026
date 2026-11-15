@@ -13,6 +13,8 @@ extends Node
 
 signal coins_changed(amount: int)
 signal upgraded(stat: String, level: int)
+signal health_changed(current: int, maximum: int)
+signal died
 
 const MAX_LEVEL := 5
 ## Cost to go from level N to N+1 is base * N, e.g. strength 10, 20, 30, 40.
@@ -24,6 +26,8 @@ const BASE_MAX_STAMINA := 50.0            # Lv1 = 50
 const STAMINA_PER_LEVEL := 25.0           # ... Lv5 = 150
 
 var coins := 0
+var max_health := 5
+var health := max_health
 var levels := {"strength": 1, "stamina": 1}
 
 
@@ -76,3 +80,22 @@ func get_damage() -> int:
 
 func get_max_stamina() -> float:
 	return BASE_MAX_STAMINA + (levels["stamina"] - 1) * STAMINA_PER_LEVEL
+
+
+# --- Health ---
+
+## Lowers health and emits died at 0 and returns true if the hit was fatal
+func take_damage(amount: int) -> bool:
+	if health <= 0:
+		return false
+	health = maxi(health - amount, 0)
+	health_changed.emit(health, max_health)
+	if health == 0:
+		died.emit()
+		return true
+	return false
+
+
+func heal_full() -> void:
+	health = max_health
+	health_changed.emit(health, max_health)

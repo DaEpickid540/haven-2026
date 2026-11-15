@@ -11,8 +11,33 @@ var stamina = 10.0
 var input_vector = Vector2.ZERO
 
 const SPEED = 100.0
+const HURT_COOLDOWN := 0.6
+
+var _hurt_timer := 0.0
+
+
+func _ready() -> void:
+	PlayerStats.died.connect(_on_died)
+
+
+## Enemies and hazards call this and it is ignored for a moment after each hit
+func take_damage(amount: int) -> void:
+	if _hurt_timer > 0.0:
+		return
+	_hurt_timer = HURT_COOLDOWN
+	PlayerStats.take_damage(amount)
+	var flash := create_tween()
+	flash.tween_property($Sprite2D, "modulate", Color(1, 0.3, 0.3), 0.08)
+	flash.tween_property($Sprite2D, "modulate", Color.WHITE, 0.2)
+
+
+func _on_died() -> void:
+	set_physics_process(false)
+	$DeathScreen.open()
+
 
 func _physics_process(delta: float) -> void:
+	_hurt_timer = maxf(_hurt_timer - delta, 0.0)
 	var state = playback.get_current_node()
 	match state:
 		"MoveState":
