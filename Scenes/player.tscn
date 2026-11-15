@@ -143,8 +143,8 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [PackedVector2Array(), PackedVector2Array(-7, -1, -7, 0, -3, 0, -3, -8, -7, -9, -7, 0), PackedVector2Array(-6, 16, -6, 17, -4, 17, -4, 2, -6, 2), PackedVector2Array(-6, 16, -6, 18, -3, 18, -4, 13, -6, 13), PackedVector2Array()]
+"update": 1,
+"values": [PackedVector2Array(), PackedVector2Array(-4, 4, 4, 4, 4, 12, -4, 12), PackedVector2Array(-10, 6, 10, 6, 10, 34, -10, 34), PackedVector2Array(-8, 8, 8, 8, 8, 32, -8, 32), PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_gymyn"]
@@ -184,7 +184,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
+"update": 1,
 "values": [PackedVector2Array(), PackedVector2Array(-6, -1, 3, -1, 3, -8, -6, -8), PackedVector2Array(-6, 16, -3, -3, -9, -2, -14, 9, -14, 16), PackedVector2Array(-6, 16, -6, 8, -11, 8, -14, 8, -14, 16), PackedVector2Array()]
 }
 tracks/3/type = "value"
@@ -225,8 +225,8 @@ tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [PackedVector2Array(), PackedVector2Array(2, -1, 2, -6, 4, -8, 5, -8, 7, -7, 7, 0), PackedVector2Array(6, 3, 3, 3, 3, -3, 6, -3), PackedVector2Array(6, 3, 3, 3, 3, 1, 6, 1), PackedVector2Array()]
+"update": 1,
+"values": [PackedVector2Array(), PackedVector2Array(-4, -4, 4, -4, 4, -10, -4, -10), PackedVector2Array(-10, -4, 10, -4, 10, -18, -10, -18), PackedVector2Array(-8, -6, 8, -6, 8, -16, -8, -16), PackedVector2Array()]
 }
 
 [sub_resource type="Animation" id="Animation_death"]
