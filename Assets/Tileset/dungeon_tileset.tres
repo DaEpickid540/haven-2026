@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3]
+[gd_resource type="TileSet" format=3 uid="uid://pfke7wvvtji7"]
 
 [ext_resource type="Texture2D" uid="uid://chw2o8hrbwh8d" path="res://Assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_tex"]
 
