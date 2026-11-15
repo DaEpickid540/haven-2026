@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var max_health := 10
+@export var max_health := 18
 @export var contact_damage := 1    
 @export var attack_damage := 3    
 @export var attack_range := 65.0   
@@ -62,9 +62,11 @@ func execute_pound_attack() -> void:
 	animated_sprite_2d.play("pound")
 	
 	await animated_sprite_2d.animation_finished
+	animated_sprite_2d.position.y = 0
+	animated_sprite_2d.play("idle")
+	is_attacking = false
 	trigger_screenshake()
 	check_and_damage_player_in_range()
-	is_attacking = false
 
 func check_and_damage_player_in_range() -> void:
 	var player = get_player()
