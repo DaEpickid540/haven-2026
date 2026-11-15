@@ -6,16 +6,18 @@ signal health_changed(current: int, maximum: int)
 signal died
 
 const MAX_LEVEL := 5
-const UPGRADE_BASE_COST := {"strength": 10, "stamina": 8}
+const UPGRADE_BASE_COST := {"strength": 10, "speed": 12, "stamina": 8}
 
 const DAMAGE_PER_STRENGTH_LEVEL := 1
 const BASE_MAX_STAMINA := 50.0
 const STAMINA_PER_LEVEL := 25.0
+const BASE_MOVE_SPEED := 100.0
+const SPEED_PER_LEVEL := 10.0
 
 var coins := 0
 var max_health := 5
 var health := max_health
-var levels := {"strength": 1, "stamina": 1}
+var levels := {"strength": 1, "speed": 1, "stamina": 1}
 
 
 # coins
@@ -65,6 +67,10 @@ func get_damage() -> int:
 
 func get_max_stamina() -> float:
 	return BASE_MAX_STAMINA + (levels["stamina"] - 1) * STAMINA_PER_LEVEL
+
+
+func get_move_speed() -> float:
+	return BASE_MOVE_SPEED + (levels["speed"] - 1) * SPEED_PER_LEVEL
 
 
 # health

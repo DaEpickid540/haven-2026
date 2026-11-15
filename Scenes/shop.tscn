@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/shop_item.tscn" id="4_item"]
 [ext_resource type="Texture2D" uid="uid://ba3uu3ajy6cq8" path="res://Assets/UI/strength.png" id="5_strength"]
 [ext_resource type="Texture2D" uid="uid://bofdh4y5jde0p" path="res://Assets/UI/stamina.png" id="6_stamina"]
+[ext_resource type="Texture2D" uid="uid://08seprelhp7e" path="res://Assets/UI/speed.png" id="7_speed"]
 
 [sub_resource type="AtlasTexture" id="keeper_portrait"]
 atlas = ExtResource("2_keeper")
@@ -101,21 +102,18 @@ theme_override_constants/separation = 4
 layout_mode = 2
 item_id = "strength"
 display_name = "Strength"
-price = 10
 icon = ExtResource("5_strength")
 
 [node name="Speed" parent="Overlay/Panel/VBox/Items" unique_id=2052147761 instance=ExtResource("4_item")]
 layout_mode = 2
-item_id = "strength"
-display_name = "Strength"
-price = 10
-icon = ExtResource("5_strength")
+item_id = "speed"
+display_name = "Speed"
+icon = ExtResource("7_speed")
 
 [node name="Stamina" parent="Overlay/Panel/VBox/Items" unique_id=1383283545 instance=ExtResource("4_item")]
 layout_mode = 2
 item_id = "stamina"
 display_name = "Stamina"
-price = 8
 icon = ExtResource("6_stamina")
 
 [node name="Spacer" type="Control" parent="Overlay/Panel/VBox" unique_id=1243959180]

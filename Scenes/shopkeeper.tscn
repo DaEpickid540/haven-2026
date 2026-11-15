@@ -73,6 +73,8 @@ libraries/ = SubResource("AnimationLibrary_7scxg")
 
 [node name="TalkZone" type="Area2D" parent="." unique_id=1948521727]
 position = Vector2(1, -5)
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TalkZone" unique_id=928222939]
 shape = SubResource("CircleShape2D_5iksb")
