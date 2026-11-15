@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://ckcacq02vi0wv" path="res://Scripts/room_exit.gd" id="4_exit"]
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="5_coin"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="6_yxrg4"]
+[ext_resource type="PackedScene" uid="uid://db0fpjasttonn" path="res://enemy.tscn" id="7_46b87"]
 
 [sub_resource type="RectangleShape2D" id="Shape_ExitToRoom1"]
 size = Vector2(48, 32)
@@ -179,14 +180,34 @@ limit_right = 1024
 limit_bottom = 864
 position_smoothing_enabled = true
 
-[node name="SlimeBlue" parent="Player" unique_id=1556184731 instance=ExtResource("6_yxrg4")]
-position = Vector2(0, -46)
+[node name="Slimes" type="Node2D" parent="." unique_id=517921331]
 
-[node name="SlimeBlue2" parent="Player" unique_id=1909210266 instance=ExtResource("6_yxrg4")]
-position = Vector2(237, -145)
+[node name="SlimeBlue" parent="Slimes" unique_id=1556184731 instance=ExtResource("6_yxrg4")]
+position = Vector2(504, 666)
 
-[node name="SlimeBlue3" parent="Player" unique_id=502752578 instance=ExtResource("6_yxrg4")]
-position = Vector2(-327, -201)
+[node name="SlimeBlue2" parent="Slimes" unique_id=1909210266 instance=ExtResource("6_yxrg4")]
+position = Vector2(741, 567)
 
-[node name="SlimeBlue4" parent="Player" unique_id=1389153001 instance=ExtResource("6_yxrg4")]
-position = Vector2(-416, -102)
+[node name="SlimeBlue3" parent="Slimes" unique_id=502752578 instance=ExtResource("6_yxrg4")]
+position = Vector2(177, 511)
+
+[node name="SlimeBlue4" parent="Slimes" unique_id=1389153001 instance=ExtResource("6_yxrg4")]
+position = Vector2(88, 610)
+
+[node name="Enemy" parent="Slimes" unique_id=1620705969 instance=ExtResource("7_46b87")]
+position = Vector2(155, 665)
+
+[node name="Enemy2" parent="Slimes" unique_id=625712499 instance=ExtResource("7_46b87")]
+position = Vector2(138, 301)
+
+[node name="Enemy3" parent="Slimes" unique_id=2126234535 instance=ExtResource("7_46b87")]
+position = Vector2(747, 286)
+
+[node name="Enemy4" parent="Slimes" unique_id=1469822972 instance=ExtResource("7_46b87")]
+position = Vector2(523, 238)
+
+[node name="SlimeBlue6" parent="Slimes" unique_id=473842349 instance=ExtResource("6_yxrg4")]
+position = Vector2(891, 282)
+
+[node name="SlimeBlue7" parent="Slimes" unique_id=1738534352 instance=ExtResource("6_yxrg4")]
+position = Vector2(675, 205)
