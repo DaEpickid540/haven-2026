@@ -62,6 +62,16 @@ func _on_credits_pressed() -> void:
 	_open(credits_modal, %CreditsClose)
 
 
+func _on_reset_pressed() -> void:
+	_open(%ResetModal, %ResetCancel)
+
+
+func _on_reset_confirm_pressed() -> void:
+	PlayerStats.reset_character()
+	Audio.play_sfx("pause_out")
+	_close_modal()
+
+
 func _on_leave_pressed() -> void:
 	GameManage.quit_game()
 
