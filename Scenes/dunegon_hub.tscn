@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://q5pxe0da1c0p" path="res://Scenes/shopkeeper.tscn" id="5_37qhs"]
 [ext_resource type="PackedScene" uid="uid://cqundqlt10qo0" path="res://Scenes/shop.tscn" id="5_shop"]
 [ext_resource type="PackedScene" uid="uid://bn1x13txttkg" path="res://Scenes/skeleton.tscn" id="6_skel"]
+[ext_resource type="PackedScene" uid="uid://r5xfe1r04fk" path="res://boss_green.tscn" id="7_06ehb"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="9_7sj57"]
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="10_prlfk"]
 
@@ -176,6 +177,9 @@ position = Vector2(161, 50)
 
 [node name="Coin2" parent="Coins" unique_id=313324363 instance=ExtResource("10_prlfk")]
 position = Vector2(90, 54)
+
+[node name="BossGreen" parent="." unique_id=87376223 instance=ExtResource("7_06ehb")]
+position = Vector2(112, 84)
 
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]
