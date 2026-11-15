@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var speed := 30.0
 @export var faces_right := false
-@export var detected_range = 80.0
+@export var detected_range := 80.0
 @export var stop_distance := 16.0
 @export var max_health := 3
 @export var contact_damage := 1
@@ -65,7 +65,7 @@ func is_player_in_range() -> bool:
 	
 	if player is Player:
 		var distance_to_player = global_position.distance_to(player.global_position)
-		if float(distance_to_player) < float(detected_range):
+		if distance_to_player < detected_range:
 			result = true
 	return result
 	
