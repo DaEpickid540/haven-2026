@@ -2,11 +2,12 @@ extends CharacterBody2D
 
 @export var speed := 30.0
 @export var faces_right := false
-@export var detected_range = 64.0
+@export var detected_range = 80.0
 @export var stop_distance := 16.0
 @export var max_health := 3
 @export var contact_damage := 1
 @export var attack_interval := 0.8
+@export var loot_rewarded := 1
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -80,8 +81,11 @@ func take_damage(amount: int) -> void:
 		velocity = Vector2.ZERO
 		animation_tree.active = false
 		damage_area.set_deferred("monitoring", false)
+		PlayerStats.add_coins(loot_rewarded)
 		animation_player.play(&"death")
+		
 		await animation_player.animation_finished
+		
 		queue_free()
 		return
 

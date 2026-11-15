@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://chw2o8hrbwh8d" path="res://Assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_hlq5x"]
 [ext_resource type="PackedScene" uid="uid://bwx5y3sqfe8k8" path="res://Scenes/player.tscn" id="2_6uqcd"]
+[ext_resource type="PackedScene" uid="uid://xnpr1536a0rs" path="res://slime_red.tscn" id="3_fugpy"]
+[ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="4_2octr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6uqcd"]
 texture = ExtResource("1_hlq5x")
@@ -255,3 +257,24 @@ tile_set = SubResource("TileSet_gyc6d")
 position = Vector2(138, 162)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=181681798]
+
+[node name="SlimeRed" parent="." unique_id=118190816 instance=ExtResource("3_fugpy")]
+position = Vector2(103, 78)
+
+[node name="SlimeRed2" parent="." unique_id=2042879733 instance=ExtResource("3_fugpy")]
+position = Vector2(166, 78)
+
+[node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("4_2octr")]
+position = Vector2(62, -14)
+
+[node name="SlimeBlue2" parent="." unique_id=2080422903 instance=ExtResource("4_2octr")]
+position = Vector2(260, -13)
+
+[node name="SlimeRed3" parent="." unique_id=1278907147 instance=ExtResource("3_fugpy")]
+position = Vector2(-215, -110)
+
+[node name="SlimeBlue3" parent="." unique_id=158431765 instance=ExtResource("4_2octr")]
+position = Vector2(-344, -98)
+
+[node name="SlimeRed4" parent="." unique_id=382545394 instance=ExtResource("3_fugpy")]
+position = Vector2(492, 280)

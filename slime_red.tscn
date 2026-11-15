@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://xnpr1536a0rs"]
 
 [ext_resource type="Script" uid="uid://cif6ykvhi1ur6" path="res://Scripts/enemy.gd" id="1_5knj1"]
-[ext_resource type="Texture2D" uid="uid://brkjk0ghmjjk7" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Green.png" id="2_8rkwi"]
+[ext_resource type="Texture2D" uid="uid://cx2s4drmq5o0m" path="res://Assets/Platformer Slimes v2.0/Spritesheets/16x16/Idle/Idle_Red.png" id="2_5knj1"]
 
 [sub_resource type="Animation" id="Animation_4gyqm"]
 length = 0.9
@@ -104,11 +104,15 @@ node_connections = [&"output", 0, &"StateMachine"]
 [sub_resource type="CircleShape2D" id="CircleShape2D_ne4uc"]
 
 [node name="SlimeRed" type="CharacterBody2D" unique_id=118190816]
+collision_layer = 4
+collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_5knj1")
+speed = 20.0
+max_health = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1064339966 groups=["enemy"]]
-texture = ExtResource("2_8rkwi")
+texture = ExtResource("2_5knj1")
 hframes = 7
 vframes = 2
 frame = 6
