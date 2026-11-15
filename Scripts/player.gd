@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 var speed = 100.0
 var strength = 10.0
+var dashing = false
 var stamina = 10.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -10,7 +11,6 @@ var stamina = 10.0
 
 var input_vector = Vector2.ZERO
 
-const SPEED = 100.0
 
 func _physics_process(delta: float) -> void:
 	var state = playback.get_current_node()
@@ -35,9 +35,13 @@ func move_state(delta: float) -> void:
 		playback.travel("AttackState")
 	if Input.is_action_just_pressed("attack"):
 		playback.travel("AttackState")
-	if Input.is_action_just_pressed("dash"):
-		speed=150.0
-	else: speed=100.0
+	if Input.is_action_pressed("dash"):
+		speed=130.0
+		dashing=true
+	else: 
+		speed=100.0
+		dashing=false
+		
 
 
 func update_blend_positions(direction_vector: Vector2) -> void:
