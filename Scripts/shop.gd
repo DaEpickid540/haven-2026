@@ -1,9 +1,4 @@
 extends CanvasLayer
-## Upgrade shop pop-up (Scenes/shop.tscn). Call open() (e.g. when the player
-## talks to the shopkeeper); it pauses the game until Close or Esc.
-## Each row is a Scenes/shop_item.tscn whose item_id is a PlayerStats upgrade
-## ("strength" or "stamina"). Prices and levels come from PlayerStats, so they
-## carry over between deaths.
 
 signal purchased(item_id: String)
 signal closed
@@ -52,7 +47,7 @@ func is_open() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if overlay.visible and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
 		close()
-		get_viewport().set_input_as_handled()  # Don't also open the pause menu.
+		get_viewport().set_input_as_handled()
 
 
 func _on_buy_requested(stat: String, _price: int) -> void:
@@ -63,7 +58,6 @@ func _on_buy_requested(stat: String, _price: int) -> void:
 		purchased.emit(stat)
 	else:
 		greeting.text = TOO_POOR
-	# A Buy button can become disabled after buying; keep keyboard focus somewhere useful.
 	var focused := get_viewport().gui_get_focus_owner()
 	if focused is BaseButton and focused.disabled:
 		_focus_first_available()

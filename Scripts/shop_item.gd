@@ -1,7 +1,4 @@
 extends HBoxContainer
-## One row in the shop (Scenes/shop_item.tscn). Set the exports per item in
-## the Inspector: id, name, price and icon. Emits buy_requested when Buy is pressed.
-## The shop can update the title/price at runtime (e.g. upgrade levels).
 
 signal buy_requested(item_id: String, price: int)
 

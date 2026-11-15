@@ -1,7 +1,5 @@
 extends Node2D
 
-## Moves the Player to the entry marker the last RoomExit asked for
-
 
 func _ready() -> void:
 	var entry := RoomExit.pending_entry

@@ -1,15 +1,11 @@
 extends Node
-## Player settings (autoload "GameSettings").
-## Loads user://settings.cfg on startup, applies it, and saves it when asked.
-## On Windows the file lives in %APPDATA%\Godot\app_userdata\Haven 2026 Jam\settings.cfg
-## (delete it to reset to defaults).
 
 const PATH := "user://settings.cfg"
 const MUSIC_BUS := "Music"
 const SFX_BUS := "SFX"
 
-var music_volume := 0.8  # 0.0 - 1.0
-var sfx_volume := 0.8    # 0.0 - 1.0
+var music_volume := 0.8
+var sfx_volume := 0.8
 var fullscreen := false
 
 
@@ -36,7 +32,7 @@ func set_fullscreen(enabled: bool) -> void:
 func load_settings() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(PATH) != OK:
-		return  # First launch (or unreadable file): keep the defaults.
+		return
 	music_volume = _read_volume(cfg, "audio", "music_volume", music_volume)
 	sfx_volume = _read_volume(cfg, "audio", "sfx_volume", sfx_volume)
 	var fs = cfg.get_value("video", "fullscreen", fullscreen)
@@ -63,7 +59,7 @@ func _read_volume(cfg: ConfigFile, section: String, key: String, fallback: float
 	var value = cfg.get_value(section, key, fallback)
 	if value is float or value is int:
 		return clampf(value, 0.0, 1.0)
-	return fallback  # Hand-edited file with junk in it.
+	return fallback
 
 
 func _apply_bus(bus_name: String, volume: float) -> void:
@@ -71,7 +67,6 @@ func _apply_bus(bus_name: String, volume: float) -> void:
 	if idx == -1:
 		push_warning("Audio bus '%s' is missing (see default_bus_layout.tres)" % bus_name)
 		return
-	# Sliders are linear (0-1); buses use decibels.
 	AudioServer.set_bus_volume_db(idx, linear_to_db(volume))
 	AudioServer.set_bus_mute(idx, volume <= 0.0)
 

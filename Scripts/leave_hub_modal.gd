@@ -1,8 +1,4 @@
 extends CanvasLayer
-## "Enter the dungeon?" pop-up (Scenes/LeaveHubModal.tscn).
-## Call open() to show it; it pauses the game until the player picks one.
-## Listen for `entered` / `stayed` to decide what happens next.
-## Esc counts as Stay. process_mode is Always so it works while paused.
 
 signal entered
 signal stayed
@@ -29,7 +25,7 @@ func is_open() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if overlay.visible and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
 		_on_stay_pressed()
-		get_viewport().set_input_as_handled()  # Don't also open the pause menu.
+		get_viewport().set_input_as_handled()
 
 
 func _on_enter_pressed() -> void:

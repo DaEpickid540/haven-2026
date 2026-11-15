@@ -1,8 +1,4 @@
 extends Control
-## Reusable Settings pop-up (Scenes/settings_modal.tscn).
-## Drop it into any menu, call open(), and listen for `closed`.
-## Changes apply live through GameSettings and are saved when it closes.
-## process_mode is Always, so it also works while the game is paused.
 
 signal closed
 
@@ -14,7 +10,6 @@ signal closed
 
 
 func open() -> void:
-	# Show the saved values without triggering the change handlers.
 	music_slider.set_value_no_signal(GameSettings.music_volume)
 	sfx_slider.set_value_no_signal(GameSettings.sfx_volume)
 	fullscreen_toggle.set_pressed_no_signal(GameSettings.fullscreen)
@@ -32,7 +27,6 @@ func close() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Esc closes Settings only (not the pause menu underneath it).
 	if visible and (event.is_action_pressed("ui_cancel") or event.is_action_pressed("pause")):
 		close()
 		get_viewport().set_input_as_handled()

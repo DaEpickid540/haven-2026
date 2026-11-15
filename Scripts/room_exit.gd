@@ -1,7 +1,5 @@
 class_name RoomExit extends Area2D
 
-## Walking into this loads target_scene and puts the player at the
-## Entries marker named target_entry or the default spot if empty
 @export_file("*.tscn") var target_scene: String
 @export var target_entry: String
 

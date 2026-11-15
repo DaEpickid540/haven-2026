@@ -1,6 +1,5 @@
 class_name Coin extends Area2D
 
-## A coin pickup
 @export var value := 1
 
 

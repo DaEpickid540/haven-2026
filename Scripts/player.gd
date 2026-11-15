@@ -20,7 +20,6 @@ func _ready() -> void:
 	PlayerStats.died.connect(_on_died)
 
 
-## Enemies and hazards call this and it is ignored for a moment after each hit
 func take_damage(amount: int) -> void:
 	if _hurt_timer > 0.0:
 		return

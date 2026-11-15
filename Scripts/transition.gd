@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-## Fades to black then swaps the scene then fades back in
-##     Transition.change_scene("res://Scenes/dungeon_room_2.tscn")
-
 const FADE_TIME := 0.25
 
 var _black := ColorRect.new()

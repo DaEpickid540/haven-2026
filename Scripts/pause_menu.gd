@@ -1,23 +1,19 @@
 extends CanvasLayer
-## Pause menu (Scenes/PauseMenu.tscn). Instance it once in the gameplay scene.
-## The "pause" action (Esc) opens/closes it. While open, the rest of the game
-## is paused; this node's process_mode is Always so the menu keeps working.
 
 const MAIN_MENU_SCENE := "res://Scenes/main_menu.tscn"
 
 @onready var overlay: Control = %Overlay
-@onready var settings_modal = %SettingsModal  # Scenes/settings_modal.tscn
+@onready var settings_modal = %SettingsModal
 
 
 func _ready() -> void:
 	overlay.hide()
 	if OS.has_feature("web"):
-		%LeaveGame.hide()  # Quitting does nothing in a browser.
+		%LeaveGame.hide()
 	settings_modal.closed.connect(func(): %Settings.grab_focus())
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# Settings (a child, so it sees input first) handles Esc while it's open.
 	if overlay.visible and (event.is_action_pressed("pause") or event.is_action_pressed("ui_cancel")):
 		resume()
 		get_viewport().set_input_as_handled()
