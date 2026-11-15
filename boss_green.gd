@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 @export var max_health := 10
-@export var contact_damage := 1       # Damage if player touches it while walking/idle (optional)
-@export var attack_damage := 3       # Damage dealt by the ranged pound attack
-@export var attack_range := 65.0     # Maximum distance the pound attack reaches
-@export var attack_interval := 5.0   # Time between pound attacks
+@export var contact_damage := 1    
+@export var attack_damage := 3    
+@export var attack_range := 65.0   
+@export var attack_interval := 5.0 
 @export var loot_rewarded := 5
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -19,32 +19,27 @@ func _ready() -> void:
 	dying = false
 	health = max_health
 	
-	# Fixes spritesheet centering by shifting it up by 16 pixels
 	if animated_sprite_2d:
-		animated_sprite_2d.position.y = -16
+		animated_sprite_2d.position.y = 0
 
 func _physics_process(delta: float) -> void:
 	if dying:
 		return
 
-	# If the boss is currently performing its pound attack, stay still and skip tracking
 	if is_attacking:
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
 
-	# Accumulate time toward the next 5-second pound attack
 	_attack_timer += delta
 	if _attack_timer >= attack_interval:
 		_attack_timer = 0.0
 		execute_pound_attack()
 		return
 
-	# Stay completely in place and play idle animation
 	velocity = Vector2.ZERO
 	animated_sprite_2d.play("idle")
 	
-	# Optional: face the player while standing still
 	var player = get_player()
 	if player:
 		var dir_x = player.global_position.x - global_position.x
@@ -58,7 +53,7 @@ func execute_pound_attack() -> void:
 	is_attacking = true
 	velocity = Vector2.ZERO
 	
-	# 1. Play jump_up animation
+	animated_sprite_2d.position.y = -16
 	animated_sprite_2d.play("jump_up")
 	await animated_sprite_2d.animation_finished
 	
@@ -72,6 +67,7 @@ func execute_pound_attack() -> void:
 	
 	await animated_sprite_2d.animation_finished
 	is_attacking = false
+	animated_sprite_2d.position.y = 0
 
 func check_and_damage_player_in_range() -> void:
 	var player = get_player()
