@@ -105,6 +105,7 @@ faces_right = true
 detected_range = 80.0
 max_health = 4
 attack_interval = 1.2
+knockback_force = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=775969010]
 texture = ExtResource("2_f1")

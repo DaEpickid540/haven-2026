@@ -22,6 +22,7 @@ GameSettings="*res://Scripts/game_settings.gd"
 PlayerStats="*res://Scripts/player_stats.gd"
 PadServer="*res://Scripts/pad_server.gd"
 Transition="*res://Scripts/transition.gd"
+Audio="*res://Scripts/audio.gd"
 
 [display]
 

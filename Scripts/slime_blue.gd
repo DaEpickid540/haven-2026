@@ -78,6 +78,7 @@ func take_damage(amount: int) -> void:
 	health -= amount
 	if health <= 0:
 		dying = true
+		Audio.play_sfx("enemy_die", 0.1)
 		velocity = Vector2.ZERO
 		animation_tree.active = false
 		damage_area.set_deferred("monitoring", false)

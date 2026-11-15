@@ -1,0 +1,6 @@
+Music and sound effects by Juhani Junkala (SubspaceAudio), CC0.
+
+Music/menu.ogg     "Title Screen" - 5 Chiptunes (Action)  https://opengameart.org/content/5-chiptunes-action
+Music/dungeon.ogg  "Level 1"      - 5 Chiptunes (Action)  https://opengameart.org/content/5-chiptunes-action
+Music/hub.ogg      "Tha'el Mines" - JRPG Pack 1 Exploration  https://opengameart.org/content/jrpg-pack-1-exploration
+SFX/*.wav          The Essential Retro Video Game Sound Effects Collection  https://opengameart.org/content/512-sound-effects-8-bit-style

@@ -24,6 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func pause() -> void:
 	get_tree().paused = true
+	Audio.play_sfx("pause_in")
 	overlay.show()
 	%Resume.grab_focus()
 
@@ -31,6 +32,7 @@ func pause() -> void:
 func resume() -> void:
 	settings_modal.close()
 	overlay.hide()
+	Audio.play_sfx("pause_out")
 	get_tree().paused = false
 
 

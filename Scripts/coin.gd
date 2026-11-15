@@ -13,6 +13,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	
 	PlayerStats.add_coins(value)
+	Audio.play_sfx("coin", 0.1)
 	
 	$CollisionShape2D.set_deferred("disabled", true)
 	

@@ -8,6 +8,8 @@ extends CharacterBody2D
 @export var contact_damage := 1
 @export var attack_interval := 0.8
 @export var loot_rewarded := 1
+@export var knockback_force := 160.0
+@export var knockback_decay := 800.0
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -19,6 +21,7 @@ var dying = false
 
 var health: int
 var _attack_cooldown := 0.0
+var _knockback := Vector2.ZERO
 
 func _ready() -> void:
 	dying=false
@@ -30,8 +33,12 @@ func _physics_process(delta: float) -> void:
 
 	_attack_cooldown = maxf(_attack_cooldown - delta, 0.0)
 	velocity = Vector2.ZERO
+	# Knockback
+	if _knockback != Vector2.ZERO:
+		velocity = _knockback
+		_knockback = _knockback.move_toward(Vector2.ZERO, knockback_decay * delta)
 	# Chase
-	if can_see_player():
+	elif can_see_player():
 		var to_player := ray_cast_2d.global_transform.basis_xform(ray_cast_2d.target_position)
 		if to_player.length() > stop_distance:
 			velocity = to_player.normalized() * speed
@@ -76,8 +83,13 @@ func take_damage(amount: int) -> void:
 		return
 
 	health -= amount
+	# Knockback
+	var player := get_player()
+	if player != null:
+		_knockback = (global_position - player.global_position).normalized() * knockback_force
 	if health <= 0:
 		dying = true
+		Audio.play_sfx("enemy_die", 0.1)
 		velocity = Vector2.ZERO
 		animation_tree.active = false
 		damage_area.set_deferred("monitoring", false)
