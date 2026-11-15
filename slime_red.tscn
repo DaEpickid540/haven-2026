@@ -109,6 +109,7 @@ collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_5knj1")
 speed = 20.0
+detected_range = 90.0
 max_health = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1064339966 groups=["enemy"]]
