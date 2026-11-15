@@ -58,7 +58,6 @@ func _physics_process(delta: float) -> void:
 			animated_sprite_2d.scale.x = sign(dir_x) * abs(animated_sprite_2d.scale.x)
 
 	move_and_slide()
-	damage_overlapping_player()
 
 func execute_pound_attack() -> void:
 	is_attacking = true
