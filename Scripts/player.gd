@@ -8,16 +8,19 @@ const HURT_COOLDOWN := 0.6
 const SPRINT_DRAIN := 30.0
 const STAMINA_REGEN := 20.0
 const SPRINT_RECOVER := 0.25
+const DEATH_TIME_SCALE := 0.5
 
 var dashing := false
 var stamina := 0.0
 var input_vector := Vector2.ZERO
 var _hurt_timer := 0.0
 var _exhausted := false
+var dying := false
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
 @onready var weapon_hitbox: Area2D = $WeaponHitbox
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 
@@ -43,8 +46,23 @@ func take_damage(amount: int) -> void:
 
 
 func _on_died() -> void:
+	if dying:
+		return
+
+	dying = true
 	set_physics_process(false)
+	velocity = Vector2.ZERO
+	animation_tree.active = false
+	Engine.time_scale = DEATH_TIME_SCALE
+	animation_player.play("death")
+	await get_tree().create_timer(0.4).timeout
+	Engine.time_scale = 1.0
 	$DeathScreen.open()
+
+
+func _exit_tree() -> void:
+	if dying:
+		Engine.time_scale = 1.0
 
 func _physics_process(delta: float) -> void:
 	_hurt_timer = maxf(_hurt_timer - delta, 0.0)
