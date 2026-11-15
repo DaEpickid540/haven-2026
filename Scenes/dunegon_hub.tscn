@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://d3wpnvgylt40e" path="res://Scenes/LeaveHubModal.tscn" id="4_leave"]
 [ext_resource type="PackedScene" uid="uid://q5pxe0da1c0p" path="res://Scenes/shopkeeper.tscn" id="5_37qhs"]
 [ext_resource type="PackedScene" uid="uid://cqundqlt10qo0" path="res://Scenes/shop.tscn" id="5_shop"]
-[ext_resource type="PackedScene" path="res://Scenes/skeleton.tscn" id="6_skel"]
+[ext_resource type="PackedScene" uid="uid://bn1x13txttkg" path="res://Scenes/skeleton.tscn" id="6_skel"]
 [ext_resource type="PackedScene" uid="uid://d1w04finjod5s" path="res://slime_blue.tscn" id="9_7sj57"]
+[ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="10_prlfk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mry4j"]
 texture = ExtResource("1_4hdsq")
@@ -167,6 +168,14 @@ position = Vector2(200, 120)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("9_7sj57")]
 position = Vector2(101, 109)
+
+[node name="Coins" type="Node2D" parent="." unique_id=540540695]
+
+[node name="Coin" parent="Coins" unique_id=685441500 instance=ExtResource("10_prlfk")]
+position = Vector2(161, 50)
+
+[node name="Coin2" parent="Coins" unique_id=313324363 instance=ExtResource("10_prlfk")]
+position = Vector2(90, 54)
 
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]
