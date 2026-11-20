@@ -134,7 +134,10 @@ async function host() {
   };
   channel.onmessage = (e) => {
     if (typeof e.data === "string") link.choices.push(e.data);
-    else link.buttons = new Uint8Array(e.data)[0] || 0;
+    else {
+      const data = new Uint8Array(e.data);
+      link.buttons = (data[0] || 0) | ((data[3] || 0) << 8);
+    }
   };
   channel.onclose = () => {
     if (relayOn) return;

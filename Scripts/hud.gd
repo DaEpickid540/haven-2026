@@ -9,7 +9,7 @@ const COIN_FRAMES: Array[Texture2D] = [
 const COIN_FPS := 6.0
 
 @onready var health_bar: ProgressBar = %Health
-@onready var dash_bar: ProgressBar = %Dash
+@onready var stamina_bar: ProgressBar = %Stamina
 @onready var coins_label: Label = %Coins
 @onready var coin_icon: TextureRect = %CoinIcon
 
@@ -28,9 +28,9 @@ func set_health(current: float, maximum: float) -> void:
 	health_bar.value = current
 
 
-func set_dash(current: float, maximum: float) -> void:
-	dash_bar.max_value = maximum
-	dash_bar.value = current
+func set_stamina(current: float, maximum: float) -> void:
+	stamina_bar.max_value = maximum
+	stamina_bar.value = current
 
 
 func set_coins(amount: int) -> void:

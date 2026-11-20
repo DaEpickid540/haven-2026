@@ -41,7 +41,7 @@ mouse_filter = 2
 value = 100.0
 show_percentage = false
 
-[node name="DashRow" type="HBoxContainer" parent="."]
+[node name="StaminaRow" type="HBoxContainer" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -57,13 +57,13 @@ mouse_filter = 2
 theme_override_constants/separation = 4
 alignment = 2
 
-[node name="DashFrame" type="PanelContainer" parent="DashRow"]
+[node name="StaminaFrame" type="PanelContainer" parent="StaminaRow"]
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_type_variation = &"BarFrame"
 
-[node name="Dash" type="ProgressBar" parent="DashRow/DashFrame" unique_id=674646581]
+[node name="Stamina" type="ProgressBar" parent="StaminaRow/StaminaFrame" unique_id=674646581]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(96, 6)
 layout_mode = 2

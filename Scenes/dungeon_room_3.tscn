@@ -281,7 +281,19 @@ position = Vector2(138, 162)
 [node name="SlimeRed" parent="." unique_id=118190816 instance=ExtResource("3_fugpy")]
 position = Vector2(103, 78)
 
+[node name="SlimeRed8" parent="." unique_id=1280336044 instance=ExtResource("3_fugpy")]
+position = Vector2(103, 78)
+
+[node name="SlimeRed9" parent="." unique_id=1348709390 instance=ExtResource("3_fugpy")]
+position = Vector2(103, 78)
+
 [node name="SlimeRed2" parent="." unique_id=2042879733 instance=ExtResource("3_fugpy")]
+position = Vector2(166, 78)
+
+[node name="SlimeRed6" parent="." unique_id=1718917666 instance=ExtResource("3_fugpy")]
+position = Vector2(166, 78)
+
+[node name="SlimeRed7" parent="." unique_id=308015588 instance=ExtResource("3_fugpy")]
 position = Vector2(166, 78)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("4_2octr")]

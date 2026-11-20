@@ -3,7 +3,13 @@ class_name Player extends CharacterBody2D
 var speed = 80.0
 var strength = 10.0
 
-const DASH_MULTIPLIER := 1.3
+const SPRINT_MULTIPLIER := 1.3
+const DASH_SPEED := 260.0
+const DASH_TIME := 0.15
+const DASH_COOLDOWN := 0.35
+const DASH_COST := 20.0
+const GHOST_INTERVAL := 0.04
+const GHOST_FADE := 0.2
 const HURT_COOLDOWN := 0.6
 const SPRINT_DRAIN := 30.0
 const STAMINA_REGEN := 20.0
@@ -12,13 +18,18 @@ const DEATH_TIME_SCALE := 0.5
 const KNOCKBACK_FORCE := 120.0
 const KNOCKBACK_DECAY := 700.0
 
-var dashing := false
+var sprinting := false
 var stamina := 0.0
 var input_vector := Vector2.ZERO
 var _hurt_timer := 0.0
 var _exhausted := false
 var _knockback := Vector2.ZERO
 var dying := false
+var _dash_timer := 0.0
+var _dash_cooldown := 0.0
+var _dash_direction := Vector2.ZERO
+var _facing := Vector2.DOWN
+var _ghost_timer := 0.0
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 @onready var playback = animation_tree.get("parameters/StateMachine/playback") as AnimationNodeStateMachinePlayback
@@ -39,7 +50,7 @@ func _ready() -> void:
 
 
 func take_damage(amount: int, from := Vector2.INF) -> bool:
-	if _hurt_timer > 0.0 or dying:
+	if _hurt_timer > 0.0 or dying or _dash_timer > 0.0:
 		return false
 	_hurt_timer = HURT_COOLDOWN
 	Audio.play_sfx("hurt")
@@ -76,18 +87,22 @@ func _exit_tree() -> void:
 
 func _physics_process(delta: float) -> void:
 	_hurt_timer = maxf(_hurt_timer - delta, 0.0)
+	_dash_cooldown = maxf(_dash_cooldown - delta, 0.0)
+	if _dash_timer > 0.0:
+		dash_state(delta)
+		return
 	var state = playback.get_current_node()
 	match state:
 		"MoveState":
 			move_state(delta)
 		"AttackState":
 			input_vector = Vector2.ZERO
-			dashing = false
+			sprinting = false
 		_:
 			input_vector = Vector2.ZERO
-			dashing = false
+			sprinting = false
 	update_stamina(delta)
-	var speed := PlayerStats.get_move_speed() * (DASH_MULTIPLIER if dashing else 1.0)
+	var speed := PlayerStats.get_move_speed() * (SPRINT_MULTIPLIER if sprinting else 1.0)
 	velocity = input_vector * speed + _knockback
 	_knockback = _knockback.move_toward(Vector2.ZERO, KNOCKBACK_DECAY * delta)
 	move_and_slide()
@@ -96,18 +111,52 @@ func move_state(delta: float) -> void:
 	input_vector = Input.get_vector("left","right","up","down")
 			
 	if input_vector != Vector2.ZERO:
+		_facing = input_vector.normalized()
 		var direction_vector = Vector2(input_vector.x, -input_vector.y)
 		update_blend_positions(direction_vector)
 		
+	sprinting = Input.is_action_pressed("sprint")
 	if Input.is_action_just_pressed("attack"):
 		_start_attack()
-	if Input.is_action_pressed("dash"):
-		speed=130.0
-		dashing=true
-	else: 
-		speed=100.0
-		dashing=false
-		
+	elif Input.is_action_just_pressed("dash"):
+		_start_dash()
+
+
+func _start_dash() -> void:
+	if _dash_cooldown > 0.0 or stamina < DASH_COST:
+		return
+	stamina -= DASH_COST
+	_dash_timer = DASH_TIME
+	_dash_cooldown = DASH_TIME + DASH_COOLDOWN
+	_dash_direction = _facing
+	_ghost_timer = 0.0
+	_knockback = Vector2.ZERO
+	sprinting = false
+	# keeps the run animation going
+	input_vector = _dash_direction
+	Audio.play_sfx("swing", 0.15)
+	$Hud.set_stamina(stamina, PlayerStats.get_max_stamina())
+
+
+func dash_state(delta: float) -> void:
+	_dash_timer = maxf(_dash_timer - delta, 0.0)
+	_ghost_timer -= delta
+	if _ghost_timer <= 0.0:
+		_ghost_timer = GHOST_INTERVAL
+		_spawn_ghost()
+	velocity = _dash_direction * DASH_SPEED
+	move_and_slide()
+
+
+func _spawn_ghost() -> void:
+	var sprite: Sprite2D = $Sprite2D
+	var ghost := sprite.duplicate() as Sprite2D
+	get_parent().add_child(ghost)
+	ghost.global_position = sprite.global_position
+	ghost.modulate.a = 0.5
+	var tween := ghost.create_tween()
+	tween.tween_property(ghost, "modulate:a", 0.0, GHOST_FADE)
+	tween.tween_callback(ghost.queue_free)
 
 
 		
@@ -115,13 +164,13 @@ func update_stamina(delta: float) -> void:
 	var max_stamina := PlayerStats.get_max_stamina()
 	if stamina >= max_stamina * SPRINT_RECOVER:
 		_exhausted = false
-	dashing = dashing and not _exhausted and input_vector != Vector2.ZERO
-	if dashing:
+	sprinting = sprinting and not _exhausted and input_vector != Vector2.ZERO
+	if sprinting:
 		stamina = maxf(stamina - SPRINT_DRAIN * delta, 0.0)
 		_exhausted = stamina == 0.0
 	else:
 		stamina = minf(stamina + STAMINA_REGEN * delta, max_stamina)
-	$Hud.set_dash(stamina, max_stamina)
+	$Hud.set_stamina(stamina, max_stamina)
 
 
 func update_blend_positions(direction: Vector2) -> void:
