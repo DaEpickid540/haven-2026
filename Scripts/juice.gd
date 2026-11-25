@@ -9,6 +9,7 @@ const NUMBER_TIME := 0.6
 
 const ENEMY_HIT := Color(1, 1, 1)
 const PLAYER_HIT := Color(1, 0.35, 0.35)
+const HEAL := Color(0.45, 1, 0.5)
 
 var _trauma := 0.0
 var _camera: Camera2D = null
@@ -44,11 +45,15 @@ func shake(amount: float) -> void:
 
 
 func number(world_pos: Vector2, amount: int, color := ENEMY_HIT) -> void:
+	popup(world_pos, str(amount), color)
+
+
+func popup(world_pos: Vector2, text: String, color := ENEMY_HIT) -> void:
 	var scene := get_tree().current_scene
 	if scene == null:
 		return
 	var label := Label.new()
-	label.text = str(amount)
+	label.text = text
 	label.theme_type_variation = &"HudLabel"
 	label.add_theme_color_override("font_color", color)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

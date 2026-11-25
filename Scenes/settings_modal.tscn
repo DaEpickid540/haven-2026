@@ -26,15 +26,15 @@ color = Color(0, 0, 0, 0.7)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
-anchor_top = 0.1
+anchor_top = 0.05
 anchor_right = 0.9
-anchor_bottom = 0.9
+anchor_bottom = 0.95
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="Title" type="Label" parent="Panel/VBox"]
 layout_mode = 2
@@ -109,6 +109,40 @@ layout_mode = 2
 toggle_mode = true
 text = "Off"
 
+[node name="LifeCounterRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Panel/VBox/LifeCounterRow"]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Life count"
+
+[node name="LifeCounterToggle" type="Button" parent="Panel/VBox/LifeCounterRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+toggle_mode = true
+text = "On"
+
+[node name="GravesRow" type="HBoxContainer" parent="Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Panel/VBox/GravesRow"]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Graves"
+
+[node name="GravesToggle" type="Button" parent="Panel/VBox/GravesRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+toggle_mode = true
+text = "On"
+
 [node name="Spacer" type="Control" parent="Panel/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -123,4 +157,6 @@ text = "Close"
 [connection signal="value_changed" from="Panel/VBox/MusicRow/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="Panel/VBox/SfxRow/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
 [connection signal="toggled" from="Panel/VBox/FullscreenRow/FullscreenToggle" to="." method="_on_fullscreen_toggled"]
+[connection signal="toggled" from="Panel/VBox/LifeCounterRow/LifeCounterToggle" to="." method="_on_life_counter_toggled"]
+[connection signal="toggled" from="Panel/VBox/GravesRow/GravesToggle" to="." method="_on_graves_toggled"]
 [connection signal="pressed" from="Panel/VBox/SettingsClose" to="." method="close"]

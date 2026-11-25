@@ -17,6 +17,7 @@ const SPRINT_RECOVER := 0.25
 const DEATH_TIME_SCALE := 0.5
 const KNOCKBACK_FORCE := 120.0
 const KNOCKBACK_DECAY := 700.0
+const GRAVE_SCENE := preload("res://Scenes/grave.tscn")
 
 var sprinting := false
 var stamina := 0.0
@@ -47,6 +48,20 @@ func _ready() -> void:
 	stamina = PlayerStats.get_max_stamina()
 	PlayerStats.died.connect(_on_died)
 	weapon_hitbox.body_entered.connect(_on_weapon_body_entered)
+	_spawn_grave.call_deferred()
+
+
+# grave from the last death if it was in this room
+func _spawn_grave() -> void:
+	if owner == null or PlayerStats.grave_scene.is_empty():
+		return
+	if PlayerStats.grave_scene != owner.scene_file_path:
+		return
+	var grave := GRAVE_SCENE.instantiate()
+	owner.add_child(grave)
+	# under the player and enemies
+	owner.move_child(grave, get_index())
+	grave.global_position = PlayerStats.grave_position
 
 
 func take_damage(amount: int, from := Vector2.INF) -> bool:
@@ -70,6 +85,8 @@ func _on_died() -> void:
 		return
 
 	dying = true
+	if owner != null:
+		PlayerStats.record_death(owner.scene_file_path, global_position)
 	Audio.play_sfx("player_die")
 	set_physics_process(false)
 	velocity = Vector2.ZERO
