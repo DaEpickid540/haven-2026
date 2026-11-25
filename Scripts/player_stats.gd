@@ -22,6 +22,7 @@ var max_health := BASE_MAX_HEALTH
 var health := max_health
 var levels := {"strength": 1, "speed": 1, "stamina": 1, "health": 1}
 var deaths := 0
+var killed_by := ""
 # last death spot
 var grave_scene := ""
 var grave_position := Vector2.ZERO
@@ -87,12 +88,13 @@ func get_move_speed() -> float:
 
 # health
 
-func take_damage(amount: int) -> bool:
+func take_damage(amount: int, source := "") -> bool:
 	if health <= 0:
 		return false
 	health = maxi(health - amount, 0)
 	health_changed.emit(health, max_health)
 	if health == 0:
+		killed_by = source
 		died.emit()
 		return true
 	return false

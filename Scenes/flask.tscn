@@ -1,0 +1,64 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/flask.gd" id="1_flask"]
+[ext_resource type="Texture2D" uid="uid://bpk1g88r7dx6y" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_1_1.png" id="s1"]
+[ext_resource type="Texture2D" uid="uid://s2roxtjfn6a0" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_1_2.png" id="s2"]
+[ext_resource type="Texture2D" uid="uid://bb68x8nqyolb0" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_1_3.png" id="s3"]
+[ext_resource type="Texture2D" uid="uid://cx080tvcir22q" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_1_4.png" id="s4"]
+[ext_resource type="Texture2D" uid="uid://d3lhw0t7k1rxe" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_4_1.png" id="b1"]
+[ext_resource type="Texture2D" uid="uid://bqe4vnvfij41h" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_4_2.png" id="b2"]
+[ext_resource type="Texture2D" uid="uid://ca2xol0v222g0" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_4_3.png" id="b3"]
+[ext_resource type="Texture2D" uid="uid://mj8nkbuf5ayr" path="res://Assets/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_4_4.png" id="b4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_flask"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("s1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("s2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("s3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("s4")
+}],
+"loop": true,
+"name": &"small",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("b1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("b2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("b3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("b4")
+}],
+"loop": true,
+"name": &"big",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_flask"]
+radius = 6.0
+
+[node name="Flask" type="Area2D" groups=["Flask"]]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+script = ExtResource("1_flask")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_flask")
+animation = &"small"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_flask")

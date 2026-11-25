@@ -108,6 +108,7 @@ collision_layer = 4
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_b4wiw")
+display_name = "Blue Slime"
 speed = 40.0
 detected_range = 100.0
 max_health = 2
