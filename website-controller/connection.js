@@ -4,9 +4,10 @@ const BITS = [
   "up",
   "down",
   "attack",
-  "dash",
+  "sprint",
   "interact",
   "pause",
+  "dash",
 ];
 
 const params = new URLSearchParams(location.search);
@@ -22,12 +23,17 @@ const linkLabel = document.querySelector("#link-label");
 let socket = null;
 let channel = null;
 let relay = null;
-let packet = new Uint8Array(3);
+let packet = new Uint8Array(4);
 const FALLBACK = 3000;
 
 function setLink(mode, label) {
   link.dataset.state = mode;
   linkLabel.textContent = label;
+}
+
+// low byte plus overflow byte
+function bitsOf(data) {
+  return data[0] | (data[3] << 8);
 }
 
 function send(data) {
@@ -72,9 +78,9 @@ function relaySend(data) {
   const { fb, spot, pad } = relay;
   if (typeof data === "string") {
     fb.set(fb.child(spot, "choice"), `${++relay.picks}:${data}`).catch(() => {});
-  } else if (data[0] !== relay.sent) {
-    relay.sent = data[0];
-    fb.set(pad, data[0]).catch(() => {});
+  } else if (bitsOf(data) !== relay.sent) {
+    relay.sent = bitsOf(data);
+    fb.set(pad, relay.sent).catch(() => {});
   }
 }
 
@@ -82,7 +88,7 @@ async function openRelay(fb, code) {
   if (relay) return true;
   const spot = fb.ref(fb.db, `${fb.RELAY}/${code}`);
   const pad = fb.child(spot, "pad");
-  const sent = packet[0];
+  const sent = bitsOf(packet);
   try {
     await fb.set(pad, sent);
   } catch {
@@ -165,9 +171,10 @@ pairForm.onsubmit = (e) => {
 function sendState(state) {
   const bits = BITS.reduce((acc, name, i) => acc | (state[name] << i), 0);
   const next = new Uint8Array([
-    bits,
+    bits & 255,
     Math.round(state.x * 127),
     Math.round(state.y * 127),
+    bits >> 8,
   ]);
   if (next.join() === packet.join()) return;
   packet = next;

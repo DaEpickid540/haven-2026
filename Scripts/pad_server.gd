@@ -8,9 +8,10 @@ const ACTIONS: Array[StringName] = [
 	&"up",
 	&"down",
 	&"attack",
-	&"dash",
+	&"sprint",
 	&"interact",
 	&"pause",
+	&"dash",
 ]
 
 class Pad:
@@ -57,8 +58,10 @@ func _process(_delta: float) -> void:
 					var packet := pad.socket.get_packet()
 					if pad.socket.was_string_packet():
 						_press_prompt_button(packet.get_string_from_utf8())
-					elif packet.size() == PACKET_SIZE:
+					elif packet.size() >= PACKET_SIZE:
 						pad.buttons = packet[0]
+						if packet.size() > PACKET_SIZE:
+							pad.buttons |= packet[PACKET_SIZE] << 8
 						_update_actions()
 				if pad.prompt_sent != prompt:
 					pad.prompt_sent = prompt

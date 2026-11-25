@@ -23,18 +23,11 @@
       </div>
     </section>
 
-    <div class="system">
-      <div class="chip" id="link" data-state="connecting" role="status">
-        <i class="led"></i>
-        <span id="link-label">Searching</span>
-      </div>
-      <button id="fs-btn" type="button">Fullscreen</button>
-    </div>
-
     <section class="buttons" aria-label="Action buttons">
       <div class="cluster">
         <button class="btn interact" data-btn="interact" type="button">Interact</button>
         <button class="btn attack" data-btn="attack" type="button">Attack</button>
+        <button class="btn sprint" data-btn="sprint" type="button">Sprint</button>
         <button class="btn dash" data-btn="dash" type="button">Dash</button>
       </div>
     </section>
@@ -56,7 +49,14 @@
     </div>
   </form>
 
-  <button class="esc" data-btn="pause" type="button">Esc</button>
+  <div class="topbar">
+    <button data-btn="pause" type="button">Esc</button>
+    <div class="chip" id="link" data-state="connecting" role="status">
+      <i class="led"></i>
+      <span id="link-label">Searching</span>
+    </div>
+    <button id="fs-btn" type="button">Fullscreen</button>
+  </div>
 
   <div class="rotate-hint">
     <div class="rotate-icon"></div>

@@ -10,9 +10,10 @@ const state = {
   up: false,
   down: false,
   attack: false,
-  dash: false,
+  sprint: false,
   interact: false,
   pause: false,
+  dash: false,
 };
 
 const zone = document.querySelector("#stick-zone");

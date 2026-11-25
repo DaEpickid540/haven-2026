@@ -7,6 +7,7 @@ const DWARF_FPS := 2.0
 const CONTROL_ROWS := [
 	["Move", ""],
 	["Attack", "attack"],
+	["Sprint", "sprint"],
 	["Dash", "dash"],
 	["Interact", "interact"],
 	["Pause", "pause"],

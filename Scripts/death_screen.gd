@@ -12,6 +12,8 @@ func _ready() -> void:
 
 func open() -> void:
 	%Coins.text = "Coins kept: %d" % PlayerStats.coins
+	%Lives.visible = GameSettings.life_counter
+	%Lives.text = "Deaths: %d" % PlayerStats.deaths
 	overlay.modulate.a = 0.0
 	overlay.show()
 	get_tree().paused = true

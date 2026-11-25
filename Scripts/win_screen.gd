@@ -12,6 +12,8 @@ func _ready() -> void:
 
 func open() -> void:
 	%Coins.text = "Coins: %d" % PlayerStats.coins
+	%Lives.visible = GameSettings.life_counter
+	%Lives.text = "Won on life %d" % PlayerStats.get_life()
 	Audio.play_sfx("buy")
 	overlay.modulate.a = 0.0
 	overlay.show()

@@ -4,6 +4,7 @@ signal coins_changed(amount: int)
 signal upgraded(stat: String, level: int)
 signal health_changed(current: int, maximum: int)
 signal died
+signal deaths_changed(deaths: int)
 
 const MAX_LEVEL := 5
 const UPGRADE_BASE_COST := {"strength": 10, "speed": 12, "stamina": 8, "health": 10}
@@ -20,6 +21,10 @@ var coins := 0
 var max_health := BASE_MAX_HEALTH
 var health := max_health
 var levels := {"strength": 1, "speed": 1, "stamina": 1, "health": 1}
+var deaths := 0
+# last death spot
+var grave_scene := ""
+var grave_position := Vector2.ZERO
 
 
 # coins
@@ -98,6 +103,28 @@ func heal_full() -> void:
 	health_changed.emit(health, max_health)
 
 
+func heal(amount: int) -> void:
+	health = mini(health + amount, max_health)
+	health_changed.emit(health, max_health)
+
+
+# deaths
+
+func get_life() -> int:
+	return deaths + 1
+
+
+func record_death(scene_path: String, at: Vector2) -> void:
+	deaths += 1
+	grave_scene = scene_path
+	grave_position = at
+	deaths_changed.emit(deaths)
+
+
+func clear_grave() -> void:
+	grave_scene = ""
+
+
 # reset
 
 func reset_character() -> void:
@@ -107,5 +134,8 @@ func reset_character() -> void:
 	for stat in levels:
 		levels[stat] = 1
 		upgraded.emit(stat, 1)
+	deaths = 0
+	clear_grave()
+	deaths_changed.emit(deaths)
 	coins_changed.emit(coins)
 	health_changed.emit(health, max_health)
