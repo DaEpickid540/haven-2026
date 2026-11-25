@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var display_name := "Boss Slime"
 @export var max_health := 18
 @export var contact_damage := 1    
 @export var contact_knockback_force := 180.0
@@ -75,7 +76,7 @@ func check_and_damage_player_in_range() -> void:
 	for other_area in damage_area.get_overlapping_areas():
 		var player := other_area.get_parent() as Player
 		if player != null and other_area.name == "Hurtbox":
-			player.take_damage(attack_damage, global_position)
+			player.take_damage(attack_damage, global_position, display_name)
 			return
 
 func trigger_screenshake() -> void:
@@ -92,7 +93,7 @@ func damage_overlapping_player() -> void:
 			return
 
 func apply_contact_to_player(player: Player) -> void:
-	if not player.take_damage(contact_damage):
+	if not player.take_damage(contact_damage, Vector2.INF, display_name):
 		return
 
 	var push_dir = (player.global_position - global_position).normalized()

@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var display_name := "Slime"
 @export var speed := 30.0
 @export var faces_right := false
 @export var detected_range := 80.0
@@ -10,6 +11,9 @@ extends CharacterBody2D
 @export var loot_rewarded := 1
 @export var knockback_force := 160.0
 @export var knockback_decay := 800.0
+@export_range(0.0, 1.0) var flask_drop_chance := 0.1
+
+const FLASK_SCENE := preload("res://Scenes/flask.tscn")
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -95,12 +99,20 @@ func take_damage(amount: int) -> void:
 		animation_tree.active = false
 		damage_area.set_deferred("monitoring", false)
 		PlayerStats.add_coins(loot_rewarded)
+		if randf() < flask_drop_chance:
+			_drop_flask.call_deferred()
 		animation_player.play(&"death")
 		
 		await animation_player.animation_finished
 		
 		queue_free()
 		return
+
+
+func _drop_flask() -> void:
+	var flask := FLASK_SCENE.instantiate()
+	get_parent().add_child(flask)
+	flask.global_position = global_position
 
 
 func _on_damage_area_entered(other_area: Area2D) -> void:
@@ -115,4 +127,4 @@ func _try_attack_player(player: Player) -> void:
 		return
 
 	_attack_cooldown = attack_interval
-	player.take_damage(contact_damage, global_position)
+	player.take_damage(contact_damage, global_position, display_name)

@@ -11,6 +11,8 @@ func _ready() -> void:
 
 
 func open() -> void:
+	%Cause.visible = not PlayerStats.killed_by.is_empty()
+	%Cause.text = "Slain by %s" % PlayerStats.killed_by
 	%Coins.text = "Coins kept: %d" % PlayerStats.coins
 	%Lives.visible = GameSettings.life_counter
 	%Lives.text = "Deaths: %d" % PlayerStats.deaths

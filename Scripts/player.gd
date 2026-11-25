@@ -64,7 +64,7 @@ func _spawn_grave() -> void:
 	grave.global_position = PlayerStats.grave_position
 
 
-func take_damage(amount: int, from := Vector2.INF) -> bool:
+func take_damage(amount: int, from := Vector2.INF, source := "") -> bool:
 	if _hurt_timer > 0.0 or dying or _dash_timer > 0.0:
 		return false
 	_hurt_timer = HURT_COOLDOWN
@@ -72,7 +72,7 @@ func take_damage(amount: int, from := Vector2.INF) -> bool:
 	Juice.hit($Sprite2D, amount, Juice.PLAYER_HIT, 0.5)
 	if from != Vector2.INF:
 		knockback((global_position - from).normalized() * KNOCKBACK_FORCE)
-	PlayerStats.take_damage(amount)
+	PlayerStats.take_damage(amount, source)
 	return true
 
 

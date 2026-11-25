@@ -100,6 +100,7 @@ collision_layer = 4
 collision_mask = 7
 motion_mode = 1
 script = ExtResource("1_enemy")
+display_name = "Skeleton"
 speed = 25.0
 faces_right = true
 detected_range = 80.0
