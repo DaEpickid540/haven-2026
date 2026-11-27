@@ -4,6 +4,7 @@ extends Node2D
 # before children
 func _enter_tree() -> void:
 	PlayerStats.entered_level(scene_file_path)
+	PlayerStats.last_scene = scene_file_path
 
 
 func _ready() -> void:

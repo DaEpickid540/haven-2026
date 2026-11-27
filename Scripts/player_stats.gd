@@ -33,8 +33,19 @@ const LEVELS := [
 	"res://Scenes/dungeon_room_2.tscn",
 	"res://Scenes/dungeon_room_3.tscn",
 ]
+const HUB_SCENE := "res://Scenes/dunegon_hub.tscn"
 const PUNISH_SCENE := "res://Scenes/troll_room.tscn"
 const HUB_HEAL_FRACTION := 0.5
+const BOSS_FIGHT := "boss"
+# reached -> refilled
+const REFILLS := {
+	"res://Scenes/dungeon_room_1.tscn": "res://Scenes/dunegon_hub.tscn",
+	"res://Scenes/dungeon_room_2.tscn": "res://Scenes/dungeon_room_1.tscn",
+	"res://Scenes/dungeon_room_3.tscn": "res://Scenes/dungeon_room_2.tscn",
+	BOSS_FIGHT: "res://Scenes/dungeon_room_3.tscn",
+}
+# deaths in a row
+const SUICIDE_STREAK := 3
 
 # scene -> {path: true}
 var cleared := {}
@@ -42,6 +53,8 @@ var cleared := {}
 var reached := {}
 var made_progress := false
 var punished := false
+var _quitter_streak := 0
+var last_scene := ""
 
 
 # coins
@@ -152,12 +165,27 @@ func mark_cleared(node: Node) -> void:
 
 
 # refill
-func entered_level(scene_path: String) -> void:
-	var index := LEVELS.find(scene_path)
-	if index <= 0 or reached.has(scene_path):
+func entered_level(key: String) -> void:
+	if not REFILLS.has(key) or reached.has(key):
 		return
-	reached[scene_path] = true
-	cleared.erase(LEVELS[index - 1])
+	reached[key] = true
+	cleared.erase(REFILLS[key])
+
+
+# retry
+func respawn() -> String:
+	heal_full()
+	if punished:
+		punished = false
+		return PUNISH_SCENE
+	return HUB_SCENE
+
+
+# menu
+func resume_scene() -> String:
+	if health <= 0:
+		return respawn()
+	return HUB_SCENE if last_scene.is_empty() else last_scene
 
 
 # deaths
@@ -169,7 +197,13 @@ func get_life() -> int:
 func record_death(scene_path: String, at: Vector2) -> void:
 	deaths += 1
 	# suicide
-	punished = not made_progress and scene_path != PUNISH_SCENE
+	if scene_path == PUNISH_SCENE or made_progress:
+		_quitter_streak = 0
+	else:
+		_quitter_streak += 1
+	punished = _quitter_streak >= SUICIDE_STREAK
+	if punished:
+		_quitter_streak = 0
 	made_progress = false
 	reached.clear()
 	grave_scene = scene_path
@@ -195,6 +229,8 @@ func reset_character() -> void:
 	reached.clear()
 	made_progress = false
 	punished = false
+	_quitter_streak = 0
+	last_scene = ""
 	clear_grave()
 	deaths_changed.emit(deaths)
 	coins_changed.emit(coins)

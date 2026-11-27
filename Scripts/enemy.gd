@@ -92,6 +92,7 @@ func take_damage(amount: int) -> void:
 		return
 
 	health -= amount
+	PlayerStats.made_progress = true
 	Juice.hit(sprite_2d, amount)
 	# Knockback
 	var player := get_player()

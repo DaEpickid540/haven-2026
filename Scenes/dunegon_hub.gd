@@ -20,6 +20,7 @@ func _process(_delta: float) -> void:
 
 func _ready() -> void:
 	PlayerStats.heal_up_to(PlayerStats.HUB_HEAL_FRACTION)
+	PlayerStats.last_scene = scene_file_path
 
 
 func _on_leave_hub_modal_entered() -> void:

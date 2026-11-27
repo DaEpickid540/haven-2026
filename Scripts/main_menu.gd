@@ -48,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 # buttons
 
 func _on_start_game_pressed() -> void:
-	Transition.change_scene("res://Scenes/dunegon_hub.tscn")
+	Transition.change_scene(PlayerStats.resume_scene())
 
 
 func _on_settings_pressed() -> void:

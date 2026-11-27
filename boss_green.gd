@@ -30,6 +30,9 @@ func _physics_process(delta: float) -> void:
 	if dying:
 		return
 
+	# contact
+	damage_overlapping_player()
+
 	if is_attacking:
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -109,6 +112,7 @@ func take_damage(amount: int) -> void:
 	health -= amount
 	Juice.hit(animated_sprite_2d, amount, Juice.ENEMY_HIT, 0.35)
 	PlayerStats.made_progress = true
+	PlayerStats.entered_level(PlayerStats.BOSS_FIGHT)
 	if health <= 0:
 		dying = true
 		velocity = Vector2.ZERO
