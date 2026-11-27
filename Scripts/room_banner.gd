@@ -60,6 +60,10 @@ func _on_scene_changed() -> void:
 	var scene := get_tree().current_scene
 	if scene == null:
 		return
+	# sneaky
+	if RoomExit.seamless_swap:
+		RoomExit.seamless_swap = false
+		return
 	var text: String = NAMES.get(scene.scene_file_path, "")
 	if text.is_empty():
 		if _tween != null:

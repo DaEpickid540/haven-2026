@@ -8,6 +8,8 @@ class_name RoomExit extends Area2D
 static var pending_entry := ""
 # where the player was relative to the exit so a seamless swap lines up
 static var pending_offset := Vector2.ZERO
+# no banner
+static var seamless_swap := false
 
 var _used := false
 
@@ -23,6 +25,7 @@ func _on_body_entered(body: Node2D) -> void:
 	RoomExit.pending_entry = target_entry
 	if seamless:
 		RoomExit.pending_offset = body.global_position - global_position
+		RoomExit.seamless_swap = true
 		get_tree().change_scene_to_file.call_deferred(target_scene)
 	else:
 		Transition.change_scene(target_scene)

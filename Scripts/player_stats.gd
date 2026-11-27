@@ -36,13 +36,12 @@ const LEVELS := [
 const HUB_SCENE := "res://Scenes/dunegon_hub.tscn"
 const PUNISH_SCENE := "res://Scenes/troll_room.tscn"
 const HUB_HEAL_FRACTION := 0.5
-const BOSS_FIGHT := "boss"
 # reached -> refilled
 const REFILLS := {
 	"res://Scenes/dungeon_room_1.tscn": "res://Scenes/dunegon_hub.tscn",
 	"res://Scenes/dungeon_room_2.tscn": "res://Scenes/dungeon_room_1.tscn",
 	"res://Scenes/dungeon_room_3.tscn": "res://Scenes/dungeon_room_2.tscn",
-	BOSS_FIGHT: "res://Scenes/dungeon_room_3.tscn",
+	"res://Scenes/dungeon_room_boss.tscn": "res://Scenes/dungeon_room_3.tscn",
 }
 # deaths in a row
 const SUICIDE_STREAK := 3

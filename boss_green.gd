@@ -7,6 +7,8 @@ extends CharacterBody2D
 @export var attack_damage := 3    
 @export var attack_interval := 5.0 
 @export var loot_rewarded := 5
+# waits
+@export var asleep := false
 
 const WIN_SCREEN := preload("res://Scenes/win_screen.tscn")
 const WIN_DELAY := 0.6
@@ -26,8 +28,13 @@ func _ready() -> void:
 	if animated_sprite_2d:
 		animated_sprite_2d.position.y = 0
 
+func wake() -> void:
+	asleep = false
+	_attack_timer = 0.0
+
+
 func _physics_process(delta: float) -> void:
-	if dying:
+	if dying or asleep:
 		return
 
 	# contact
@@ -112,7 +119,6 @@ func take_damage(amount: int) -> void:
 	health -= amount
 	Juice.hit(animated_sprite_2d, amount, Juice.ENEMY_HIT, 0.35)
 	PlayerStats.made_progress = true
-	PlayerStats.entered_level(PlayerStats.BOSS_FIGHT)
 	if health <= 0:
 		dying = true
 		velocity = Vector2.ZERO
