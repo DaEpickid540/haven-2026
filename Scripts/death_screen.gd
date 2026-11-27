@@ -29,7 +29,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_retry_pressed() -> void:
-	Transition.change_scene(HUB_SCENE)
+	if PlayerStats.punished:
+		PlayerStats.punished = false
+		PlayerStats.heal_up_to(PlayerStats.HUB_HEAL_FRACTION)
+		Transition.change_scene(PlayerStats.PUNISH_SCENE)
+	else:
+		Transition.change_scene(HUB_SCENE)
 
 
 func _on_main_menu_pressed() -> void:

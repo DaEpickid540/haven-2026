@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://cpbvfhhhgvdwr"]
 
+[ext_resource type="Script" uid="uid://dgf3lq2tr2jqs" path="res://Scripts/dungeon_room.gd" id="1_room"]
 [ext_resource type="Texture2D" uid="uid://chw2o8hrbwh8d" path="res://Assets/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Tileset.png" id="1_hlq5x"]
 [ext_resource type="PackedScene" uid="uid://bwx5y3sqfe8k8" path="res://Scenes/player.tscn" id="2_6uqcd"]
 [ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="3_23la8"]
@@ -257,6 +258,7 @@ size = Vector2(48, 12)
 size = Vector2(16, 8)
 
 [node name="DungeonRoom3" type="Node2D" unique_id=189765543]
+script = ExtResource("1_room")
 position = Vector2(-2, 2)
 metadata/_edit_vertical_guides_ = [-840.0]
 

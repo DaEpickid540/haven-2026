@@ -108,6 +108,7 @@ func take_damage(amount: int) -> void:
 
 	health -= amount
 	Juice.hit(animated_sprite_2d, amount, Juice.ENEMY_HIT, 0.35)
+	PlayerStats.made_progress = true
 	if health <= 0:
 		dying = true
 		velocity = Vector2.ZERO

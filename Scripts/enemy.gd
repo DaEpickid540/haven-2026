@@ -12,6 +12,7 @@ extends CharacterBody2D
 @export var knockback_force := 160.0
 @export var knockback_decay := 800.0
 @export_range(0.0, 1.0) var flask_drop_chance := 0.1
+@export_range(0.0, 1.0) var coin_drop_chance := 1.0
 
 const FLASK_SCENE := preload("res://Scenes/flask.tscn")
 
@@ -28,6 +29,10 @@ var _attack_cooldown := 0.0
 var _knockback := Vector2.ZERO
 
 func _ready() -> void:
+	# killed
+	if PlayerStats.is_cleared(self):
+		queue_free()
+		return
 	dying=false
 	health = max_health
 
@@ -98,7 +103,9 @@ func take_damage(amount: int) -> void:
 		velocity = Vector2.ZERO
 		animation_tree.active = false
 		damage_area.set_deferred("monitoring", false)
-		PlayerStats.add_coins(loot_rewarded)
+		PlayerStats.mark_cleared(self)
+		if randf() < coin_drop_chance:
+			PlayerStats.add_coins(loot_rewarded)
 		if randf() < flask_drop_chance:
 			_drop_flask.call_deferred()
 		animation_player.play(&"death")

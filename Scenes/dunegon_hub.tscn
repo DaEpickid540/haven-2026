@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://d3wpnvgylt40e" path="res://Scenes/LeaveHubModal.tscn" id="4_leave"]
 [ext_resource type="PackedScene" uid="uid://q5pxe0da1c0p" path="res://Scenes/shopkeeper.tscn" id="5_37qhs"]
 [ext_resource type="PackedScene" uid="uid://cqundqlt10qo0" path="res://Scenes/shop.tscn" id="5_shop"]
-[ext_resource type="PackedScene" path="res://Scenes/coin.tscn" id="10_prlfk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mry4j"]
 texture = ExtResource("1_4hdsq")
@@ -158,9 +157,6 @@ position = Vector2(244, 80)
 [node name="Shop" parent="." unique_id=1734087060 instance=ExtResource("5_shop")]
 
 [node name="Coins" type="Node2D" parent="." unique_id=540540695]
-
-[node name="Coin2" parent="Coins" unique_id=313324363 instance=ExtResource("10_prlfk")]
-position = Vector2(90, 54)
 
 [connection signal="begin_descent" from="." to="LeaveHubModal" method="open"]
 [connection signal="entered" from="LeaveHubModal" to="." method="_on_leave_hub_modal_entered"]

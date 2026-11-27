@@ -162,17 +162,38 @@ position = Vector2(387, 180)
 [node name="Enemy5" parent="." unique_id=713983089 instance=ExtResource("6_pxr2g")]
 position = Vector2(716, 186)
 
+[node name="Enemy9" parent="." unique_id=1293146317 instance=ExtResource("6_pxr2g")]
+position = Vector2(552, 183)
+
+[node name="Enemy8" parent="." unique_id=1351177057 instance=ExtResource("6_pxr2g")]
+position = Vector2(910, 172)
+
 [node name="Enemy6" parent="." unique_id=1145186614 instance=ExtResource("6_pxr2g")]
 position = Vector2(816, 284)
 
 [node name="SlimeBlue" parent="." unique_id=1556184731 instance=ExtResource("7_n0vje")]
-position = Vector2(554, 106)
+position = Vector2(550, 45)
+
+[node name="SlimeBlue2" parent="." unique_id=1622131770 instance=ExtResource("7_n0vje")]
+position = Vector2(502, 612)
+
+[node name="SlimeBlue3" parent="." unique_id=237424318 instance=ExtResource("7_n0vje")]
+position = Vector2(452, 590)
 
 [node name="Skeleton" parent="." unique_id=672855553 instance=ExtResource("8_6ikaa")]
 position = Vector2(426, 99)
 
 [node name="Skeleton2" parent="." unique_id=1283031209 instance=ExtResource("8_6ikaa")]
 position = Vector2(680, 102)
+
+[node name="Skeleton3" parent="." unique_id=561198729 instance=ExtResource("8_6ikaa")]
+position = Vector2(597, 99)
+
+[node name="Skeleton4" parent="." unique_id=1836328300 instance=ExtResource("8_6ikaa")]
+position = Vector2(511, 97)
+
+[node name="Skeleton5" parent="." unique_id=144656210 instance=ExtResource("8_6ikaa")]
+position = Vector2(511, 97)
 
 [node name="Enemy7" parent="." unique_id=703393121 instance=ExtResource("6_pxr2g")]
 position = Vector2(504, 470)
