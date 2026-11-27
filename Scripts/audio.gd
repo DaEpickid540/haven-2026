@@ -79,7 +79,7 @@ func _on_scene_changed() -> void:
 	var path := scene.scene_file_path
 	if "main_menu" in path:
 		play_music("menu")
-	elif "dungeon_room" in path:
+	elif "dungeon_room" in path or "troll_room" in path:
 		play_music("dungeon")
 	else:
 		play_music("hub")
